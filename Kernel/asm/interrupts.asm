@@ -12,13 +12,14 @@ GLOBAL _irq02Handler
 GLOBAL _irq03Handler
 GLOBAL _irq04Handler
 GLOBAL _irq05Handler
+
 GLOBAL _int80Handler
 
 GLOBAL _exception0Handler
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
-EXTERN  syscallHandler
+EXTERN syscallDispatcher
 
 SECTION .text
 
@@ -58,31 +59,13 @@ SECTION .text
 	pop rax
 %endmacro
 
-%macro popState_norax 0
-	pop r15
-	pop r14
-	pop r13
-	pop r12
-	pop r11
-	pop r10
-	pop r9
-	pop r8
-	pop rsi
-	pop rdi
-	pop rbp
-	pop rdx
-	pop rcx
-	pop rbx
-	add rsi, 8 ; para que quede bien acomodado el stack pero sin pisar el rax
-%endmacro
-
 %macro irqHandlerMaster 1
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
 	call irqDispatcher
 
-	; signal pic EOI (End of Interrupt)
+	; signal pic EOI (End of Interrupt)						//le indica al PIC que la interrupción fue manejada y puede continuar.
 	mov al, 20h
 	out 20h, al
 
@@ -134,6 +117,10 @@ picSlaveMask:
     retn
 
 
+;Cada irqHandler llama a irqHandlerMaster pasandole su parametro asociado, 
+;el irqHandlerMaster llama a irqDispatcher que se encarga de llamar al handler asociado a cada interrupcion
+
+
 ;8254 Timer (Timer Tick)
 _irq00Handler:
 	irqHandlerMaster 0
@@ -158,11 +145,12 @@ _irq04Handler:
 _irq05Handler:
 	irqHandlerMaster 5
 
-
+;Syscall
 _int80Handler:
-	pushState
-	call syscallHandler
-	popState_norax
+
+	mov rcx, r10
+	mov r9, rax
+	call syscallDispatcher
 	iretq
 
 
