@@ -77,9 +77,10 @@ for(int i=0; str[i]!=0; i++){
 	putCharacter(hexColor, str[i],x, y);
 	x+=16;
 }
+}
 
 
-void putSquarePixel (uint32_t hexColor, uint64_t x, uint64_t y, uint64_t thickness){
+void putSquarePixel(uint32_t hexColor, uint64_t x, uint64_t y, uint64_t thickness){
 	for (uint64_t i = 0 ;i <thickness;i++){
 		for (uint64_t j = 0 ;j<thickness;j++)
 			putPixel(hexColor, x+i, y+j);
@@ -110,4 +111,3 @@ void draw_word(uint32_t hexcolor, char* str){
 }
 
 
-}

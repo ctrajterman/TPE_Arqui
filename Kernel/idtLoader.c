@@ -35,6 +35,7 @@ void load_idt() {                                             //Setea las entrad
 
   setup_IDT_entry (0x80, (uint64_t)&_int80Handler);
 
+ 
 
 	//Solo interrupcion timer tick y keyboard habilitadas
 	picMasterMask(0xFC);

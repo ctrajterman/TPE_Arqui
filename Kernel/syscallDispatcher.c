@@ -20,11 +20,12 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, u
 
 static uint64_t syscall_write_handler(int fd, char *buffer, uint64_t length) {
 
-    drawWord(0x00ff0000, buffer);
+    draw_word(0x00FF0000, buffer);
+    return 0;
 }
 
 static uint64_t syscall_read_handler(int fd, char *buffer, uint64_t length){
-    return;
+    return 0;
 }
 
 static uint64_t syscall_time_handler(){

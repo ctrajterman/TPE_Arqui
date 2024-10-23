@@ -7,6 +7,7 @@
 #include <idtLoader.h>
 #include <clock.h>
 #include <time.h>
+#include<snake.h>
 
 
 extern uint8_t text;
@@ -109,14 +110,15 @@ int main()
 	ncPrint((char*)sampleDataModuleAddress);
 	ncNewline();
 	int seconds=5;
-	while(1){
-		if(seconds_elapsed()==seconds){
-		seconds+=5;
-		ncPrint("pasaron 5 segs");
-		ncNewline();
-	}
+
+	// while(1){
+	// 	if(seconds_elapsed()==seconds){
+	// 	seconds+=5;
+	// 	ncPrint("pasaron 5 segs");
+	// 	ncNewline();
+	// }
 	
-	}
+	// }
 
 
 	/*int key = keyRead();
@@ -132,7 +134,15 @@ int main()
 	ncPrintDec(year());
 	ncNewline();
 
-	ncNewline();
+	re_paintBackground();
+	draw_apple(70,190);
+	draw_apple(90,10);
+	draw_apple(64,59);
+	draw_apple(240,27);
+	draw_apple(170,100);
+
+
+	
 	
 
 	

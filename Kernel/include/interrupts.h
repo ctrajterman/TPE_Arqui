@@ -7,6 +7,7 @@
 
 #ifndef INTERRUPS_H_
 #define INTERRUPS_H_
+#include <stdint.h>
 
 #include <idtLoader.h>
 
@@ -19,8 +20,9 @@ void _irq05Handler(void);
 
 void _int80Handler(void);
 
-void _exception0Handler(void);
 
+void _exception0Handler(void);
+void _intPureba(void);
 void _cli(void);
 
 void _sti(void);

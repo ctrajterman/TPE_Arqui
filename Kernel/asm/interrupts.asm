@@ -6,6 +6,9 @@ GLOBAL picSlaveMask
 GLOBAL haltcpu
 GLOBAL _hlt
 
+
+GLOBAL _int80Handler
+
 GLOBAL _irq00Handler
 GLOBAL _irq01Handler
 GLOBAL _irq02Handler
@@ -13,9 +16,9 @@ GLOBAL _irq03Handler
 GLOBAL _irq04Handler
 GLOBAL _irq05Handler
 
-GLOBAL _int80Handler
 
 GLOBAL _exception0Handler
+GLOBAL _intPureba
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
@@ -121,6 +124,15 @@ picSlaveMask:
 ;el irqHandlerMaster llama a irqDispatcher que se encarga de llamar al handler asociado a cada interrupcion
 
 
+;Syscall
+_int80Handler:
+
+	mov rcx, r10
+	mov r9, rax
+	call syscallDispatcher
+	iretq
+
+
 ;8254 Timer (Timer Tick)
 _irq00Handler:
 	irqHandlerMaster 0
@@ -145,13 +157,7 @@ _irq04Handler:
 _irq05Handler:
 	irqHandlerMaster 5
 
-;Syscall
-_int80Handler:
-
-	mov rcx, r10
-	mov r9, rax
-	call syscallDispatcher
-	iretq
+_intPureba:
 
 
 ;Zero Division Exception
