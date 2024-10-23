@@ -3,6 +3,10 @@
 
 extern const unsigned char font_bitmap[] ;
 
+uint64_t global_x = 0;
+uint64_t global_y = 0;
+
+
 struct vbe_mode_info_structure {
 	uint16_t attributes;		// deprecated, only bit 7 should be of interest to you, and it indicates the mode supports a linear frame buffer.
 	uint8_t window_a;			// deprecated
@@ -72,6 +76,37 @@ void drawWords(uint32_t hexColor, char* str, uint64_t x, uint64_t y){
 for(int i=0; str[i]!=0; i++){
 	putCharacter(hexColor, str[i],x, y);
 	x+=16;
+}
+
+
+void putSquarePixel (uint32_t hexColor, uint64_t x, uint64_t y, uint64_t thickness){
+	for (uint64_t i = 0 ;i <thickness;i++){
+		for (uint64_t j = 0 ;j<thickness;j++)
+			putPixel(hexColor, x+i, y+j);
+	}
+}
+
+
+
+
+void draw_enter(){
+	global_y+=16;
+	global_x=0;
+
+}
+
+void draw_word(uint32_t hexcolor, char* str){
+	for(int i =0 ; str[i]!=0;i++){
+		if(str[i]=='\n'){
+			draw_enter();
+		} else{
+		 
+		putCharacter(hexcolor, str[i], global_x, global_y );
+		global_x+=16;
+		}
+	
+	}
+	
 }
 
 
