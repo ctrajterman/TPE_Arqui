@@ -2,13 +2,6 @@
 #include <stdint.h>
 #include <sys_calls.h>
 
-extern uint64_t syscall_write();
-extern uint64_t syscall_time();
-extern uint64_t syscall_drawPixel();
-extern uint64_t syscall_drawSquare();
-extern uint64_t syscall_getWidth_vd();
-extern uint64_t syscall_getHeight_vd();
-extern uint64_t syscall_sleep();
 
 void print(const char* buf, uint64_t count) {
 	syscall_write(1, buf, count);

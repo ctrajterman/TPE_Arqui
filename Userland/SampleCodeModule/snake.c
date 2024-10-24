@@ -82,6 +82,44 @@ void find_apple(Apple *apple , Snake *snake ){
 
 }
 
+
+void draw_apple(uint64_t color1,uint64_t color2 , uint64_t start_x, uint64_t start_y) {
+    int tallo [4][14]={
+                {0,0,0,0,0,0,1,1,0,0,0,0,0,0},
+                {0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+                {0,0,0,0,1,1,0,0,0,0,0,0,0,0},
+    };
+        for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 14; j++) {
+            if (tallo[i][j] == 1) {
+                drawSquare(color1, start_x +j, start_y - i, 10);
+            }
+        }
+    }
+    int apple[12][14] = {
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,1,1,1,1,1,1,0,0,0,0},
+        {0,0,0,1,1,1,1,1,1,1,1,0,0,0},
+        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
+        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
+        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
+        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
+        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
+        {0,0,0,1,1,1,1,1,1,1,1,0,0,0},
+        {0,0,0,0,1,1,1,1,1,1,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    };
+
+    for (int i = 0; i < 11; i++) {
+        for (int j = 0; j < 14; j++) {
+            if (apple[i][j] == 1) {
+                drawSquare(color2, start_x + j, start_y + i, 10);
+            }
+        }
+    }
+     
+}
+
 // Mueve la serpiente
 void moveSnake(struct Snake *snake) {
     // Borrar la cola de la serpiente antes de moverla
@@ -126,42 +164,48 @@ void repaintBackground() {
     }
 }
 
-void draw_apple(uint64_t color1,uint64_t color2 , uint64_t start_x, uint64_t start_y) {
-    int tallo [4][14]={
-                {0,0,0,0,0,0,1,1,0,0,0,0,0,0},
-                {0,0,0,0,0,1,1,0,0,0,0,0,0,0},
-                {0,0,0,0,1,1,0,0,0,0,0,0,0,0},
-    };
-        for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 14; j++) {
-            if (tallo[i][j] == 1) {
-                drawSquare(color1, start_x +j, start_y - i, 10);
-            }
-        }
-    }
-    int apple[12][14] = {
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,1,1,1,1,1,1,0,0,0,0},
-        {0,0,0,1,1,1,1,1,1,1,1,0,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,0,1,1,1,1,1,1,1,1,0,0,0},
-        {0,0,0,0,1,1,1,1,1,1,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    };
 
-    for (int i = 0; i < 11; i++) {
-        for (int j = 0; j < 14; j++) {
-            if (apple[i][j] == 1) {
-                drawSquare(color2, start_x + j, start_y + i, 10);
-            }
+
+
+
+
+
+
+void keyboard_managment_snake (char input, Snake snake,char K1,char K2,char K3,char K4) {
+    if (input==K1) {
+                if (snake.directionY != 1) { // No permitir el giro en dirección opuesta
+                    snake.directionX = 0; // Se mantiene en horizontal
+                    snake.directionY = -1; // Cambiar a dirección vertical
+                }
+    }
+    else if (input==K2) {
+       if (snake.directionX != 1) {
+                    snake.directionX = -1; // Cambiar a dirección horizontal a la izquierda
+                    snake.directionY = 0; // Se mantiene en horizontal
+                }
+    }
+    else if (input==K3){
+        if (snake.directionY != -1) {
+            snake.directionX = 0; // Se mantiene en horizontal
+            snake.directionY = 1; // Cambiar a dirección vertical hacia abajo
         }
     }
-     
+    else if (input==K4)
+    {
+         if (snake.directionX != -1) {
+                    snake.directionX = 1; // Cambiar a dirección horizontal a la derecha
+                    snake.directionY = 0; // Se mantiene en horizontal
+                }
+    }
+    
 }
+
+
+
+
+
+
+
 
 // Función principal del juego
 void gameLoop() {
@@ -199,32 +243,34 @@ void gameLoop() {
 
         // Manejo de entrada
         char input = getCharUser();
-        switch (input) {
-            case 'w': // Arriba
-                if (snake.directionY != 1) { // No permitir el giro en dirección opuesta
-                    snake.directionX = 0; // Se mantiene en horizontal
-                    snake.directionY = -1; // Cambiar a dirección vertical
-                }
-                break;
-            case 'a': // Izquierda
-                if (snake.directionX != 1) {
-                    snake.directionX = -1; // Cambiar a dirección horizontal a la izquierda
-                    snake.directionY = 0; // Se mantiene en horizontal
-                }
-                break;
-            case 's': // Abajo
-                if (snake.directionY != -1) {
-                    snake.directionX = 0; // Se mantiene en horizontal
-                    snake.directionY = 1; // Cambiar a dirección vertical hacia abajo
-                }
-                break;
-            case 'd': // Derecha
-                if (snake.directionX != -1) {
-                    snake.directionX = 1; // Cambiar a dirección horizontal a la derecha
-                    snake.directionY = 0; // Se mantiene en horizontal
-                }
-                break;
-        }
+        keyboard_managment_snake ( input,  snake, 'w','a','s','d') ;
+
+        // switch (input) {
+        //     case 'w': // Arriba
+        //         if (snake.directionY != 1) { // No permitir el giro en dirección opuesta
+        //             snake.directionX = 0; // Se mantiene en horizontal
+        //             snake.directionY = -1; // Cambiar a dirección vertical
+        //         }
+        //         break;
+        //     case 'a': // Izquierda
+        //         if (snake.directionX != 1) {
+        //             snake.directionX = -1; // Cambiar a dirección horizontal a la izquierda
+        //             snake.directionY = 0; // Se mantiene en horizontal
+        //         }
+        //         break;
+        //     case 's': // Abajo
+        //         if (snake.directionY != -1) {
+        //             snake.directionX = 0; // Se mantiene en horizontal
+        //             snake.directionY = 1; // Cambiar a dirección vertical hacia abajo
+        //         }
+        //         break;
+        //     case 'd': // Derecha
+        //         if (snake.directionX != -1) {
+        //             snake.directionX = 1; // Cambiar a dirección horizontal a la derecha
+        //             snake.directionY = 0; // Se mantiene en horizontal
+        //         }
+        //         break;
+        // }
     }
 }
 

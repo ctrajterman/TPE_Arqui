@@ -15,11 +15,11 @@ $(OBJDIR):
 
 # Regla para crear el binario final a partir de archivos C y ASM
 $(MODULE): $(OBJECTS_C) $(OBJECTS_ASM) $(OBJDIR)/_loader.o
-	$(GCC) $(GCCFLAGS) -T sampleCodeModule.ld $(OBJDIR)/_loader.o $(OBJECTS_C) $(OBJECTS_ASM) -o ../$(MODULE)
+	$(GCC) $(GCCFLAGS) -I./include -T sampleCodeModule.ld $(OBJDIR)/_loader.o $(OBJECTS_C) $(OBJECTS_ASM) -o ../$(MODULE)
 
 # Regla para compilar archivos .c a .o
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
-	$(GCC) $(GCCFLAGS) -c $< -o $@
+	$(GCC) $(GCCFLAGS) -I./include -c $< -o $@
 
 # Regla para compilar archivos .asm a .o
 $(OBJDIR)/%.o: %.asm | $(OBJDIR)

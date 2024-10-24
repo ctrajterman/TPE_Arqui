@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <syscall.h>
-#include "snake.h"
-#include "stdlib_user.h"
+#include <snake.h>
+#include <stdlib_user.h>
 
 
 int main() {
