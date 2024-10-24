@@ -127,25 +127,6 @@ int main()
 	//Lo imprimo mal si no me da fiaca corregir
 	ncNewline();*/
 
-	ncPrintDec(day());
-	ncNewline();
-	ncPrintDec(month());
-	ncNewline();
-	ncPrintDec(year());
-	ncNewline();
-
-	re_paintBackground();
-	draw_apple(70,190);
-	draw_apple(90,10);
-	draw_apple(64,59);
-	draw_apple(240,27);
-	draw_apple(170,100);
-
-
-	
-	
-
-	
 	//putCharacter(0x00FF0000,'a', 15, 15);
 	//drawWords(0x00FF0000,"ala",15, 15);
 	

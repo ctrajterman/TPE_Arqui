@@ -1,6 +1,8 @@
-#ifndef _KEY_BOARD_H_
-#define _KEY_BOARD_H_
+#ifndef _KEYBOARD_H_
+#define _KEYBOARD_H_
 
 void keyboard_handler();
+void printCharPressed();
+char getCharPressed();
 
 #endif

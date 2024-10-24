@@ -3,9 +3,12 @@
 
 extern int keyPressed();
 
+unsigned char scancode = 0;
+static char charToRet = 0;
+
 void keyboard_handler() {
     // Obtener el scancode
-    int scancode = keyPressed();
+    scancode = keyPressed();
 
     // Mapa de scancodes a caracteres
     char scanCodes[128] = {
@@ -22,10 +25,24 @@ void keyboard_handler() {
         return;
     }
 
-    char key = scanCodes[scancode];
-    if (key != 0) {
+    charToRet = scanCodes[scancode];
+}
+
+void printCharPressed(){
+    if (charToRet != 0) {
         // Imprimir la tecla
-        char toPrint[2] = {key, 0};  // Crear una cadena con la tecla
+        char toPrint[2] = {charToRet, 0};  // Crear una cadena con la tecla
         ncPrint(toPrint);            // Imprimir la tecla
     }
+    cleanCharToRet();
+}
+
+char getCharPressed(){
+    char toRet=charToRet;
+    cleanCharToRet();
+    return toRet;
+}
+
+void cleanCharToRet(){
+    charToRet=0;
 }
