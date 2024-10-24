@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <syscall.h>
+#include <sys_calls.h>
 
 extern uint64_t syscall_write();
 extern uint64_t syscall_time();
@@ -8,6 +8,7 @@ extern uint64_t syscall_drawPixel();
 extern uint64_t syscall_drawSquare();
 extern uint64_t syscall_getWidth_vd();
 extern uint64_t syscall_getHeight_vd();
+extern uint64_t syscall_sleep();
 
 void print(const char* buf, uint64_t count) {
 	syscall_write(1, buf, count);
@@ -83,4 +84,8 @@ void drawPixel(uint32_t color, uint64_t x, uint64_t y){
 
 void drawSquare(uint32_t color, uint64_t x, uint64_t y, uint64_t thickness){
     syscall_drawSquare(color, x, y, thickness);
+}
+
+void nano_sleep(uint64_t secs){
+    syscall_sleep(secs);
 }

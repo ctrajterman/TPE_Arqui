@@ -43,3 +43,8 @@ syscall_getHeight_vd:
     mov rax, 0x06
     int 80h
     ret
+
+syscall_sleep:
+mov rax, 0x07
+int 80h
+ret 

@@ -1,5 +1,7 @@
 #include <time.h>
 #include <naiveConsole.h>
+#include <interrupts.h>
+
 
 
 static unsigned long ticks = 0;
@@ -27,4 +29,12 @@ uint64_t getCurrentTimeBinary() {
 	uint8_t binSecs = ((bcdSecs >> 4) * 10) + (bcdSecs & 0xF);	//Pasar segs a binario
 
     return binHs | ((uint64_t)binMins << 8) | ((uint64_t)binSecs << 16);
+}
+
+void sleep(uint64_t secs){
+	uint64_t start= ticks;
+	while(ticks_elapsed()-start<secs){
+		_hlt();
+	}
+	return;
 }
