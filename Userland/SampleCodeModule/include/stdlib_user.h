@@ -18,3 +18,4 @@ uint64_t getWidth_vd();
 uint64_t getHeight_vd();
 void drawPixel(uint32_t color, uint64_t x, uint64_t y);
 void drawSquare(uint32_t color, uint64_t x, uint64_t y, uint64_t thickness);
+void nano_sleep(uint64_t secs);

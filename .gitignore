@@ -1,0 +1,9 @@
+.o
+Kernel/*.o
+Userland/*.bin
+Bootloader/Pure64/*.sys
+Image/*.bin
+Image/*.img
+Image/*.qcow2
+Image/*.vmdk
+compilar.sh
