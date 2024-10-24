@@ -8,6 +8,7 @@ extern uint64_t syscall_drawPixel();
 extern uint64_t syscall_drawSquare();
 extern uint64_t syscall_getWidth_vd();
 extern uint64_t syscall_getHeight_vd();
+extern uint64_t syscall_seconds();
 
 void print(const char* buf, uint64_t count);
 uint64_t itoa(uint64_t number, char* s);
@@ -19,3 +20,4 @@ uint64_t getHeight_vd();
 void drawPixel(uint32_t color, uint64_t x, uint64_t y);
 void drawSquare(uint32_t color, uint64_t x, uint64_t y, uint64_t thickness);
 void nano_sleep(uint64_t secs);
+uint8_t getSeconds();

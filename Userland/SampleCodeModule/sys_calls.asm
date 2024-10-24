@@ -6,6 +6,7 @@ GLOBAL syscall_getHeight_vd
 GLOBAL syscall_drawPixel
 GLOBAL syscall_drawSquare
 GLOBAL syscall_sleep
+GLOBAL syscall_seconds
 
 section .text
 
@@ -49,3 +50,8 @@ syscall_sleep:
 mov rax, 0x07
 int 80h
 ret 
+
+syscall_seconds:
+mov rax, 0x08
+int 80h
+ret

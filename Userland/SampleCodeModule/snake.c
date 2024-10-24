@@ -39,6 +39,7 @@ struct Apple{
 }typedef Apple;
 
 
+
 // Función para inicializar la serpiente
 void initializeSnake(struct Snake *snake, uint64_t hexcolor) {
     snake->length = 5; // Comienza con 5 segmentos
@@ -66,6 +67,10 @@ void drawSnake(struct Snake *snake) {
     }
 }
 
+uint8_t randPosition(){
+    uint8_t randInt = getSeconds();
+    return (randInt*16);   
+}
 
 void find_apple(Apple *apple , Snake *snake ){
     
@@ -81,13 +86,11 @@ void find_apple(Apple *apple , Snake *snake ){
         
         snake->score++;
 
-        apple->x = 400;
-        apple->y = 400;
+        apple->x = randPosition();
+        apple->y = randPosition();
 
         draw_apple(TALLO, PRIZE_COLOR, apple->x, apple->y);
-
     }
-
 }
 
 
@@ -221,10 +224,17 @@ void gameLoop() {
 
     struct Apple apple;
 
+<<<<<<< Updated upstream
     apple.x=100;
     apple.y=100;
     initializeSnake(&snake1,0x5434B3);
     initializeSnake(&snake2,0x89AAB3);
+=======
+    apple.x=randPosition();
+    apple.y=randPosition();
+    initializeSnake(&snake);
+
+>>>>>>> Stashed changes
 
 
     draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);

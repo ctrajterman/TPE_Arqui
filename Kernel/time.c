@@ -31,6 +31,11 @@ uint64_t getCurrentTimeBinary() {
     return binHs | ((uint64_t)binMins << 8) | ((uint64_t)binSecs << 16);
 }
 
+uint8_t getSeconds(){
+	uint8_t bcdSecs = getSecs();	//secs en BCD
+	return ((bcdSecs & 0xF0) >> 4) * 10 + (bcdSecs & 0x0F);		//paso a decimal
+}
+
 void sleep(uint64_t secs){
 	uint64_t start= ticks;
 	while(ticks_elapsed()-start<secs){
