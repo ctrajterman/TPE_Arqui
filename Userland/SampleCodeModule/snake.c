@@ -224,17 +224,11 @@ void gameLoop() {
 
     struct Apple apple;
 
-<<<<<<< Updated upstream
-    apple.x=100;
-    apple.y=100;
-    initializeSnake(&snake1,0x5434B3);
-    initializeSnake(&snake2,0x89AAB3);
-=======
     apple.x=randPosition();
     apple.y=randPosition();
-    initializeSnake(&snake);
-
->>>>>>> Stashed changes
+    
+    initializeSnake(&snake1,0x5434B3);
+    initializeSnake(&snake2,0x89AAB3);
 
 
     draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);
