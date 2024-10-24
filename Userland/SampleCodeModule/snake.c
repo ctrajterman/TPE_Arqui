@@ -38,7 +38,7 @@ struct Apple{
 
 
 // Función para inicializar la serpiente
-void initializeSnake(struct Snake *snake) {
+void initializeSnake(struct Snake *snake, uint64_t hexcolor) {
     snake->length = 5; // Comienza con 5 segmentos
     snake->x[0] = WIDTH / 2; // Posición inicial en X
     snake->y[0] = HEIGHT / 2; // Posición inicial en Y
@@ -51,7 +51,7 @@ void initializeSnake(struct Snake *snake) {
     snake->directionX = 1; // Movimiento inicial en X (derecha)
     snake->directionY = 0; // No hay movimiento inicial en Y
     snake->isDead = false;
-    snake->color = 0x5434B3; // Color de la serpiente
+    snake->color = hexcolor; // Color de la serpiente
     snake->tailX = snake->x[snake->length - 1];
     snake->tailY = snake->y[snake->length - 1];
     snake->score = 0;
@@ -171,30 +171,30 @@ void repaintBackground() {
 
 
 
-void keyboard_managment_snake (char input, Snake snake,char K1,char K2,char K3,char K4) {
+void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,char K4) {
     if (input==K1) {
-                if (snake.directionY != 1) { // No permitir el giro en dirección opuesta
-                    snake.directionX = 0; // Se mantiene en horizontal
-                    snake.directionY = -1; // Cambiar a dirección vertical
+                if (snake->directionY != 1) { // No permitir el giro en dirección opuesta
+                    snake->directionX = 0; // Se mantiene en horizontal
+                    snake->directionY = -1; // Cambiar a dirección vertical
                 }
     }
     else if (input==K2) {
-       if (snake.directionX != 1) {
-                    snake.directionX = -1; // Cambiar a dirección horizontal a la izquierda
-                    snake.directionY = 0; // Se mantiene en horizontal
+       if (snake->directionX != 1) {
+                    snake->directionX = -1; // Cambiar a dirección horizontal a la izquierda
+                    snake->directionY = 0; // Se mantiene en horizontal
                 }
     }
     else if (input==K3){
-        if (snake.directionY != -1) {
-            snake.directionX = 0; // Se mantiene en horizontal
-            snake.directionY = 1; // Cambiar a dirección vertical hacia abajo
+        if (snake->directionY != -1) {
+            snake->directionX = 0; // Se mantiene en horizontal
+            snake->directionY = 1; // Cambiar a dirección vertical hacia abajo
         }
     }
     else if (input==K4)
     {
-         if (snake.directionX != -1) {
-                    snake.directionX = 1; // Cambiar a dirección horizontal a la derecha
-                    snake.directionY = 0; // Se mantiene en horizontal
+         if (snake->directionX != -1) {
+                    snake->directionX = 1; // Cambiar a dirección horizontal a la derecha
+                    snake->directionY = 0; // Se mantiene en horizontal
                 }
     }
     
@@ -210,12 +210,14 @@ void keyboard_managment_snake (char input, Snake snake,char K1,char K2,char K3,c
 // Función principal del juego
 void gameLoop() {
     struct Snake snake;
+    struct Snake snake2;
+
     struct Apple apple;
 
     apple.x=100;
     apple.y=100;
-    initializeSnake(&snake);
-
+    initializeSnake(&snake,0x5434B3);
+    initializeSnake(&snake2,0x89AAB3);
 
 
     draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);
@@ -225,17 +227,25 @@ void gameLoop() {
         nano_sleep(1);
         
         eraseTail(&snake);
+        eraseTail(&snake2);
 
         // Mover la serpiente
         moveSnake(&snake);
+        moveSnake(&snake2);
 
         // Dibujar la serpiente
         drawSnake(&snake);
+        drawSnake(&snake2);
+        
         find_apple(&apple, &snake);
+        find_apple(&apple, &snake2);
 
         // Manejo de entrada
         char input = getCharUser();
-        keyboard_managment_snake ( input,  snake, 'w','a','s','d') ;
+        keyboard_managment_snake ( input,  &snake, 'w','a','s','d') ;
+        keyboard_managment_snake ( input,  &snake2, 'i','j','k','l') ;
+
+
 
         // switch (input) {
         //     case 'w': // Arriba
