@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <sys_calls.h>
+#include "sys_calls.h"
 
-extern uint64_t syscall_write();
+// extern uint64_t syscall_write();
 extern uint64_t syscall_time();
 extern uint64_t syscall_drawPixel();
 extern uint64_t syscall_drawSquare();

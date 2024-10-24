@@ -145,14 +145,16 @@ void gameLoop() {
     while (!snake.isDead) {
         //repaintBackground();
 
-        for (int i = 0; i < 10000; i++)
-        {
-            for (int j = 0; j < 1000; j++)
-            {
-                i+j;
-            }
+        // for (int i = 0; i < 10000; i++)
+        // {
+        //     for (int j = 0; j < 1000; j++)
+        //     {
+        //         i+j;
+        //     }
             
-        }
+        // }
+
+        nano_sleep(1);
         
         eraseTail(&snake);
 

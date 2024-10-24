@@ -5,6 +5,7 @@ GLOBAL syscall_getWidth_vd
 GLOBAL syscall_getHeight_vd
 GLOBAL syscall_drawPixel
 GLOBAL syscall_drawSquare
+GLOBAL syscall_sleep
 
 section .text
 
