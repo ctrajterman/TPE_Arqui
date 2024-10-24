@@ -7,7 +7,6 @@
 #include <idtLoader.h>
 #include <clock.h>
 #include <time.h>
-#include<snake.h>
 
 
 extern uint8_t text;

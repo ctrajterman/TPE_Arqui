@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "stdlib_user.h"
 
+
 // Definiciones de constantes
 #define BACKGROUND_COLOR 0x000000   // Color de fondo
 #define THICKNESS 10                // Grosor de la serpiente
@@ -26,7 +27,15 @@ struct Snake {
     uint32_t color;          // Color de la serpiente
     int tailX;
     int tailY;
-};
+    int score ; 
+}typedef Snake ;
+
+
+struct Apple{
+    int x;
+    int y;
+}typedef Apple;
+
 
 // Función para inicializar la serpiente
 void initializeSnake(struct Snake *snake) {
@@ -45,6 +54,7 @@ void initializeSnake(struct Snake *snake) {
     snake->color = 0x5434B3; // Color de la serpiente
     snake->tailX = snake->x[snake->length - 1];
     snake->tailY = snake->y[snake->length - 1];
+    snake->score = 0;
 }
 
 // Dibuja la serpiente
@@ -52,6 +62,24 @@ void drawSnake(struct Snake *snake) {
     for (int i = 0; i < snake->length; i++) {
         drawSquare(snake->color, snake->x[i], snake->y[i], THICKNESS);
     }
+}
+
+
+void find_apple(Apple *apple , Snake *snake ){
+    if(snake->x[0] == apple->x && snake->y[0] == apple->y){
+
+        draw_apple(BACKGROUND_COLOR, BACKGROUND_COLOR, apple->x, apple->y);
+        snake->length +=10;
+        
+        snake->score++;
+
+        apple->x = 400;
+        apple->y = 400;
+
+        draw_apple(TALLO, PRIZE_COLOR, apple->x, apple->y);
+
+    }
+
 }
 
 // Mueve la serpiente
@@ -98,7 +126,7 @@ void repaintBackground() {
     }
 }
 
-void draw_apple(uint64_t start_x, uint64_t start_y) {
+void draw_apple(uint64_t color1,uint64_t color2 , uint64_t start_x, uint64_t start_y) {
     int tallo [4][14]={
                 {0,0,0,0,0,0,1,1,0,0,0,0,0,0},
                 {0,0,0,0,0,1,1,0,0,0,0,0,0,0},
@@ -107,7 +135,7 @@ void draw_apple(uint64_t start_x, uint64_t start_y) {
         for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 14; j++) {
             if (tallo[i][j] == 1) {
-                drawSquare(TALLO, start_x +j, start_y - i, 10);
+                drawSquare(color1, start_x +j, start_y - i, 10);
             }
         }
     }
@@ -128,7 +156,7 @@ void draw_apple(uint64_t start_x, uint64_t start_y) {
     for (int i = 0; i < 11; i++) {
         for (int j = 0; j < 14; j++) {
             if (apple[i][j] == 1) {
-                drawSquare(PRIZE_COLOR, start_x + j, start_y + i, 10);
+                drawSquare(color2, start_x + j, start_y + i, 10);
             }
         }
     }
@@ -138,16 +166,22 @@ void draw_apple(uint64_t start_x, uint64_t start_y) {
 // Función principal del juego
 void gameLoop() {
     struct Snake snake;
+    struct Apple apple;
+
+    apple.x=100;
+    apple.y=100;
     initializeSnake(&snake);
 
-    draw_apple(300, 300);
+
+
+    draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);
 
     while (!snake.isDead) {
         //repaintBackground();
 
         for (int i = 0; i < 10000; i++)
         {
-            for (int j = 0; j < 1000; j++)
+            for (int j = 0; j < 1500; j++)
             {
                 i+j;
             }
@@ -161,6 +195,7 @@ void gameLoop() {
 
         // Dibujar la serpiente
         drawSnake(&snake);
+        find_apple(&apple, &snake);
 
         // Manejo de entrada
         char input = getCharUser();
@@ -192,3 +227,6 @@ void gameLoop() {
         }
     }
 }
+
+
+
