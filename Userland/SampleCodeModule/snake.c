@@ -177,16 +177,6 @@ void gameLoop() {
     draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);
 
     while (!snake.isDead) {
-        //repaintBackground();
-
-        // for (int i = 0; i < 10000; i++)
-        // {
-        //     for (int j = 0; j < 1000; j++)
-        //     {
-        //         i+j;
-        //     }
-            
-        // }
 
         nano_sleep(1);
         
