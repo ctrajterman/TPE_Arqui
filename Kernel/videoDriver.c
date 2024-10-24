@@ -93,6 +93,8 @@ void putSquarePixel(uint32_t hexColor, uint64_t x, uint64_t y, uint64_t thicknes
 	}
 }
 
+
+
 uint16_t getWidth_vd(){
 	return VBE_mode_info->width;			
 }

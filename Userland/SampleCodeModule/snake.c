@@ -15,7 +15,9 @@
 #define MAX_SNAKE_LENGTH 100        // Longitud máxima de la serpiente
 #define PRIZE_COLOR 0xA43A53 //bordo
 #define TALLO 0X5A3535
-
+#define APPLE_WIDTH 14
+#define APPLE_HIGHT 12
+#define TALLO_HIGHT 4
 // Estructura de la serpiente
 struct Snake {
     int x[MAX_SNAKE_LENGTH];  // Posiciones en X de la serpiente
@@ -66,7 +68,13 @@ void drawSnake(struct Snake *snake) {
 
 
 void find_apple(Apple *apple , Snake *snake ){
-    if(snake->x[0] == apple->x && snake->y[0] == apple->y){
+    
+
+
+    // Verificar si la cabeza de la serpiente está dentro del área de la manzana
+    if (snake->x[0] >= apple->x && snake->x[0] < apple->x + APPLE_WIDTH &&
+        snake->y[0] >= apple->y && snake->y[0] < apple->y + APPLE_WIDTH+APPLE_HIGHT){
+
 
         draw_apple(BACKGROUND_COLOR, BACKGROUND_COLOR, apple->x, apple->y);
         snake->length +=10;
@@ -84,7 +92,7 @@ void find_apple(Apple *apple , Snake *snake ){
 
 
 void draw_apple(uint64_t color1,uint64_t color2 , uint64_t start_x, uint64_t start_y) {
-    int tallo [4][14]={
+    int tallo [TALLO_HIGHT][APPLE_WIDTH]={
                 {0,0,0,0,0,0,1,1,0,0,0,0,0,0},
                 {0,0,0,0,0,1,1,0,0,0,0,0,0,0},
                 {0,0,0,0,1,1,0,0,0,0,0,0,0,0},
@@ -96,7 +104,7 @@ void draw_apple(uint64_t color1,uint64_t color2 , uint64_t start_x, uint64_t sta
             }
         }
     }
-    int apple[12][14] = {
+    int apple[APPLE_HIGHT][APPLE_WIDTH] = {
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,1,1,1,1,1,1,0,0,0,0},
         {0,0,0,1,1,1,1,1,1,1,1,0,0,0},
@@ -206,43 +214,42 @@ void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,
 
 
 
-
 // Función principal del juego
 void gameLoop() {
-    struct Snake snake;
+    struct Snake snake1;
     struct Snake snake2;
 
     struct Apple apple;
 
     apple.x=100;
     apple.y=100;
-    initializeSnake(&snake,0x5434B3);
+    initializeSnake(&snake1,0x5434B3);
     initializeSnake(&snake2,0x89AAB3);
 
 
     draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);
 
-    while (!snake.isDead) {
+    while (!snake1.isDead) {
 
         nano_sleep(1);
         
-        eraseTail(&snake);
+        eraseTail(&snake1);
         eraseTail(&snake2);
 
         // Mover la serpiente
-        moveSnake(&snake);
+        moveSnake(&snake1);
         moveSnake(&snake2);
 
         // Dibujar la serpiente
-        drawSnake(&snake);
+        drawSnake(&snake1);
         drawSnake(&snake2);
         
-        find_apple(&apple, &snake);
+        find_apple(&apple, &snake1);
         find_apple(&apple, &snake2);
 
         // Manejo de entrada
         char input = getCharUser();
-        keyboard_managment_snake ( input,  &snake, 'w','a','s','d') ;
+        keyboard_managment_snake ( input,  &snake1, 'w','a','s','d') ;
         keyboard_managment_snake ( input,  &snake2, 'i','j','k','l') ;
 
 
