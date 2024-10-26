@@ -85,6 +85,12 @@ void drawWord(uint32_t hexColor, char* word){
 	drawChar(hexColor,' ', (global_x+=16), global_y);
 }
 
+void newLine_vd(){
+	globaly+=16;
+}
+
+
+
 void putSquarePixel(uint32_t hexColor, uint64_t x, uint64_t y, uint64_t thickness){
 	for (uint64_t i = 0; i < thickness; i++){
 		for (uint64_t j = 0; j < thickness; j++){
