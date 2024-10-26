@@ -1,6 +1,5 @@
 .o
 Kernel/*.o
-Userland/*.o
 Userland/*.bin
 Bootloader/Pure64/*.sys
 Image/*.bin
