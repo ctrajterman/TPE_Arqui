@@ -69,7 +69,7 @@ void drawSnake(struct Snake *snake) {
 
 uint8_t randPosition(){
     uint8_t randInt = getSeconds();
-    return (randInt*16);   
+    return 500;   
 }
 
 void find_apple(Apple *apple , Snake *snake ){
