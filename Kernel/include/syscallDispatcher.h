@@ -1,5 +1,10 @@
 #ifndef _SYSCALL_DISPATCHER_H_
 #define _SYSCALL_DISPATCHER_H_
+#include <stdint.h>
+#include <naiveConsole.h>
+#include <time.h>
+#include <videoDriver.h>
+
 static uint64_t syscall_write_handler(int fd, char *buffer, uint64_t length);
 static uint64_t syscall_read_handler(int fd, char *buffer);
 static uint64_t syscall_time_handler();

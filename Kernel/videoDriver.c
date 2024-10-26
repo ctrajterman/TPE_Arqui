@@ -86,7 +86,7 @@ void drawWord(uint32_t hexColor, char* word){
 }
 
 void newLine_vd(){
-	globaly+=16;
+	global_y+=16;
 }
 
 
