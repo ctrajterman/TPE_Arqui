@@ -12,14 +12,16 @@ int main() {
 	// print("funcionaaa", 10);
 
 	// printTime();
+    
     // while (1)
     // {
-    //     if(getChar()=='w'){
+    //     if(getCharUser()=='w'){
     //         print("god", 3);
     //         drawPixel(0xB7E5E9, 200, 200);
     //         drawSquare(0xB7E5E9, 200, 200, 74);
     //     }
-    // 
+    // }
+    
 
     gameLoop();
 

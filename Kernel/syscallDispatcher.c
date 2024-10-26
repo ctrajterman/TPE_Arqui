@@ -3,6 +3,9 @@
 #include <time.h>
 #include <videoDriver.h>
 
+#define STDIN  0
+#define STDOUT 1
+
 static uint64_t syscall_write_handler(int fd, char *buffer, uint64_t length);
 static uint64_t syscall_read_handler(int fd, char *buffer);
 static uint64_t syscall_time_handler();
@@ -26,16 +29,18 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, u
 }
 
 static uint64_t syscall_write_handler(int fd, char *buffer, uint64_t length) {
-
+    if (fd != STDOUT)
+    {
+        return -1;
+    }
     drawWord(0x00ff0000, buffer);
 }
 
 static uint64_t syscall_read_handler(int fd, char *buffer){
 
-    if (fd != 0){
+    if (fd != STDIN){
         return -1;
     }
-
     *buffer = getCharPressed();
     return 0;
 }

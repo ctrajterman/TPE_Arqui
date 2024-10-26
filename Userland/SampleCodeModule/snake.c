@@ -74,12 +74,9 @@ uint8_t randPosition(){
 
 void find_apple(Apple *apple , Snake *snake ){
     
-
-
     // Verificar si la cabeza de la serpiente está dentro del área de la manzana
     if (snake->x[0] >= apple->x && snake->x[0] < apple->x + APPLE_WIDTH &&
         snake->y[0] >= apple->y && snake->y[0] < apple->y + APPLE_WIDTH+APPLE_HIGHT){
-
 
         draw_apple(BACKGROUND_COLOR, BACKGROUND_COLOR, apple->x, apple->y);
         snake->length +=10;
@@ -228,7 +225,7 @@ void gameLoop() {
     apple.y=randPosition();
     
     initializeSnake(&snake1,0x5434B3);
-    initializeSnake(&snake2,0x89AAB3);
+    // initializeSnake(&snake2,0x89AAB3);
 
 
     draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);
@@ -238,52 +235,24 @@ void gameLoop() {
         nano_sleep(1);
         
         eraseTail(&snake1);
-        eraseTail(&snake2);
+        // eraseTail(&snake2);
 
         // Mover la serpiente
         moveSnake(&snake1);
-        moveSnake(&snake2);
+        // moveSnake(&snake2);
 
         // Dibujar la serpiente
         drawSnake(&snake1);
-        drawSnake(&snake2);
+        // drawSnake(&snake2);
         
         find_apple(&apple, &snake1);
-        find_apple(&apple, &snake2);
+        // find_apple(&apple, &snake2);
 
         // Manejo de entrada
         char input = getCharUser();
         keyboard_managment_snake ( input,  &snake1, 'w','a','s','d') ;
-        keyboard_managment_snake ( input,  &snake2, 'i','j','k','l') ;
+        // keyboard_managment_snake ( input,  &snake2, 'i','j','k','l') ;
 
-
-
-        // switch (input) {
-        //     case 'w': // Arriba
-        //         if (snake.directionY != 1) { // No permitir el giro en dirección opuesta
-        //             snake.directionX = 0; // Se mantiene en horizontal
-        //             snake.directionY = -1; // Cambiar a dirección vertical
-        //         }
-        //         break;
-        //     case 'a': // Izquierda
-        //         if (snake.directionX != 1) {
-        //             snake.directionX = -1; // Cambiar a dirección horizontal a la izquierda
-        //             snake.directionY = 0; // Se mantiene en horizontal
-        //         }
-        //         break;
-        //     case 's': // Abajo
-        //         if (snake.directionY != -1) {
-        //             snake.directionX = 0; // Se mantiene en horizontal
-        //             snake.directionY = 1; // Cambiar a dirección vertical hacia abajo
-        //         }
-        //         break;
-        //     case 'd': // Derecha
-        //         if (snake.directionX != -1) {
-        //             snake.directionX = 1; // Cambiar a dirección horizontal a la derecha
-        //             snake.directionY = 0; // Se mantiene en horizontal
-        //         }
-        //         break;
-        // }
     }
 }
 
