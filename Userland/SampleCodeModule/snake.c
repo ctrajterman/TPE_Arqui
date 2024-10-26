@@ -12,12 +12,12 @@
 #define THICKNESS 10                // Grosor de la serpiente
 #define WIDTH 1000                  // Ancho de la pantalla
 #define HEIGHT 1000                 // Alto de la pantalla
-#define MAX_SNAKE_LENGTH 100        // Longitud máxima de la serpiente
+#define MAX_SNAKE_LENGTH 1000        // Longitud máxima de la serpiente
 #define PRIZE_COLOR 0xA43A53 //bordo
 #define TALLO 0X5A3535
 #define APPLE_WIDTH 14
-#define APPLE_HIGHT 12
-#define TALLO_HIGHT 4
+#define APPLE_HEIGHT 12
+#define TALLO_HEIGHT 4
 // Estructura de la serpiente
 struct Snake {
     int x[MAX_SNAKE_LENGTH];  // Posiciones en X de la serpiente
@@ -75,11 +75,12 @@ uint8_t randPosition(){
 void find_apple(Apple *apple , Snake *snake ){
     
     // Verificar si la cabeza de la serpiente está dentro del área de la manzana
-    if (snake->x[0] >= apple->x && snake->x[0] < apple->x + APPLE_WIDTH &&
-        snake->y[0] >= apple->y && snake->y[0] < apple->y + APPLE_WIDTH+APPLE_HIGHT){
+    if (snake->x[0] >= apple->x && snake->x[0] < apple->x + APPLE_WIDTH  + THICKNESS&&
+        snake->y[0] >= apple->y && snake->y[0] < apple->y + APPLE_HEIGHT + THICKNESS ){
 
         draw_apple(BACKGROUND_COLOR, BACKGROUND_COLOR, apple->x, apple->y);
-        snake->length +=10;
+        
+        snake->length +=THICKNESS;
         
         snake->score++;
 
@@ -92,39 +93,16 @@ void find_apple(Apple *apple , Snake *snake ){
 
 
 void draw_apple(uint64_t color1,uint64_t color2 , uint64_t start_x, uint64_t start_y) {
-    int tallo [TALLO_HIGHT][APPLE_WIDTH]={
-                {0,0,0,0,0,0,1,1,0,0,0,0,0,0},
-                {0,0,0,0,0,1,1,0,0,0,0,0,0,0},
-                {0,0,0,0,1,1,0,0,0,0,0,0,0,0},
-    };
-        for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 14; j++) {
-            if (tallo[i][j] == 1) {
-                drawSquare(color1, start_x +j, start_y - i, 10);
-            }
-        }
-    }
-    int apple[APPLE_HIGHT][APPLE_WIDTH] = {
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,1,1,1,1,1,1,0,0,0,0},
-        {0,0,0,1,1,1,1,1,1,1,1,0,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,1,1,1,1,1,1,1,1,1,1,0,0},
-        {0,0,0,1,1,1,1,1,1,1,1,0,0,0},
-        {0,0,0,0,1,1,1,1,1,1,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    };
+    
 
-    for (int i = 0; i < 11; i++) {
-        for (int j = 0; j < 14; j++) {
-            if (apple[i][j] == 1) {
-                drawSquare(color2, start_x + j, start_y + i, 10);
+    for (int i = 0; i < APPLE_HEIGHT; i++) {
+        for (int j = 0; j < APPLE_WIDTH; j++) {
+            {
+                drawSquare(color2, start_x + j, start_y + i, THICKNESS);
             }
         }
     }
+
      
 }
 
@@ -229,6 +207,8 @@ void gameLoop() {
 
 
     draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);
+    char *score= "SCORE ";
+    print(score , 98);
 
     while (!snake1.isDead) {
 
@@ -251,6 +231,7 @@ void gameLoop() {
         // Manejo de entrada
         char input = getCharUser();
         keyboard_managment_snake ( input,  &snake1, 'w','a','s','d') ;
+        
         // keyboard_managment_snake ( input,  &snake2, 'i','j','k','l') ;
 
     }
