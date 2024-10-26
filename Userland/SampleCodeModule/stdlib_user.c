@@ -16,6 +16,39 @@ void print(const char* buf, uint64_t count) {
 	syscall_write(1, buf, count);
 }
 
+void intToStr(int num, char* str) {
+    // Manejo de caso para el número cero
+    
+     int index = 0;
+
+    if (num == 0) {
+        str[index++] = '0';
+        return;
+    }
+
+
+
+    while (num > 0) {
+        str[index++] = (num % 10) + '0'; 
+        num /= 10; 
+    }
+
+
+    str[index] = '\0'; // fin 
+
+    // invertir la cadena
+    for (int i = 0; i < index / 2; i++) {
+        char temp = str[i];
+        str[i] = str[index - i - 1];
+        str[index - i - 1] = temp;
+    }
+}
+
+
+
+
+
+
 uint64_t itoa(uint64_t number, char* s) {
     int digits = 0;
 

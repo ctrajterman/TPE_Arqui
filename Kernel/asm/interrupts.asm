@@ -79,7 +79,7 @@ SECTION .text
 
 
 %macro exceptionHandler 1
-	_cli
+	cli
 	exception_regs_data
 	mov rdi, %1 ; pasaje de parametro
 	mov rsi, exception_regs

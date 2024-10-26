@@ -87,6 +87,12 @@ void find_apple(Apple *apple , Snake *snake ){
         apple->x = randPosition();
         apple->y = randPosition();
 
+        char buffer[13];
+
+ 
+        intToStr(snake->score,buffer  );
+        print(buffer, 14);
+
         draw_apple(TALLO, PRIZE_COLOR, apple->x, apple->y);
     }
 }
@@ -207,8 +213,12 @@ void gameLoop() {
 
 
     draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);
-    char *score= "SCORE ";
+           
+           
+    char *score= "SCORE : ";
+
     print(score , 98);
+    
 
     while (!snake1.isDead) {
 

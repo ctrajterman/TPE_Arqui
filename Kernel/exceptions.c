@@ -9,8 +9,8 @@
 
 
 static char * regstxt={"RAX:", "RBX:", "RCX:", "RDX:", "RSI:", "RDI:", "RBP:", "RSP:", "R8:", "R9:", "R10:", "R11:", "R12:", "R13:", "R14:", "R15:", "RIP:", "RFLAGS:" };
-static uint32_t white=FFFFFFh;//chequear si esto esta ok
-static uint32_t red=FF0000h;
+static uint32_t white=0xFFFFFF;//chequear si esto esta ok
+static uint32_t red=0xFF0000;
 
 void exceptionDispatcher(int exception, uint64_t regs[17]) {
 	if (exception == ZERO_EXCEPTION_ID)
