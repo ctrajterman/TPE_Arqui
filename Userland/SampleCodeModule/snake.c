@@ -11,13 +11,8 @@
 #define BACKGROUND_COLOR 0x000000   // Color de fondo
 #define THICKNESS 10                // Grosor de la serpiente
 #define WIDTH 1000                  // Ancho de la pantalla
-<<<<<<< Updated upstream
-#define HEIGHT 1000                 // Alto de la pantalla
-#define MAX_SNAKE_LENGTH 1000        // Longitud máxima de la serpiente
-=======
 #define HEIGHT 800                 // Alto de la pantalla
 #define MAX_SNAKE_LENGTH 100        // Longitud máxima de la serpiente
->>>>>>> Stashed changes
 #define PRIZE_COLOR 0xA43A53 //bordo
 #define TALLO 0X5A3535
 #define APPLE_WIDTH 14
@@ -253,14 +248,9 @@ void gameLoop() {
 
         // Manejo de entrada
         char input = getCharUser();
-<<<<<<< Updated upstream
         keyboard_managment_snake ( input,  &snake1, 'w','a','s','d') ;
         
         // keyboard_managment_snake ( input,  &snake2, 'i','j','k','l') ;
-=======
-        keyboard_managment_snake ( input,  &snake1, 'w','a','s','d');
-        keyboard_managment_snake ( input,  &snake2, 'i','j','k','l');
->>>>>>> Stashed changes
 
     }
 }
