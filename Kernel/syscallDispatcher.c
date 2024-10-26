@@ -4,14 +4,26 @@
 #include <videoDriver.h>
 #include <syscallDispatcher.h>
 
+<<<<<<< Updated upstream
 #define STDIN  0
 #define STDOUT 1
 
 
+=======
+static uint64_t syscall_write_handler(int fd, char *buffer, uint64_t length);
+static uint64_t syscall_read_handler(int fd, char *buffer);
+static uint64_t syscall_time_handler();
+static void syscall_drawPixel_handler(uint32_t color, uint64_t x, uint64_t y); 
+static void syscall_drawSquare_handler(uint32_t color, uint64_t x, uint64_t y, uint64_t thickness);
+static uint64_t syscall_getWidth_vd_handler();
+static uint64_t syscall_getHeight_vd_handler();
+static void syscall_sleep_handler(uint64_t secs);
+static void syscall_paintAll_vd_handler(uint32_t hexColor);
+>>>>>>> Stashed changes
 
 // Array de punteros a funciones que reciben los mismos argumentos
 void (*syscalls_arr[])(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8) = {syscall_read_handler, syscall_write_handler, syscall_time_handler,
- syscall_drawPixel_handler, syscall_drawSquare_handler, syscall_getWidth_vd_handler, syscall_getHeight_vd_handler, syscall_sleep_handler, syscall_seconds_handler};
+ syscall_drawPixel_handler, syscall_drawSquare_handler, syscall_getWidth_vd_handler, syscall_getHeight_vd_handler, syscall_sleep_handler, syscall_paintAll_vd_handler};
 
 void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t rax) {
     
@@ -22,18 +34,16 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, u
 }
 
 static uint64_t syscall_write_handler(int fd, char *buffer, uint64_t length) {
-    if (fd != STDOUT)
-    {
-        return -1;
-    }
+
     drawWord(0x00ff0000, buffer);
 }
 
 static uint64_t syscall_read_handler(int fd, char *buffer){
 
-    if (fd != STDIN){
+    if (fd != 0){
         return -1;
     }
+
     *buffer = getCharPressed();
     return 0;
 }
@@ -62,6 +72,6 @@ static void syscall_sleep_handler(uint64_t secs){
     sleep(secs);
 }
 
-static uint8_t syscall_seconds_handler(){
-    return getSeconds();
+static void syscall_paintAll_vd_handler(uint32_t hexColor){
+    paintAll_vd(hexColor);
 }

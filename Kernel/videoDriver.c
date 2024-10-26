@@ -1,6 +1,8 @@
 #include <videoDriver.h>
 #include <stdint.h>
 
+#define BLACK 0x00000000
+
 int global_x=0;
 int global_y=0;
 
@@ -99,12 +101,25 @@ void putSquarePixel(uint32_t hexColor, uint64_t x, uint64_t y, uint64_t thicknes
 	}
 }
 
-
-
 uint16_t getWidth_vd(){
 	return VBE_mode_info->width;			
 }
 
 uint16_t getHeight_vd(){
 	return VBE_mode_info->height;			
+}
+
+void paintAll_vd(uint32_t hexColor){
+    uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
+    uint32_t color = hexColor;
+    uint64_t totalPixels = VBE_mode_info->width * VBE_mode_info->height;
+    uint8_t red = (color >> 16) & 0xFF;
+    uint8_t green = (color >> 8) & 0xFF;
+    uint8_t blue = color & 0xFF;
+
+    for (uint64_t i = 0; i < totalPixels; i++) {
+        framebuffer[i * 3]     = blue;  // Componente azul
+        framebuffer[i * 3 + 1] = green; // Componente verde
+        framebuffer[i * 3 + 2] = red;   // Componente roja
+    }
 }

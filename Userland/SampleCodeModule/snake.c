@@ -11,8 +11,13 @@
 #define BACKGROUND_COLOR 0x000000   // Color de fondo
 #define THICKNESS 10                // Grosor de la serpiente
 #define WIDTH 1000                  // Ancho de la pantalla
+<<<<<<< Updated upstream
 #define HEIGHT 1000                 // Alto de la pantalla
 #define MAX_SNAKE_LENGTH 1000        // Longitud máxima de la serpiente
+=======
+#define HEIGHT 800                 // Alto de la pantalla
+#define MAX_SNAKE_LENGTH 100        // Longitud máxima de la serpiente
+>>>>>>> Stashed changes
 #define PRIZE_COLOR 0xA43A53 //bordo
 #define TALLO 0X5A3535
 #define APPLE_WIDTH 14
@@ -38,6 +43,21 @@ struct Apple{
     int y;
 }typedef Apple;
 
+
+uint32_t x = 123456789; // Semilla inicial
+
+uint32_t randNum() {
+    x = x * 1664525 + 1013904223; // Valores típicos para a y c
+    return x;
+}
+
+// Genera un número aleatorio entre 1 y 1000
+uint32_t randPositionx() {
+    return (randNum() % 900) + 1;
+}
+uint32_t randPositiony() {
+    return (randNum() % 750) + 1;
+}
 
 
 // Función para inicializar la serpiente
@@ -67,16 +87,15 @@ void drawSnake(struct Snake *snake) {
     }
 }
 
-uint8_t randPosition(){
-    uint8_t randInt = getSeconds();
-    return (randInt*16);   
-}
 
 void find_apple(Apple *apple , Snake *snake ){
     
+
+
     // Verificar si la cabeza de la serpiente está dentro del área de la manzana
     if (snake->x[0] >= apple->x && snake->x[0] < apple->x + APPLE_WIDTH  + THICKNESS&&
         snake->y[0] >= apple->y && snake->y[0] < apple->y + APPLE_HEIGHT + THICKNESS ){
+
 
         draw_apple(BACKGROUND_COLOR, BACKGROUND_COLOR, apple->x, apple->y);
         
@@ -84,8 +103,8 @@ void find_apple(Apple *apple , Snake *snake ){
         
         snake->score++;
 
-        apple->x = randPosition();
-        apple->y = randPosition();
+        apple->x = randPositionx();
+        apple->y = randPositiony();
 
         char buffer[13];
 
@@ -151,14 +170,10 @@ void eraseTail(struct Snake *snake) {
 void repaintBackground() {
     for (uint64_t x = 0; x < WIDTH; x++) {
         for (uint64_t y = 0; y < HEIGHT; y++) {
-            drawPixel(BACKGROUND_COLOR, x, y);
+            drawPixel(0xA43A53, x, y);
         }
     }
 }
-
-
-
-
 
 
 
@@ -195,9 +210,6 @@ void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,
 
 
 
-
-
-
 // Función principal del juego
 void gameLoop() {
     struct Snake snake1;
@@ -205,12 +217,13 @@ void gameLoop() {
 
     struct Apple apple;
 
-    apple.x=randPosition();
-    apple.y=randPosition();
+    apple.x=50;
+    apple.y=50;
     
     initializeSnake(&snake1,0x5434B3);
-    // initializeSnake(&snake2,0x89AAB3);
+    initializeSnake(&snake2,0x89AAB3);
 
+    paintAll_vd(0xFFFFFF);
 
     draw_apple(TALLO , PRIZE_COLOR, apple.x, apple.y);
            
@@ -225,24 +238,29 @@ void gameLoop() {
         nano_sleep(1);
         
         eraseTail(&snake1);
-        // eraseTail(&snake2);
+        eraseTail(&snake2);
 
         // Mover la serpiente
         moveSnake(&snake1);
-        // moveSnake(&snake2);
+        moveSnake(&snake2);
 
         // Dibujar la serpiente
         drawSnake(&snake1);
-        // drawSnake(&snake2);
+        drawSnake(&snake2);
         
         find_apple(&apple, &snake1);
-        // find_apple(&apple, &snake2);
+        find_apple(&apple, &snake2);
 
         // Manejo de entrada
         char input = getCharUser();
+<<<<<<< Updated upstream
         keyboard_managment_snake ( input,  &snake1, 'w','a','s','d') ;
         
         // keyboard_managment_snake ( input,  &snake2, 'i','j','k','l') ;
+=======
+        keyboard_managment_snake ( input,  &snake1, 'w','a','s','d');
+        keyboard_managment_snake ( input,  &snake2, 'i','j','k','l');
+>>>>>>> Stashed changes
 
     }
 }

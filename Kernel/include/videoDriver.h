@@ -9,6 +9,10 @@ void drawWord(uint32_t hexColor, char* word);
 void putSquarePixel (uint32_t hexColor, uint64_t x, uint64_t y, uint64_t thickness);
 uint16_t getWidth_vd();
 uint16_t getHeight_vd();
+<<<<<<< Updated upstream
 void newLine_vd();
+=======
+void paintAll_vd(uint32_t hexColor);
+>>>>>>> Stashed changes
 
 #endif
