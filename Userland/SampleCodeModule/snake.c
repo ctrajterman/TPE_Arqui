@@ -110,6 +110,25 @@ void find_apple(Apple *apple , Snake *snake ){
         apple->x = randPositionx();
         apple->y = randPositiony();
 
+        while (true) {
+            int overlaps = 0;
+            for (int i = 0; i < snake->length; i++) {
+                if (snake->x[i] < apple->x + APPLE_SIZE && snake->x[i] + THICKNESS > apple->x &&
+                    snake->y[i] < apple->y + APPLE_SIZE && snake->y[i] + THICKNESS > apple->y) 
+                {
+                    overlaps = 1; // La nueva manzana se superpone con la serpiente
+                    break;
+                }
+            }
+            if (!overlaps){
+                break;
+            } 
+            // Si no hay superposición, sal del bucle
+            // Si hay superposición, genera una nueva posición
+            apple->x = randPositionx();
+            apple->y = randPositiony();
+        }
+
         char buffer[2];
 
         itoa(snake->score, buffer);
@@ -239,7 +258,7 @@ void gameLoop() {
 
     print(score, 9);
     
-    while (!snake1.isDead && snake1.length < 14) {
+    while (!snake1.isDead && snake1.length < 16) {
 
         nano_sleep(1);
         
