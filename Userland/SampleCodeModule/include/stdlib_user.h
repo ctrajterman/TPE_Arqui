@@ -21,6 +21,7 @@ void drawSquare(uint32_t color, uint64_t x, uint64_t y, uint64_t thickness);
 void nano_sleep(uint64_t secs);
 void err_print(char* buff, int count);
 int strlen(char * str);
+void getString(char* buff, int count);
 int strcmp(char * s1, char * s2);
 // static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 // void printBase(uint64_t value, uint32_t base);

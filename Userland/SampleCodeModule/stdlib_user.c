@@ -30,6 +30,13 @@ int strlen(char * str){
     }
     return i;
 }
+void getString(char* buff, int count){
+    int i=0;
+    char c=0;
+    while(i<count && ((c=getCharUser())!='\n')){
+        buff[i++]=c;
+    }
+}
 int strcmp(char * s1, char * s2){
     int d=0;
     for(int i=0; s1[i]!=0 && s2[i]!=0 ; i++){
