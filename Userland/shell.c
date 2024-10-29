@@ -3,9 +3,10 @@
 
 #define menuDIM 6
 #define MAXBUFF 100
+
 typedef struct module {
     char * name;
-    void (*function)()
+    void (*function)();
 }module;
 
 
@@ -32,21 +33,23 @@ int main(){
     while(1){
         command_wait();
     }
+
+    return 0;
 }
 
 void command_wait(){
-char buff[MAXBUFF];
-getString(buff, MAXBUFF);
+    char buff[MAXBUFF];
+    getString(buff, MAXBUFF);
 
-if(strlen(buff)!=0){
-    for(int i=0; i<menuDIM; i++){
-        if(strcmp(buff,menu[i].name)==0){
-            menu[i].function();
+    if(strlen(buff)!=0){
+        for(int i=0; i<menuDIM; i++){
+            if(strcmp(buff,menu[i].name)==0){
+                menu[i].function();
+            }
         }
+        err_print("Invalid Command!! \n",18); 
+        return;
     }
-    err_print("Invalid Command!! \n",18); 
     return;
-}
-return;
 
 }
