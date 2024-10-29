@@ -20,6 +20,26 @@ static char buffer[64] = { '0' };
 void print(const char* buf, uint64_t count) {
 	syscall_write(1, buf, count);
 }
+void err_print(char* buff, int count){
+    syscall_write(2, buf, count);
+}
+int strlen(char * str){
+    int i=0;
+    while(str[i]!=0){
+        i++;
+    }
+    return i;
+}
+int strcmp(char * s1, char * s2){
+    int d=0;
+    for(int i=0; s1[i]!=0 && s2[i]!=0 ; i++){
+        d=s1[i]-s2[i];
+        if(d!=0){
+            return d;
+        }
+    }
+    return 0;
+}
 
 void intToStr(int num, char* str) {
     // Manejo de caso para el número cero
@@ -137,6 +157,7 @@ void paintAll_vd(uint32_t hexColor){
 void erraseChar(uint32_t hexColor){
     syscall_erraseChar(hexColor);
 }
+
 
 // void printDec(uint64_t value)
 // {
