@@ -13,6 +13,8 @@ extern uint64_t syscall_sleep();
 extern uint64_t syscall_paintAll_vd();
 extern uint64_t syscall_erraseChar();
 
+char getCharUser();
+
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 static char buffer[64] = { '0' };
@@ -21,7 +23,7 @@ void print(const char* buf, uint64_t count) {
 	syscall_write(1, buf, count);
 }
 void err_print(char* buff, int count){
-    syscall_write(2, buf, count);
+    syscall_write(2, buff, count);
 }
 int strlen(char * str){
     int i=0;
@@ -33,7 +35,7 @@ int strlen(char * str){
 void getString(char* buff, int count){
     int i=0;
     char c=0;
-    while(i<count && ((c=getCharUser())!='\n')){
+    while(i < count && ((c=getCharUser())!='\n')){
         buff[i++]=c;
     }
 }
@@ -47,38 +49,6 @@ int strcmp(char * s1, char * s2){
     }
     return 0;
 }
-
-void intToStr(int num, char* str) {
-    // Manejo de caso para el número cero
-    
-     int index = 0;
-
-    if (num == 0) {
-        str[index++] = '0';
-        return;
-    }
-
-
-
-    while (num > 0) {
-        str[index++] = (num % 10) + '0'; 
-        num /= 10; 
-    }
-
-
-    str[index] = '\0'; // fin 
-
-    // invertir la cadena
-    for (int i = 0; i < index / 2; i++) {
-        char temp = str[i];
-        str[i] = str[index - i - 1];
-        str[index - i - 1] = temp;
-    }
-}
-
-
-
-
 
 
 uint64_t itoa(uint64_t number, char* s) {
