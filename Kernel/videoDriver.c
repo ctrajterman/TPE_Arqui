@@ -77,14 +77,24 @@ void drawChar(uint32_t hexColor, char c, uint64_t x, uint64_t y){
 void drawWord(uint32_t hexColor, char* word){
 	for (int i = 0; word[i]!=0; i++)
 	{	
-		if (global_x >= 1000)
+		if (global_x >= VBE_mode_info->width)
 		{
-			global_y+=16;
+			newLine_vd();
 			global_x=0;
 		}
 		drawChar(hexColor, word[i], (global_x +=16), global_y);
 	}
-	drawChar(hexColor,' ', (global_x+=16), global_y);
+	// drawChar(hexColor,' ', (global_x+=16), global_y);
+}
+
+void erraseChar(uint32_t hexColor){
+	for (int i = 0; i < 16; i++){
+        for (int j = 0; j < 8; j++)
+        {
+            putPixel(hexColor, global_x+j, global_y+i);
+        }
+    }
+	global_x -= 16;
 }
 
 void newLine_vd(){

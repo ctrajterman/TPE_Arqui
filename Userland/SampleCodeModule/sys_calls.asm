@@ -8,6 +8,7 @@ GLOBAL syscall_drawSquare
 GLOBAL syscall_sleep
 GLOBAL syscall_seconds
 GLOBAL syscall_paintAll_vd
+GLOBAL syscall_erraseChar
 
 section .text
 
@@ -54,5 +55,10 @@ syscall_sleep:
 
 syscall_paintAll_vd:
     mov rax, 0x08
+    int 80h
+    ret
+
+syscall_erraseChar:
+    mov rax, 0x09
     int 80h
     ret

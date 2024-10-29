@@ -24,3 +24,4 @@ void nano_sleep(uint64_t secs);
 // void printDec(uint64_t value);
 // void printHex(uint64_t value);
 void paintAll_vd(uint32_t hexColor);
+void erraseChar(uint32_t hexColor);

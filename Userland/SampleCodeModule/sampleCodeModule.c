@@ -21,6 +21,16 @@ int main() {
     //     }
     // 
 
+    // print("funcionaaa", 10);
+    
+    // while (1)
+    // {
+    //     if(getCharUser()=='w'){
+    //         paintAll_vd(0x000000);
+    //         gameLoop();
+    //     }
+    // }
+
     gameLoop();
 
 	return 1;

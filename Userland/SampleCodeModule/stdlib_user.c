@@ -11,6 +11,7 @@ extern uint64_t syscall_getWidth_vd();
 extern uint64_t syscall_getHeight_vd();
 extern uint64_t syscall_sleep();
 extern uint64_t syscall_paintAll_vd();
+extern uint64_t syscall_erraseChar();
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
@@ -131,6 +132,10 @@ void nano_sleep(uint64_t secs){
 
 void paintAll_vd(uint32_t hexColor){
     syscall_paintAll_vd(hexColor);
+}
+
+void erraseChar(uint32_t hexColor){
+    syscall_erraseChar(hexColor);
 }
 
 // void printDec(uint64_t value)
