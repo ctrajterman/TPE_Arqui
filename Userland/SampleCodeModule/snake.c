@@ -8,7 +8,7 @@
 
 // Definiciones de constantes
 #define BACKGROUND_COLOR 0x008000   // Color de fondo
-#define THICKNESS 20                // Grosor de la serpiente
+#define THICKNESS 30                // Grosor de la serpiente
 #define MAX_HEIGHT 40               // El techo
 #define MAX_SNAKE_LENGTH 100        // Longitud máxima de la serpiente
 #define PRIZE_COLOR 0xA43A53        // Bordo
@@ -40,6 +40,8 @@ struct Apple{
 
 
 uint32_t x = 123456789; // Semilla inicial
+
+int hasEatenApple = 0;
 
 uint32_t randNum() {
     x = x * 1664525 + 1013904223;
@@ -100,6 +102,11 @@ void find_apple(Apple *apple , Snake *snake ){
         
         snake->score++;
 
+        snake->x[snake->length - 1] = snake->x[snake->length - 2];
+        snake->y[snake->length - 1] = snake->y[snake->length - 2];
+
+        hasEatenApple=1;
+
         apple->x = randPositionx();
         apple->y = randPositiony();
 
@@ -122,20 +129,16 @@ void draw_apple(uint64_t color , uint64_t start_x, uint64_t start_y) {
 // Mueve la serpiente
 void moveSnake(struct Snake *snake) {
     // Borrar la cola de la serpiente antes de moverla
-    int tailIndex = snake->length - 1;
-    snake->tailX = snake->x[tailIndex]; // Guarda la posición actual de la cola para borrarla después
-    snake->tailY = snake->y[tailIndex];
-    char aux1[10];
-    char aux2[10];
-    itoa(snake->tailX, aux1);
-    itoa(snake->tailY, aux2);
-    print(aux1, 10);
-    print("    ", 10);
-    print(aux2, 10);
-    drawSquare(BACKGROUND_COLOR, snake->tailX, snake->tailY, THICKNESS);
+    if (!hasEatenApple) {  // hasEatenApple debe ser una bandera que activas al comer una manzana.
+        int tailIndex = snake->length - 1;
+        snake->tailX = snake->x[tailIndex]; // Guarda la posición actual de la cola para borrarla después
+        snake->tailY = snake->y[tailIndex];
+        drawSquare(BACKGROUND_COLOR, snake->tailX, snake->tailY, THICKNESS);
+    }
+    
+    hasEatenApple=0;
 
-    // Mueve los segmentos de la serpiente, de la cola hacia la cabeza
-    for (int i = tailIndex; i > 0; i--) {
+    for (int i = snake->length-1; i > 0; i--) {
         snake->x[i] = snake->x[i - 1];
         snake->y[i] = snake->y[i - 1];
     }
@@ -236,9 +239,9 @@ void gameLoop() {
 
     print(score, 9);
     
-    while (!snake1.isDead) {
+    while (!snake1.isDead && snake1.length < 14) {
 
-        nano_sleep(10);
+        nano_sleep(1);
         
         //eraseTail(&snake1);
         //eraseTail(&snake2);
@@ -263,6 +266,8 @@ void gameLoop() {
         // keyboard_managment_snake ( input,  &snake2, 'i','j','k','l') ;
 
     }
+        paintAll_vd(BACKGROUND_COLOR);
+        print("belu te re cabe", 30);
 }
 
 
