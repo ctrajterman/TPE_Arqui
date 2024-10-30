@@ -44,7 +44,7 @@ void getString(char* buff, int count){
         auxPrint[0]=c;
         auxPrint[1]='\0';
         print(auxPrint, 1);
-        if(c!=0){
+        if(c!=0 && c!='\n'){
             buff[i++]=c;
         }
     }

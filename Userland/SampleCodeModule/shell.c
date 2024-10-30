@@ -55,22 +55,31 @@ void show_regs(){
 }
 void snake(){
     char buff[MAXBUFF];
+
     print("WELCOME TO THE SNAKE-GAME\n", MAXBUFF);
-    print("Introduce Players (1 or 2): ", MAXBUFF);
+    int correctAmount=0;
+    while(!correctAmount){
 
-    getString(buff, MAXBUFF);
+        print("Write letter \"q\" to exit\nIntroduce Players (1 or 2): ", MAXBUFF);
 
+        getString(buff, MAXBUFF);
 
-    if(buff[0]=='1'){
-        gameLoop() ;
+        if(buff[0] =='q'&& buff[1] == '\0'){
+            return;
+        }
+        else if(buff[0] =='1'&& buff[1] == '\0'){
+            correctAmount=1;
+            gameLoop();
+        }
+        else if (buff[0] =='2' && buff[1] == '\0'){
+            correctAmount=1;
+            gameLoop();
+        }
+        else{
+            err_print("Invalid amount!! \n",18); 
+        }
     }
-    else if (buff[0]=='2'){
-        gameLoop();
-    }
-    else{
-         err_print("Invalid amount!! \n",18); 
-    }
-
+    paintAll_vd(0x000000);
 }
 
 
@@ -84,15 +93,12 @@ void command_wait(){
     char buff[MAXBUFF];
 
     getString(buff, MAXBUFF);
-    print(buff, MAXBUFF);
 
     if(strlen(buff)!=0){
         for(int i=0; i<menuDIM; i++){
             if(strcmp(buff,menu[i].name)==0){
                 menu[i].function();
                 return;
-
-
             }
         }
         paintAll_vd(0x000000);
@@ -123,19 +129,21 @@ void font_size(){
 }
 
 
-
-
 void shell(){
-    print("Available Features:\n",30);
-     for(int i=0; i<menuDIM; i++){
-         print(menu[i].name, MAXBUFF);
-         print("\n", 1);
-     }
+    // print("Available Features:\n",30);
+    //  for(int i=0; i<menuDIM; i++){
+    //      print(menu[i].name, MAXBUFF);
+    //      print("\n", 1);
+    //  }
 
-    //while(1){
-         
+    while(1){
+        print("\nAvailable Features:\n",30);
+        for(int i=0; i<menuDIM; i++){
+            print(menu[i].name, MAXBUFF);
+            print("\n", 1);
+        }
         command_wait();
-    //}
+    }
 
     return 0;
 }
