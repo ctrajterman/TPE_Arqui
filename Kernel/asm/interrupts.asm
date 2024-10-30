@@ -89,9 +89,6 @@ SECTION .text
 	mov rsi, exception_regs ; para imprimir regs
 	call exceptionDispatcher
 	popState
-<<<<<<< Updated upstream
-	sti
-=======
 
 	call getStackBase  ;deja en el rax el stackbase
 	mov [rsp+24], rax 
@@ -102,7 +99,6 @@ SECTION .text
 
 
 
->>>>>>> Stashed changes
 	iretq
 %endmacro
 
