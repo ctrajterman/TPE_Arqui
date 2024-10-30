@@ -12,3 +12,14 @@ div rax
 mov rsp, rbp
 pop rbp
 ret 
+
+
+opcode_exc:
+push rbp
+mov rbp, rsp
+
+jmp 0
+
+mov rsp, rbp
+pop rbp
+ret

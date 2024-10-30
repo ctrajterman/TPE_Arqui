@@ -86,6 +86,7 @@ SECTION .text
 	mov rsi, exception_regs ; para imprimir regs
 	call exceptionDispatcher
 	popState
+	sti
 	iretq
 %endmacro
 
