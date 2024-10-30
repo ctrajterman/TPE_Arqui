@@ -78,7 +78,8 @@ void command_wait(){
 
     while (1){
     
-    print("\nshell_TP_ARQUI$> ", MAXBUFF);
+    print("\n",1);
+    print("shell_TP_ARQUI$> ", MAXBUFF);
 
     char buff[MAXBUFF];
 
@@ -94,7 +95,8 @@ void command_wait(){
 
             }
         }
-        err_print("Invalid Command!! \n",18); 
+        paintAll_vd(0x000000);
+        err_print("Invalid Command!! \n",18);
 
     }
     }

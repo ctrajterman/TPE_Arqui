@@ -22,9 +22,11 @@ static char buffer[64] = { '0' };
 void print(const char* buf, uint64_t count) {
 	syscall_write(1, buf, count);
 }
+
 void err_print(char* buff, int count){
     syscall_write(2, buff, count);
 }
+
 int strlen(char * str){
     int i=0;
     while(str[i]!=0){
@@ -38,6 +40,10 @@ void getString(char* buff, int count){
     char c=0;
     while(i < (count -1) && (c!='\n')){
         c = getCharUser();
+        char auxPrint[2];
+        auxPrint[0]=c;
+        auxPrint[1]='\0';
+        print(auxPrint, 1);
         if(c!=0){
             buff[i++]=c;
         }

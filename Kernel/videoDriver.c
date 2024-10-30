@@ -84,12 +84,15 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 }
 
 void drawChar(uint32_t hexColor, char c, uint64_t x, uint64_t y){
-	if(c=='\n'){
-		void newLine_vd();
+	if(c == 10){
+		newLine_vd();
+		global_x = 0;
+		return;
 	}
     if(c<32 && c>126){
         return;
     }
+	
     int pos=((int)c-32)*16;
 
 	if (global_x >= VBE_mode_info->width) {
@@ -180,4 +183,6 @@ void paintAll_vd(uint32_t hexColor){
         framebuffer[i * 3 + 1] = green; // Componente verde
         framebuffer[i * 3 + 2] = red;   // Componente roja
     }
+	global_y=0;
+	global_x=0;
 }
