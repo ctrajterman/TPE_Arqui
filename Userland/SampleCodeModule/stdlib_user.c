@@ -103,9 +103,13 @@ uint64_t itoa(uint64_t number, char* s) {
 
 void getTime(char* buffer) {
     uint64_t time = syscall_time();
+    int hours =  (time & 0xFF )-3; 
+    if(hours<0){
+        hours+=24;
+    }
     
     // Convertir horas
-    int digits = itoa((time & 0xFF), buffer);
+    int digits = itoa(hours, buffer);
     buffer[digits] = ':'; // Separador de horas
     buffer += (digits + 1);
 

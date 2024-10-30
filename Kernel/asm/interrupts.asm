@@ -18,6 +18,7 @@ GLOBAL _irq05Handler
 
 
 GLOBAL _exception0Handler
+GLOBAL _exception06Handler
 GLOBAL _intPureba
 
 EXTERN irqDispatcher
@@ -205,8 +206,13 @@ _intPureba:
 _exception0Handler:
 	exceptionHandler 0
 
+
+;Opcode exception
 _exception06Handler:
 	exceptionHandler 06
+
+
+
 
 haltcpu:
 	cli

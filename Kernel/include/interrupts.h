@@ -22,6 +22,8 @@ void _int80Handler(void);
 
 
 void _exception0Handler(void);
+void _exception06Handler(void);
+
 void _intPureba(void);
 void _cli(void);
 

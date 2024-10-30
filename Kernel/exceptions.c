@@ -1,11 +1,7 @@
-
-
 #include <videoDriver.h>
 #include <stdint.h>
 #include <interrupts.h>
 #include <keyboard.h> 
-
-
 
 #define ZERO_EXCEPTION_ID 0
 #define OP_CODE_INVALID_EXCEPTION 6
@@ -37,7 +33,6 @@ void exceptionDispatcher(int exception, uint64_t regs[17]) {
 	}
 
 		newLine_vd();
-
 
 		char buff=0;
 		picMasterMask(0xFD); //solo habilitadas interrupcionesw teclado

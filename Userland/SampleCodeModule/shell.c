@@ -28,9 +28,10 @@ void printTime();
 void div0Exc();
 void opcodeExc();
 extern void div0();
+extern void opcode_exc();
 
 module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", printTime},
-{"div0", div0Exc}, {"opcode", opcodeExc}};
+{"div0", div0Exc}, {"opcode",opcode_exc }};
 
 
 void help(){
