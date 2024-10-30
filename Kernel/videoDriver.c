@@ -84,6 +84,9 @@ void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
 }
 
 void drawChar(uint32_t hexColor, char c, uint64_t x, uint64_t y){
+	if(c=='\n'){
+		void newLine_vd();
+	}
     if(c<32 && c>126){
         return;
     }
