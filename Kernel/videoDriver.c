@@ -136,6 +136,7 @@ void drawWord(uint32_t hexColor, char* word){
 }
 
 void erraseChar(uint32_t hexColor){
+	
 	for (int i = 0; i < 16; i++){
         for (int j = 0; j < 8; j++){
 			for (int t = 0; t < pixelSize; t++){
@@ -145,7 +146,10 @@ void erraseChar(uint32_t hexColor){
         	}
     	}
 	}
-	global_x -= getCharWidth();
+	if(global_x!=0){
+		global_x -= getCharWidth();
+	}
+	
 }
 
 void newLine_vd(){
