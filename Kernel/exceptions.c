@@ -38,16 +38,17 @@ void exceptionDispatcher(int exception, uint64_t regs[17]) {
 		newLine_vd();
 
 
-		char buff;
-		picMasterMask(0xFD);
+		char buff=0;
+		picMasterMask(0xFD); //solo habilitadas interrupcionesw teclado
 		_sti();
 		while(buff!='d'){
 			buff=getCharPressed();
+
 		}
 		_cli();
 		picMasterMask(0xFC);	
-
-	//reiniciar pantalla
+		paintAll_vd(0x000000);
+		return;
 
 }
 
