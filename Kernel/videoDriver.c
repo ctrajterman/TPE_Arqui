@@ -52,7 +52,7 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 const uint16_t charWidht = 9;
 const uint16_t charHeight = 16;
-uint8_t pixelSize = 5;
+uint8_t pixelSize = 1;
 
 void increasePixelSize() {
     if (pixelSize < 5) {

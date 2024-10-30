@@ -1,10 +1,10 @@
 /* sampleCodeModule.c */
 
-#include <stdio.h>
-#include <stdint.h>
-#include <syscall.h>
-#include <snake.h>
-#include <stdlib_user.h>
+// #include <stdio.h>
+// #include <stdint.h>
+// #include <syscall.h>
+// #include <snake.h>
+// #include <stdlib_user.h>
 
 
 int main() {
@@ -31,7 +31,9 @@ int main() {
     //     }
     // }
 
-    gameLoop();
+    //gameLoop();
+    //print("no esta funcando ", 30);
 
-	return 1;
+	return 0;
 }
+

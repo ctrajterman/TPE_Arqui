@@ -1,7 +1,9 @@
+
 #include <stdlib_user.h>
 #include "snake.h"
 
-#define menuDIM 6
+
+#define menuDIM 7
 #define MAXBUFF 100
 
 
@@ -15,8 +17,15 @@ typedef struct module {
 
 
 
+void help();
+void snake();
+void show_regs();
+void font_size();
+void printTime(); 
+void div0Exc();
+void opcodeExc();
 
-module * menu ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", printTime},
+module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", printTime},
 {"div0", div0Exc}, {"opcode", opcodeExc}};
 
 
@@ -33,13 +42,15 @@ void help(){
 }
 
 void opcodeExc(){
-
+    return ;
 }
-void div0exc(){
+void div0Exc(){
+    return;
 
 }
 
 void show_regs(){
+    return;
 
 }
 void snake(){
@@ -51,10 +62,10 @@ void snake(){
 
 
     if(buff[0]=='1'){
-        gameLoop1() ;
+        gameLoop() ;
     }
     else if (buff[0]=='2'){
-        gamelopp2();
+        gameLoop();
     }
     else{
          err_print("Invalid amount!! \n",18); 
@@ -63,19 +74,16 @@ void snake(){
 }
 
 
-
-
-
 void command_wait(){
-
-    print("Available Features:\n",30);
-    // for(int i=0; i<menuDIM; i++){
-    //     print(menu[i].name, MAXBUFF);
-    //     print("\n", 1);
-    // }
+    
+    print("\nshell_TP_ARQUI$> ", MAXBUFF);
 
     char buff[MAXBUFF];
+    char test=getCharUser();
+
+
     getString(buff, MAXBUFF);
+    print(buff, MAXBUFF);
 
     if(strlen(buff)!=0){
         for(int i=0; i<menuDIM; i++){
@@ -100,10 +108,10 @@ void font_size(){
     getString(buff, MAXBUFF);
     
     if(buff[0]=='+'){
-        increase() ;//Preguntar a toti el nombre
+        //increase() ;//Preguntar a toti el nombre
     }
     else if (buff[0]=='-'){
-        decrease();
+       // decrease();
     }
     else{
          err_print("Invalid amount!! \n",18); 
@@ -114,13 +122,23 @@ void font_size(){
 
 
 
-int main(){
 
-    help();
+int main(int argc, char const *argv[])
+{
+    print("Available Features:\n",30);
+     for(int i=0; i<menuDIM; i++){
+         print(menu[i].name, MAXBUFF);
+         print("\n", 1);
+     }
+
+
 
     while(1){
+         
         command_wait();
     }
 
     return 0;
 }
+
+

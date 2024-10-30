@@ -32,12 +32,14 @@ int strlen(char * str){
     }
     return i;
 }
+
 void getString(char* buff, int count){
     int i=0;
-    char c=0;
-    while(i < count && ((c=getCharUser())!='\n')){
+    char c;
+    while(i < (count -1) && ((c=getCharUser())!='\n')){
         buff[i++]=c;
     }
+    buff[i]='\0';
 }
 int strcmp(char * s1, char * s2){
     int d=0;
