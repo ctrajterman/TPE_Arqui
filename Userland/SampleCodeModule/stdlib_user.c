@@ -14,6 +14,7 @@ extern uint64_t syscall_paintAll_vd();
 extern uint64_t syscall_erraseChar();
 
 char getCharUser();
+void erraseChar(uint32_t hexColor);
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
@@ -39,12 +40,20 @@ void getString(char* buff, int count){
     int i=0;
     char c=0;
     while(i < (count -1) && (c!='\n')){
-        c = getCharUser();
+         c = getCharUser();
+        if(c=='\b'){
+            if(i!=0){
+             i--;
+             erraseChar(0x000000);
+            }
+            buff[i]=0;
+        }
+        if(c!=0 && c!='\b'){
+             
         char auxPrint[2];
         auxPrint[0]=c;
         auxPrint[1]='\0';
         print(auxPrint, 1);
-        if(c!=0){
             buff[i++]=c;
         }
     }
