@@ -62,10 +62,10 @@ void snake(){
 
 
     if(buff[0]=='1'){
-        gameLoop() ;
+        gameLoop1() ;
     }
     else if (buff[0]=='2'){
-        gameLoop();
+        gameLoop2();
     }
     else{
          err_print("Invalid amount!! \n",18); 
@@ -75,11 +75,9 @@ void snake(){
 
 
 void command_wait(){
-
-    while (1){
     
     print("\n",1);
-    print("shell_TP_ARQUI$> ", MAXBUFF);
+    print("shell_TP_ARQUI>$ ", MAXBUFF);
 
     char buff[MAXBUFF];
 
@@ -92,14 +90,13 @@ void command_wait(){
                 menu[i].function();
                 return;
 
-
             }
         }
         paintAll_vd(0x000000);
         err_print("Invalid Command!! \n",18);
 
     }
-    }
+    
 }
 
 void font_size(){
@@ -132,10 +129,10 @@ void shell(){
          print("\n", 1);
      }
 
-    //while(1){
+    while(1){
          
         command_wait();
-    //}
+    }
 
     return 0;
 }

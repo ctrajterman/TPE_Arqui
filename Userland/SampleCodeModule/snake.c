@@ -271,12 +271,24 @@ void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,
 }
 
 
-
+void exit_snake(){
+    
+    char input;
+    print("press q to quit", 15);
+    while(input!='q'){
+        input = getCharUser();
+    }
+    paintAll_vd(BACKGROUND_COLOR);
+}
 
 // Función principal del juego
-void gameLoop() {
+
+
+
+void gameLoop1() {
+
     struct Snake snake1;
-    struct Snake snake2;
+
 
     struct Apple apple;
 
@@ -284,7 +296,6 @@ void gameLoop() {
     apple.y=200;
     
     initializeSnake(&snake1,0x5434B3);
-    initializeSnake(&snake2,0x89AAB3);
 
     paintAll_vd(BLACK_COLOR);
 
@@ -304,29 +315,80 @@ void gameLoop() {
 
         // Dibujar la serpiente
         drawSnake(&snake1);
-        //drawSnake(&snake2);
         
         // Mover la serpiente
         moveSnake(&snake1);
-        //moveSnake(&snake2);
         
         find_apple(&apple, &snake1);
-        //find_apple(&apple, &snake2);
 
         // Manejo de entrada
         char input = getCharUser();
         keyboard_managment_snake (input, &snake1, 'w','a','s','d');
-        // keyboard_managment_snake (input, &snake2, 'i','j','k','l');
 
     }
-    char input;
-    print("press q to quit", 15);
-    while(input!='q'){
-        input = getCharUser();
-    }
-        paintAll_vd(BACKGROUND_COLOR);
-        print("belu te re cabe", 30);
+    exit_snake();
 }
+
+
+
+
+
+
+
+
+
+
+void gameLoop2() {
+    struct Snake snake1;
+    struct Snake snake2;
+
+    struct Apple apple;
+
+    apple.x=200;
+    apple.y=200;
+    
+    initializeSnake(&snake1,0x5434B3);
+    initializeSnake(&snake2,0x89AAB3);
+
+    paintAll_vd(BLACK_COLOR);
+
+    drawBackground();
+
+    drawLines();
+
+    draw_apple(PRIZE_COLOR, apple.x, apple.y);
+           
+    char *score1= "SCORE SNAKE1 : 0";
+    char *score2= "SCORE SNAKE2 : 0";
+
+
+    print(score1, 9);
+    print(score2,9);
+    
+    while (!snake1.isDead && snake1.length < 16) {
+
+        nano_sleep(2);
+
+        // Dibujar las serpientes
+        drawSnake(&snake1);
+        drawSnake(&snake2);
+        
+        // Mover las serpientes
+        moveSnake(&snake1);
+        moveSnake(&snake2);
+        
+        find_apple(&apple, &snake1);
+        find_apple(&apple, &snake2);
+
+        // Manejo de entrada
+        char input = getCharUser();
+        keyboard_managment_snake (input, &snake1, 'w','a','s','d');
+        keyboard_managment_snake (input, &snake2, 'i','j','k','l');
+
+    }
+    exit_snake();
+}
+
 
 
 
