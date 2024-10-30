@@ -10,6 +10,8 @@
 void decrease();//PREGUNTARLE A TOTI ALFINAL COMO QUEDAN ESTAS SYSCALLS
 void increase();
 
+
+
 typedef struct module {
     char * name;
     void (*function)();
@@ -24,9 +26,10 @@ void font_size();
 void printTime(); 
 void div0Exc();
 void opcodeExc();
+extern void div0();
 
 module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", printTime},
-{"div0", div0Exc}, {"opcode", opcodeExc}};
+{"div0", div0}, {"opcode", opcodeExc}};
 
 
 void help(){
