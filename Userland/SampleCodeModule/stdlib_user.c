@@ -54,10 +54,12 @@ void getString(char* buff, int count){
         auxPrint[0]=c;
         auxPrint[1]='\0';
         print(auxPrint, 1);
+        if(c!=0 && c!='\n'){
             buff[i++]=c;
         }
     }
     buff[i]='\0';
+}
 }
 
 int strcmp(char * s1, char * s2){
