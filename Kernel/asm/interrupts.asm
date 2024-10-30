@@ -80,12 +80,13 @@ SECTION .text
 
 %macro exceptionHandler 1
 	cli
+	pushState
 	exception_regs_data
-	mov rdi, %1 ; pasaje de parametro
-	mov rsi, exception_regs
+	mov rdi, %1 ; pasaje de parametro -> n excepcion
+	mov rsi, exception_regs ; para imprimir regs
 	call exceptionDispatcher
-
 	popState
+	sti
 	iretq
 %endmacro
 
@@ -97,8 +98,9 @@ mov[exception_regs], rax
 	mov [exception_regs+8*4], rdi
 	mov [exception_regs+8*5], rsi
 	mov [exception_regs+8*6], rbp
-	mov rax, rsp
-	add rax, 40
+
+	mov rax, [rsp+18*8]
+
 	mov [exception_regs+8*7], rax 
 	mov [exception_regs+8*8], r8
 	mov [exception_regs+8*9], r9
@@ -108,9 +110,9 @@ mov[exception_regs], rax
 	mov [exception_regs+8*13], r13
 	mov [exception_regs+8*14], r14
 	mov [exception_regs+8*15], r15
-	mov rax, [rsp]
+	mov rax, [rsp+15*8]
 	mov [exception_regs+8*16], rax ;RID
-	mov rax, [rsp+8]
+	mov rax, [rsp+17*8]
 	mov [exception_regs+8*17], rax ;FLAGS
 
 %endmacro
@@ -205,4 +207,4 @@ SECTION .bss
 	aux resq 1
 
 SECTION .data
-exception_regs dq 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+exception_regs dq 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

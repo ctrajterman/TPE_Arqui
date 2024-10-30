@@ -152,10 +152,11 @@ void erraseChar(uint32_t hexColor){
 
 void newLine_vd(){
 	if (global_y + getCharHeight() > VBE_mode_info->height) {
-            paintAll_vd(BLACK);
+        paintAll_vd(BLACK);
     }else {
         global_y += getCharHeight();
     }
+	global_x= 0;
 }
 
 

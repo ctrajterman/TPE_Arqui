@@ -1,4 +1,5 @@
 
+
 #include <stdlib_user.h>
 #include "snake.h"
 
@@ -9,6 +10,8 @@
 
 void decrease();//PREGUNTARLE A TOTI ALFINAL COMO QUEDAN ESTAS SYSCALLS
 void increase();
+
+
 
 typedef struct module {
     char * name;
@@ -24,9 +27,10 @@ void font_size();
 void printTime(); 
 void div0Exc();
 void opcodeExc();
+extern void div0();
 
 module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", printTime},
-{"div0", div0Exc}, {"opcode", opcodeExc}};
+{"div0", div0}, {"opcode", opcodeExc}};
 
 
 void help(){
@@ -69,11 +73,11 @@ void snake(){
         }
         else if(buff[0] =='1'&& buff[1] == '\0'){
             correctAmount=1;
-            gameLoop();
+            gameLoop1();
         }
         else if (buff[0] =='2' && buff[1] == '\0'){
             correctAmount=1;
-            gameLoop();
+            gameLoop2();
         }
         else{
             err_print("Invalid amount!! \n",18); 
@@ -84,7 +88,6 @@ void snake(){
 
 
 void command_wait(){
-
     while (1){
         print("\n",1);
         print("shell_TP_ARQUI$> ", MAXBUFF);
@@ -104,6 +107,7 @@ void command_wait(){
             err_print("Invalid Command!! \n",18);
         }
     }
+    
 }
 
 void font_size(){
@@ -147,5 +151,6 @@ void shell(){
 
     return 0;
 }
+
 
 
