@@ -52,7 +52,7 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 const uint16_t charWidht = 9;
 const uint16_t charHeight = 16;
-uint8_t pixelSize = 1;
+uint8_t pixelSize = 2;
 
 void increasePixelSize() {
     if (pixelSize < 5) {
@@ -95,10 +95,9 @@ void drawChar(uint32_t hexColor, char c, uint64_t x, uint64_t y){
 	
     int pos=((int)c-32)*16;
 
-	if (global_x >= VBE_mode_info->width) {
+	if (global_x + getCharWidth() >= VBE_mode_info->width) {
         global_x = 0;
         if (global_y + getCharHeight() > VBE_mode_info->height) {
-            global_y -= getCharHeight();
             paintAll_vd(BLACK);
         } else {
             global_y += getCharHeight();
@@ -111,7 +110,7 @@ void drawChar(uint32_t hexColor, char c, uint64_t x, uint64_t y){
                 for (int h = 0; h < pixelSize; h++){
 					if (font_bitmap[pos+i] >> (7-j) & 0x1)
 					{
-						putPixel(hexColor, x+j*pixelSize+t, y+i*pixelSize+h);
+						putPixel(hexColor, x+(j*pixelSize)+t, y+(i*pixelSize)+h);
 					}
 				}
 			}
@@ -125,7 +124,6 @@ void drawWord(uint32_t hexColor, char* word){
 		if (global_x >= VBE_mode_info->width) {
         	global_x = 0;
         	if (global_y + getCharHeight() > VBE_mode_info->height) {
-            	global_y -= getCharHeight();
             	paintAll_vd(BLACK);
         	} else {
             	global_y += getCharHeight();
@@ -153,7 +151,11 @@ void erraseChar(uint32_t hexColor){
 }
 
 void newLine_vd(){
-	global_y += getCharHeight();
+	if (global_y + getCharHeight() > VBE_mode_info->height) {
+            paintAll_vd(BLACK);
+    }else {
+        global_y += getCharHeight();
+    }
 }
 
 

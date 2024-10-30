@@ -86,62 +86,62 @@ void snake(){
 void command_wait(){
 
     while (1){
-    
-    print("\n",1);
-    print("shell_TP_ARQUI$> ", MAXBUFF);
+        print("\n",1);
+        print("shell_TP_ARQUI$> ", MAXBUFF);
 
-    char buff[MAXBUFF];
+        char buff[MAXBUFF];
 
-    getString(buff, MAXBUFF);
+        getString(buff, MAXBUFF);
 
-    if(strlen(buff)!=0){
-        for(int i=0; i<menuDIM; i++){
-            if(strcmp(buff,menu[i].name)==0){
-                menu[i].function();
-                return;
+        if(strlen(buff)!=0){
+            for(int i=0; i<menuDIM; i++){
+                if(strcmp(buff,menu[i].name)==0){
+                    menu[i].function();
+                    return;
+                }
             }
+            paintAll_vd(0x000000);
+            err_print("Invalid Command!! \n",18);
         }
-        paintAll_vd(0x000000);
-        err_print("Invalid Command!! \n",18);
-
-    }
     }
 }
 
 void font_size(){
+
+    while(1){
         char buff[MAXBUFF];
-    print("Tap the '+' button to increase the font\n", MAXBUFF);
-    print("Tap the '-' button to decrease the font ", MAXBUFF);
 
-    getString(buff, MAXBUFF);
-    
-    if(buff[0]=='+'){
-        //increase() ;//Preguntar a toti el nombre
-    }
-    else if (buff[0]=='-'){
-       // decrease();
-    }
-    else{
-         err_print("Invalid amount!! \n",18); 
-    }
+        print("Write letter \"q\" to exit\nPress \"i\" to increase the font\nPress \"d\" to decrease the font\n", MAXBUFF);
 
-
+        getString(buff, MAXBUFF);
+        
+        if(buff[0] =='q' && buff[1] == '\0'){
+            return;
+        }
+        else if(buff[0] == 'i' && buff[1] == '\0'){
+            increaseFontSize();
+            //return;
+        }
+        else if(buff[0] == 'd' && buff[1] == '\0'){
+            decreaseFontSize();
+            //return;
+        }
+        else{
+            err_print("Invalid amount!! \n",18); 
+        }
+    }
+    paintAll_vd(0x000000);
 }
 
 
 void shell(){
-    // print("Available Features:\n",30);
-    //  for(int i=0; i<menuDIM; i++){
-    //      print(menu[i].name, MAXBUFF);
-    //      print("\n", 1);
-    //  }
+    print("Available Features:\n",30);
+     for(int i=0; i<menuDIM; i++){
+         print(menu[i].name, MAXBUFF);
+         print("\n", 1);
+     }
 
     while(1){
-        print("\nAvailable Features:\n",30);
-        for(int i=0; i<menuDIM; i++){
-            print(menu[i].name, MAXBUFF);
-            print("\n", 1);
-        }
         command_wait();
     }
 

@@ -9,6 +9,8 @@ GLOBAL syscall_sleep
 GLOBAL syscall_seconds
 GLOBAL syscall_paintAll_vd
 GLOBAL syscall_erraseChar
+GLOBAL syscall_increaseFS
+GLOBAL syscall_decreaseFS
 
 section .text
 
@@ -60,5 +62,15 @@ syscall_paintAll_vd:
 
 syscall_erraseChar:
     mov rax, 0x09
+    int 80h
+    ret
+
+syscall_increaseFS:
+    mov rax, 0x0A
+    int 80h
+    ret
+
+syscall_decreaseFS:
+    mov rax, 0x0B
     int 80h
     ret

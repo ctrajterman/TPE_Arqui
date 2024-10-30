@@ -29,3 +29,5 @@ int strcmp(char * s1, char * s2);
 // void printHex(uint64_t value);
 void paintAll_vd(uint32_t hexColor);
 void erraseChar(uint32_t hexColor);
+void increaseFontSize();
+void decreaseFontSize();

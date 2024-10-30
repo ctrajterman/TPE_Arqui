@@ -12,6 +12,8 @@ extern uint64_t syscall_getHeight_vd();
 extern uint64_t syscall_sleep();
 extern uint64_t syscall_paintAll_vd();
 extern uint64_t syscall_erraseChar();
+extern uint64_t syscall_increaseFS();
+extern uint64_t syscall_decreaseFS();
 
 char getCharUser();
 void erraseChar(uint32_t hexColor);
@@ -156,6 +158,14 @@ void paintAll_vd(uint32_t hexColor){
 
 void erraseChar(uint32_t hexColor){
     syscall_erraseChar(hexColor);
+}
+
+void increaseFontSize(){
+    syscall_increaseFS();
+}
+
+void decreaseFontSize(){
+    syscall_decreaseFS();
 }
 
 
