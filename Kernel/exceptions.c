@@ -1,11 +1,14 @@
 
-#define ZERO_EXCEPTION_ID 0
-#define OP_CODE_INVALID_EXCEPTION 6
 
 #include <videoDriver.h>
 #include <stdint.h>
 #include <interrupts.h>
 #include <keyboard.h> 
+
+
+
+#define ZERO_EXCEPTION_ID 0
+#define OP_CODE_INVALID_EXCEPTION 6
 
 //naiveConsole se usa solo para la transformacion de hexa a ascii de los valores de los regs
 
