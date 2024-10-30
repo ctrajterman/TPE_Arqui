@@ -42,7 +42,7 @@ void help(){
 }
 
 void opcodeExc(){
-    return ;
+    return;
 }
 void div0Exc(){
     return;
@@ -75,12 +75,12 @@ void snake(){
 
 
 void command_wait(){
+
+    while (1){
     
     print("\nshell_TP_ARQUI$> ", MAXBUFF);
 
     char buff[MAXBUFF];
-    char test=getCharUser();
-
 
     getString(buff, MAXBUFF);
     print(buff, MAXBUFF);
@@ -97,7 +97,7 @@ void command_wait(){
         err_print("Invalid Command!! \n",18); 
 
     }
-
+    }
 }
 
 void font_size(){
@@ -123,20 +123,17 @@ void font_size(){
 
 
 
-int main(int argc, char const *argv[])
-{
+void shell(){
     print("Available Features:\n",30);
      for(int i=0; i<menuDIM; i++){
          print(menu[i].name, MAXBUFF);
          print("\n", 1);
      }
 
-
-
-    while(1){
+    //while(1){
          
         command_wait();
-    }
+    //}
 
     return 0;
 }

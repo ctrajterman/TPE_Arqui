@@ -31,16 +31,20 @@ void keyboard_handler() {
 void printCharPressed(){
     if (charToRet != 0) {
         // Imprimir la tecla
-        char toPrint[2] = {charToRet, 0};  // Crear una cadena con la tecla
-        ncPrint(toPrint);            // Imprimir la tecla
+        char toPrint[2] = {charToRet, 0};   // Crear una cadena con la tecla
+        ncPrint(toPrint);                   // Imprimir la tecla
     }
     cleanCharToRet();
 }
 
 char getCharPressed(){
-    char toRet=charToRet;
-    cleanCharToRet();
-    return toRet;
+    if (charToRet!=0)
+    {
+        char toRet=charToRet;
+        cleanCharToRet();
+        return toRet;
+    }
+    return;
 }
 
 void cleanCharToRet(){
