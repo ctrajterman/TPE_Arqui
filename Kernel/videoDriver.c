@@ -154,6 +154,7 @@ void erraseChar(uint32_t hexColor){
 
 void newLine_vd(){
 	global_y += getCharHeight();
+	global_x= 0;
 }
 
 
