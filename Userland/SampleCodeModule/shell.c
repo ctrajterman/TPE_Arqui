@@ -73,11 +73,11 @@ void snake(){
         }
         else if(buff[0] =='1'&& buff[1] == '\0'){
             correctAmount=1;
-            gameLoop();
+            gameLoop1();
         }
         else if (buff[0] =='2' && buff[1] == '\0'){
             correctAmount=1;
-            gameLoop();
+            gameLoop2();
         }
         else{
             err_print("Invalid amount!! \n",18); 
@@ -88,6 +88,7 @@ void snake(){
 
 
 void command_wait(){
+    while (1){
     
     print("\n",1);
     print("shell_TP_ARQUI>$ ", MAXBUFF);
@@ -106,6 +107,7 @@ void command_wait(){
         paintAll_vd(0x000000);
         err_print("Invalid Command!! \n",18);
 
+    }
     }
     
 }
@@ -137,7 +139,8 @@ void shell(){
     //      print(menu[i].name, MAXBUFF);
     //      print("\n", 1);
     //  }
-
+    
+    print("WELCOME", 15);
     while(1){
         print("\nAvailable Features:\n",30);
         for(int i=0; i<menuDIM; i++){
