@@ -19,29 +19,32 @@ static uint32_t white=0xFFFFFF;//chequear si esto esta ok
 static uint32_t red=0xFF0000;
 
 void exceptionDispatcher(int exception, uint64_t regs[17]) {
-	if (exception == ZERO_EXCEPTION_ID)
+	if (exception == ZERO_EXCEPTION_ID){
 		drawWord(red, "Cannot Divide by Zero, Register values:");
 		newLine_vd();
-	if(exception==OP_CODE_INVALID_EXCEPTION)
+	}
+	else if(exception==OP_CODE_INVALID_EXCEPTION){
 		drawWord(red, "Invalid Opcode Exception, Register values:");
 		newLine_vd();
-	char buffer[6];
+	}
+	char buffer[17];
 	for(int i=0; i<17; i++){
 		drawWord(white, regstxt[i]);
 		uintToBase(regs[i], buffer, 16);
 		buffer[2]=0;
 		drawWord(white, buffer);
 		newLine_vd();
-		}
+	}
 
-		drawWord(white, "Press key d to continue");
 		newLine_vd();
 
 
 		char buff=0;
 		picMasterMask(0xFD); //solo habilitadas interrupcionesw teclado
 		_sti();
-		while(buff!='d'){
+		drawWord(white, "Press key p to continue");
+
+		while(buff!='p'){
 			buff=getCharPressed();
 
 		}
@@ -49,6 +52,7 @@ void exceptionDispatcher(int exception, uint64_t regs[17]) {
 		picMasterMask(0xFC);	
 		paintAll_vd(0x000000);
 		return;
+
 
 }
 

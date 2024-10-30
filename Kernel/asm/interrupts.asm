@@ -24,6 +24,9 @@ EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
 
+
+EXTERN getStackBase
+
 SECTION .text
 
 %macro pushState 0
@@ -86,7 +89,20 @@ SECTION .text
 	mov rsi, exception_regs ; para imprimir regs
 	call exceptionDispatcher
 	popState
+<<<<<<< Updated upstream
 	sti
+=======
+
+	call getStackBase  ;deja en el rax el stackbase
+	mov [rsp+24], rax 
+    mov rax, userland
+    mov [rsp], rax ;estoy pisando con el userland
+
+    sti
+
+
+
+>>>>>>> Stashed changes
 	iretq
 %endmacro
 
@@ -208,3 +224,6 @@ SECTION .bss
 
 SECTION .data
 exception_regs dq 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+SECTION .rodata
+userland equ 0x400000

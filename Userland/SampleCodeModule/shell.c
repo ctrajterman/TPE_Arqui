@@ -30,7 +30,7 @@ void opcodeExc();
 extern void div0();
 
 module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", printTime},
-{"div0", div0}, {"opcode", opcodeExc}};
+{"div0", div0Exc}, {"opcode", opcodeExc}};
 
 
 void help(){
@@ -49,6 +49,7 @@ void opcodeExc(){
     return;
 }
 void div0Exc(){
+    div0();
     return;
 
 }

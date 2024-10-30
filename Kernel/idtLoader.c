@@ -27,7 +27,8 @@ static void setup_IDT_entry (int index, uint64_t offset);
 //En el caso del teclado la interrupción es IRQ1 que corresponde a la interrupción 0x21 en la IDT.
 //Cuando el PIC genera la interrupción, la CPU detiene lo que estaba haciendo y consulta la entrada correspondiente en la IDT.
 
-void load_idt() {                                             //Setea las entradas para las interrupciones, cada interrupicon tiene una funcion asociada.
+void load_idt() {   
+                                            //Setea las entradas para las interrupciones, cada interrupicon tiene una funcion asociada.
 
   setup_IDT_entry (0x20, (uint64_t)&_irq00Handler);           //TimerTick
   setup_IDT_entry (0x21, (uint64_t)&_irq01Handler);           //Keyboard,    la entrada 0x21 apunta a la función _irq01Handler, que es el handler de la interrupción del teclado:
