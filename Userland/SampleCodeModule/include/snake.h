@@ -27,6 +27,7 @@ void initializeSnake(struct Snake *snake);
 void drawSnake(struct Snake *snake);
 void moveSnake(struct Snake *snake);
 void repaintBackground();
-void gameLoop();
+void gameLoop1();
+void gameLoop2();
 
 #endif // SNAKE_H

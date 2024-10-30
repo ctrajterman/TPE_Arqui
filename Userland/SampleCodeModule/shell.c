@@ -1,4 +1,5 @@
 
+
 #include <stdlib_user.h>
 #include "snake.h"
 
@@ -29,7 +30,7 @@ void opcodeExc();
 extern void div0();
 
 module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", printTime},
-{"div0", div0Exc}, {"opcode", opcodeExc}};
+{"div0", div0}, {"opcode", opcodeExc}};
 
 
 void help(){
@@ -48,7 +49,8 @@ void opcodeExc(){
     return;
 }
 void div0Exc(){
-    div0();
+    return;
+
 }
 
 void show_regs(){
@@ -86,11 +88,9 @@ void snake(){
 
 
 void command_wait(){
-
-    while (1){
     
     print("\n",1);
-    print("shell_TP_ARQUI$> ", MAXBUFF);
+    print("shell_TP_ARQUI>$ ", MAXBUFF);
 
     char buff[MAXBUFF];
 
@@ -107,7 +107,7 @@ void command_wait(){
         err_print("Invalid Command!! \n",18);
 
     }
-    }
+    
 }
 
 void font_size(){
@@ -149,5 +149,6 @@ void shell(){
 
     return 0;
 }
+
 
 
