@@ -82,6 +82,7 @@ void snake(){
             gameLoop2();
         }
         else{
+            paintAll_vd(0x000000);
             err_print("Invalid amount!! \n",18); 
         }
     }
@@ -126,10 +127,12 @@ void font_size(){
         }
         else if(buff[0] == 'i' && buff[1] == '\0'){
             increaseFontSize();
+            paintAll_vd(BLACK);
             //return;
         }
         else if(buff[0] == 'd' && buff[1] == '\0'){
             decreaseFontSize();
+            paintAll_vd(BLACK);
             //return;
         }
         else{

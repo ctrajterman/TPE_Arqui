@@ -14,6 +14,8 @@ extern uint64_t syscall_paintAll_vd();
 extern uint64_t syscall_erraseChar();
 extern uint64_t syscall_increaseFS();
 extern uint64_t syscall_decreaseFS();
+extern uint64_t syscall_erraseLine();
+
 
 char getCharUser();
 void erraseChar(uint32_t hexColor);
@@ -65,15 +67,19 @@ void getString(char* buff, int count){
 }
 
 int strcmp(char * s1, char * s2){
-    int d=0;
-    for(int i=0; s1[i]!=0 && s2[i]!=0 ; i++){
-        d=s1[i]-s2[i];
-        if(d!=0){
-            return d;
+   int i = 0;
+    while (s1[i] != 0 && s2[i] != 0){
+        if (s1[i] - s2[i] != 0){
+            return s1[i] - s2[i];
         }
+        i++;
+    }
+    if (s1[i] != 0 || s2[i] != 0){
+        return s1[i] - s2[i];
     }
     return 0;
 }
+
 
 
 uint64_t itoa(uint64_t number, char* s) {
@@ -172,6 +178,10 @@ void decreaseFontSize(){
     syscall_decreaseFS();
 }
 
+void erraseLine(){
+    syscall_erraseLine();
+
+}
 
 // void printDec(uint64_t value)
 // {

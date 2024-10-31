@@ -11,6 +11,7 @@ GLOBAL syscall_paintAll_vd
 GLOBAL syscall_erraseChar
 GLOBAL syscall_increaseFS
 GLOBAL syscall_decreaseFS
+GLOBAL syscall_erraseLine
 
 section .text
 
@@ -74,3 +75,8 @@ syscall_decreaseFS:
     mov rax, 0x0B
     int 80h
     ret
+
+syscall_erraseLine:
+mov rax, 0x0C
+int 80h
+ret

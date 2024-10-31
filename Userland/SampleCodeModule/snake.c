@@ -30,6 +30,7 @@ struct Snake {
     int tailX;
     int tailY;
     int score ; 
+    int hasEatenApple;
 }typedef Snake ;
 
 
@@ -41,7 +42,7 @@ struct Apple{
 
 uint32_t x = 123456789; // Semilla inicial
 
-int hasEatenApple = 0;
+
 
 uint32_t randNum() {
     x = x * 1664525 + 1013904223;
@@ -120,6 +121,7 @@ void initializeSnake(struct Snake *snake, uint64_t hexcolor) {
     snake->tailX;
     snake->tailY;
     snake->score = 0;
+    snake->hasEatenApple=0;
 }
 
 // Dibuja la serpiente
@@ -145,7 +147,7 @@ void find_apple(Apple *apple , Snake *snake ){
         snake->x[snake->length - 1] = snake->x[snake->length - 2];
         snake->y[snake->length - 1] = snake->y[snake->length - 2];
 
-        hasEatenApple=1;
+        snake->hasEatenApple=1;
 
         apple->x = randPositionx();
         apple->y = randPositiony();
@@ -179,6 +181,56 @@ void find_apple(Apple *apple , Snake *snake ){
     }
 }
 
+int find_apple2(Apple apple , Snakesnake ){
+
+    // Verificar si la cabeza de la serpiente está dentro del área de la manzana
+    if (snake->x[0] < apple->x + APPLE_SIZE && snake->x[0] + THICKNESS > apple->x &&
+        snake->y[0] < apple->y + APPLE_SIZE && snake->y[0] + THICKNESS > apple->y) {
+
+        draw_apple(BACKGROUND_COLOR, apple->x, apple->y);   //borro la apple
+
+        snake->length++;
+
+        snake->score++;
+
+        snake->x[snake->length - 1] = snake->x[snake->length - 2];
+        snake->y[snake->length - 1] = snake->y[snake->length - 2];
+
+        snake->hasEatenApple=1;
+
+        apple->x = randPositionx();
+        apple->y = randPositiony();
+
+        while (1) {
+            int overlaps = 0;
+            for (int i = 0; i < snake->length; i++) {
+                if (snake->x[i] < apple->x + APPLE_SIZE && snake->x[i] + THICKNESS > apple->x &&
+                    snake->y[i] < apple->y + APPLE_SIZE && snake->y[i] + THICKNESS > apple->y) 
+                {
+                    overlaps = 1; // La nueva manzana se superpone con la serpiente
+                    break;
+                }
+            }
+            if (!overlaps){
+                break;
+            } 
+            // Si no hay superposición, sal del bucle
+            // Si hay superposición, genera una nueva posición
+            apple->x = randPositionx();
+            apple->y = randPositiony();
+        }
+
+        // char buffer[2];
+
+        // itoa(snake->score, buffer);
+        // erraseChar(BLACK_COLOR);
+        // print(buffer, 2);
+
+        draw_apple(PRIZE_COLOR, apple->x, apple->y);        //dibujo la apple
+    }
+    return snake->hasEatenApple;
+}
+
 
 void draw_apple(uint64_t color , uint64_t start_x, uint64_t start_y) {
     
@@ -188,7 +240,7 @@ void draw_apple(uint64_t color , uint64_t start_x, uint64_t start_y) {
 // Mueve la serpiente
 void moveSnake(struct Snake *snake) {
     // Borrar la cola de la serpiente antes de moverla
-    if (!hasEatenApple) {  // hasEatenApple debe ser una bandera que activas al comer una manzana.
+    if (!snake->hasEatenApple) {  // hasEatenApple debe ser una bandera que activas al comer una manzana.
         int tailIndex = snake->length - 1;
         snake->tailX = snake->x[tailIndex]; // Guarda la posición actual de la cola para borrarla después
         snake->tailY = snake->y[tailIndex];
@@ -196,7 +248,7 @@ void moveSnake(struct Snake *snake) {
         drawLines();
     }
     
-    hasEatenApple=0;
+    snake->hasEatenApple=0;
 
     for (int i = snake->length-1; i > 0; i--) {
         snake->x[i] = snake->x[i - 1];
@@ -274,10 +326,13 @@ void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,
 void exit_snake(){
     
     char input;
+    print("\n",2);
+    increaseFontSize();
     print("press q to quit", 15);
     while(input!='q'){
         input = getCharUser();
     }
+    decreaseFontSize();
     paintAll_vd(BACKGROUND_COLOR);
 }
 
@@ -309,7 +364,7 @@ void gameLoop1() {
 
     print(score, 9);
     
-    while (!snake1.isDead && snake1.length < 16) {
+    while (!snake1.isDead && snake1.length < 15) {
 
         nano_sleep(2);
 
@@ -344,6 +399,8 @@ void gameLoop2() {
 
     struct Apple apple;
 
+    int points1=0;
+    int points2=0;
     apple.x=200;
     apple.y=200;
     
@@ -358,14 +415,26 @@ void gameLoop2() {
 
     draw_apple(PRIZE_COLOR, apple.x, apple.y);
            
-    char *score1= "SCORE SNAKE1 : 0";
-    char *score2= "SCORE SNAKE2 : 0";
-
+    char *score1= "SCORE SNAKE1 : ";
+    char *score2= "SCORE SNAKE2 : ";
+    char buff1[2];
+    char buff2[2];
 
     print(score1, 9);
-    print(score2,9);
+    itoa(points1, buff1);
+    erraseChar(BLACK_COLOR);
+    print(buff1, 2);
+
+    print("\n", 2);
+
+    print(score2, 9);
+    itoa(points2, buff2);
+    erraseChar(BLACK_COLOR);
+    print(buff2, 2);
+
+    print("\n", 2);
     
-    while (!snake1.isDead && snake1.length < 16) {
+    while (!snake1.isDead && snake1.length < 15 && !snake2.isDead && snake2.length < 15) {
 
         nano_sleep(2);
 
@@ -377,8 +446,47 @@ void gameLoop2() {
         moveSnake(&snake1);
         moveSnake(&snake2);
         
-        find_apple(&apple, &snake1);
-        find_apple(&apple, &snake2);
+        // Ver si encuentran la manzana
+        if(find_apple2(&apple, &snake1) == 1){
+            points1++;
+
+            erraseLine();
+            erraseLine();
+
+            print(score1, 9);
+            itoa(points1, buffer1);
+            erraseChar(BLACK_COLOR);
+            print(buffer1, 2);
+
+            print("\n", 2);
+
+            print(score2, 9);
+            itoa(points2, buffer2);
+            erraseChar(BLACK_COLOR);
+            print(buffer2, 2);
+
+            print("\n", 2);
+        }
+        if(find_apple2(&apple, &snake2) == 1){
+            points2++;
+
+            erraseLine();
+            erraseLine();
+
+            print(score1, 9);
+            itoa(points1, buffer1);
+            erraseChar(BLACK_COLOR);
+            print(buffer1, 2);
+
+            print("\n", 2);
+
+            print(score2, 9);
+            itoa(points2, buffer2);
+            erraseChar(BLACK_COLOR);
+            print(buffer2, 2);
+
+            print("\n", 2);
+        }
 
         // Manejo de entrada
         char input = getCharUser();

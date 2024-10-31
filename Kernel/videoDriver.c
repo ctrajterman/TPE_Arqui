@@ -52,7 +52,7 @@ VBEInfoPtr VBE_mode_info = (VBEInfoPtr) 0x0000000000005C00;
 
 const uint16_t charWidht = 9;
 const uint16_t charHeight = 16;
-uint8_t pixelSize = 2;
+uint8_t pixelSize = 1;
 
 void increasePixelSize() {
     if (pixelSize < 5) {
@@ -192,4 +192,20 @@ void paintAll_vd(uint32_t hexColor){
     }
 	global_y=0;
 	global_x=0;
+}
+void erraseLine(){
+    if (global_y > 0)
+    {
+        global_x = 0;
+        for (int i = 0; i < 16; i++){
+            for (int j = 0; j < getWidth_vd(); j++){
+                for (int t = 0; t < pixelSize; t++){
+                    for (int h = 0; h < pixelSize; h++){
+                    putPixel(BLACK, global_x+(jpixelSize)+t, global_y+(ipixelSize)+h);
+                    }
+                }
+            }
+        }
+    }
+    global_y -= getCharHeight();
 }

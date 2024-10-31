@@ -85,9 +85,9 @@ SECTION .text
 %macro exceptionHandler 1
 	cli
 	pushState
-	exception_regs_data
+	regs_data
 	mov rdi, %1 ; pasaje de parametro -> n excepcion
-	mov rsi, exception_regs ; para imprimir regs
+	mov rsi, data_regs ; para imprimir regs
 	call exceptionDispatcher
 	popState
 
@@ -103,30 +103,30 @@ SECTION .text
 	iretq
 %endmacro
 
-%macro exception_regs_data 0
-mov[exception_regs], rax
-	mov [exception_regs+8], rbx
-	mov [exception_regs+8*2], rcx
-	mov [exception_regs+8*3], rdx
-	mov [exception_regs+8*4], rdi
-	mov [exception_regs+8*5], rsi
-	mov [exception_regs+8*6], rbp
+%macro regs_data 0
+mov[data_regs], rax
+	mov [data_regs+8], rbx
+	mov [data_regs+8*2], rcx
+	mov [data_regs+8*3], rdx
+	mov [data_regs+8*4], rdi
+	mov [data_regs+8*5], rsi
+	mov [data_regs+8*6], rbp
 
 	mov rax, [rsp+18*8]
 
-	mov [exception_regs+8*7], rax 
-	mov [exception_regs+8*8], r8
-	mov [exception_regs+8*9], r9
-	mov [exception_regs+8*10], r10
-	mov [exception_regs+8*11], r11
-	mov [exception_regs+8*12], r12
-	mov [exception_regs+8*13], r13
-	mov [exception_regs+8*14], r14
-	mov [exception_regs+8*15], r15
+	mov [data_regs+8*7], rax 
+	mov [data_regs+8*8], r8
+	mov [data_regs+8*9], r9
+	mov [data_regs+8*10], r10
+	mov [data_regs+8*11], r11
+	mov [data_regs+8*12], r12
+	mov [data_regs+8*13], r13
+	mov [data_regs+8*14], r14
+	mov [data_regs+8*15], r15
 	mov rax, [rsp+15*8]
-	mov [exception_regs+8*16], rax ;RID
+	mov [data_regs+8*16], rax ;RID
 	mov rax, [rsp+17*8]
-	mov [exception_regs+8*17], rax ;FLAGS
+	mov [data_regs+8*17], rax ;FLAGS
 
 %endmacro
 
@@ -225,7 +225,7 @@ SECTION .bss
 	aux resq 1
 
 SECTION .data
-exception_regs dq 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+data_regs dq 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
 SECTION .rodata
 userland equ 0x400000

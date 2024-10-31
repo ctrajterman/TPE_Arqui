@@ -6,6 +6,7 @@
 
 #define STDIN  0
 #define STDOUT 1
+#define BLACK 0x000000
 
 
 static uint64_t syscall_write_handler(int fd, char *buffer, uint64_t length);
@@ -20,11 +21,12 @@ static void syscall_paintAll_vd_handler(uint32_t hexColor);
 static void syscall_erraseChar_handler(uint32_t hexColor);
 static void syscall_increaseFS_handler();
 static void syscall_decreaseFS_handler();
+static void syscall_erraseLine_handler();
 
 // Array de punteros a funciones que reciben los mismos argumentos
 void (*syscalls_arr[])(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8) = {syscall_read_handler, syscall_write_handler, syscall_time_handler,
  syscall_drawPixel_handler, syscall_drawSquare_handler, syscall_getWidth_vd_handler, syscall_getHeight_vd_handler, syscall_sleep_handler, syscall_paintAll_vd_handler,
- syscall_erraseChar_handler, syscall_increaseFS_handler, syscall_decreaseFS_handler};
+ syscall_erraseChar_handler, syscall_increaseFS_handler, syscall_decreaseFS_handler, syscall_erraseLine_handler};
 
 void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t rax) {
     
@@ -83,11 +85,15 @@ static void syscall_erraseChar_handler(uint32_t hexColor){
 
 static void syscall_increaseFS_handler(){
     increasePixelSize();
-    paintAll_vd(0x000000);
+   // paintAll_vd(0x000000);
     
 }
 
 static void syscall_decreaseFS_handler(){
     decreasePixelSize();
-    paintAll_vd(0x000000);
+    //paintAll_vd(0x000000);
+}
+
+static void syscall_erraseLine_handler(){
+    erraseLine();
 }
