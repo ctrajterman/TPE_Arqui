@@ -91,8 +91,8 @@ SECTION .text
 	call exceptionDispatcher
 	popState
 
-	call getStackBase  ;deja en el rax el stackbase
-	mov [rsp+24], rax 
+	;call getStackBase  ;deja en el rax el stackbase
+	;mov [rsp+24], rax 
     mov rax, userland
     mov [rsp], rax ;estoy pisando con el userland
 

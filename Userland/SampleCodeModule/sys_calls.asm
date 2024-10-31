@@ -12,6 +12,7 @@ GLOBAL syscall_erraseChar
 GLOBAL syscall_increaseFS
 GLOBAL syscall_decreaseFS
 GLOBAL syscall_erraseLine
+GLOBAL syscall_beep
 
 section .text
 
@@ -80,3 +81,9 @@ syscall_erraseLine:
 mov rax, 0x0C
 int 80h
 ret
+syscall_beep:
+
+    mov rax, 0x0D
+    int 80h
+    ret
+

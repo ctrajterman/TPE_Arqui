@@ -8,4 +8,7 @@ void * memcpy(void * destination, const void * source, uint64_t length);
 
 char *cpuVendor(char *result);
 
+int inb(int port);
+void outb(int port, int value);
+
 #endif

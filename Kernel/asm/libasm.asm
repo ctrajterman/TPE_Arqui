@@ -1,11 +1,44 @@
 GLOBAL cpuVendor
 GLOBAL RTC
-GLOBAL keyPressed:
-
+GLOBAL keyPressed
+GLOBAL inb
+GLOBAL outb
 
 
 
 section .text
+
+
+
+
+
+outb:
+	push rbp
+    mov rbp, rsp
+
+	mov rdx, rdi
+	mov rax, rsi
+
+	out dx, al
+
+	mov rsp, rbp
+	pop rbp
+	ret
+
+
+
+inb:
+	push rbp
+	mov rbp, rsp 
+
+	mov rdx, rdi
+	in al, dx
+	
+	mov rsp,rbp
+	pop rbp
+	ret
+
+
 	
 cpuVendor:
 	push rbp
@@ -57,6 +90,4 @@ keyPressed:
     mov rsp, rbp
     pop rbp
     ret
-
-
 
