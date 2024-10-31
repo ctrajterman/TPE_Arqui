@@ -7,9 +7,12 @@
 
 
 // Definiciones de constantes
+#define WIDHT 768
+#define HEIGHT 1024
+#define DIM_BOARD 760               // Tamano del board
+#define DIM_HEADER 80
 #define BACKGROUND_COLOR 0x87CEEB   // Color de fondo
 #define THICKNESS 40                // Grosor de la serpiente
-#define MAX_HEIGHT 50               // El techo
 #define MAX_SNAKE_LENGTH 100        // Longitud máxima de la serpiente
 #define PRIZE_COLOR 0xA43A53        // Bordo
 #define BLACK_COLOR 0x000000        // Negro
@@ -50,8 +53,8 @@ uint32_t randNum() {
 }
 
 void drawLines(){
-    for (int i = 80; i <= 760; i++){
-        for (int j = 80; j <= 760; j+=40)
+    for (int i = DIM_HEADER; i <= DIM_BOARD; i++){
+        for (int j = DIM_HEADER; j <= DIM_BOARD; j+=40)
         {
             drawPixel(BLACK_COLOR, i, j);
             drawPixel(BLACK_COLOR, j, i);
@@ -60,8 +63,8 @@ void drawLines(){
 }
 
 void drawBackground(){
-    for (int i = 80; i <= 760; i++){
-        for (int j = 80; j <= 760; j++)
+    for (int i = DIM_HEADER; i <= DIM_BOARD; i++){
+        for (int j = DIM_HEADER; j <= DIM_BOARD; j++)
         {
             drawPixel(BACKGROUND_COLOR, i, j);
         }
@@ -83,18 +86,18 @@ void drawBackground(){
 
 //Genera un número aleatorio entre 1 y 1000
 uint32_t randPositionx() {
-    int aux1 = (randNum() % 760) + 1;
-    if (aux1<80)
+    int aux1 = (randNum() % DIM_BOARD) + 1;
+    if (aux1<DIM_HEADER)
     {
-        return ((aux1+80)/40)*40;
+        return ((aux1+DIM_HEADER)/40)*40;
     }
     return (aux1/40)*40;
 }
 uint32_t randPositiony() {
-    int aux2 = (randNum() % 760) + 1;
-    if (aux2<80)
+    int aux2 = (randNum() % DIM_BOARD) + 1;
+    if (aux2<DIM_HEADER)
     {
-        return ((aux2+80)/40)*40;
+        return ((aux2+DIM_HEADER)/40)*40;
     }
     return (aux2/40)*40;
 }
@@ -277,14 +280,14 @@ void moveSnake(struct Snake *snake) {
     //}
 
     // Restringir los límites de la serpiente
-    if (snake->x[0] < 80) snake->x[0] = 80;
-    if (snake->x[0] > 760 - THICKNESS) snake->x[0] = 760 - THICKNESS;
-    if (snake->y[0] < 80) snake->y[0] = 80;
-    if (snake->y[0] > 760 - THICKNESS) snake->y[0] = 760 - THICKNESS;
+    if (snake->x[0] < DIM_HEADER) snake->x[0] = DIM_HEADER;
+    if (snake->x[0] > DIM_BOARD - THICKNESS) snake->x[0] = DIM_BOARD - THICKNESS;
+    if (snake->y[0] < DIM_HEADER) snake->y[0] = DIM_HEADER;
+    if (snake->y[0] > DIM_BOARD - THICKNESS) snake->y[0] = DIM_BOARD - THICKNESS;
 
     // Marcar como muerta si se sale de los límites
-    if (snake->x[0] < 80 || snake->x[0] >= 760 || 
-        snake->y[0] < 80 || snake->y[0] >= 760) {
+    if (snake->x[0] < DIM_HEADER || snake->x[0] >= DIM_BOARD || 
+        snake->y[0] < DIM_HEADER || snake->y[0] >= DIM_BOARD) {
         snake->isDead = true;
     }
 

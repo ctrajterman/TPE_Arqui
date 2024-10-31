@@ -78,11 +78,11 @@ syscall_decreaseFS:
     ret
 
 syscall_erraseLine:
-mov rax, 0x0C
-int 80h
-ret
+    mov rax, 0x0C
+    int 80h
+    ret
+    
 syscall_beep:
-
     mov rax, 0x0D
     int 80h
     ret

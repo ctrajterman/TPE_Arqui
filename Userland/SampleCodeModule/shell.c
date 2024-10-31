@@ -28,11 +28,13 @@ void font_size();
 void printTime(); 
 void div0Exc();
 void opcodeExc();
+void showTime();
 extern void div0();
 extern void opcode_exc();
 
-module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", printTime},
-{"div0", div0Exc}, {"opcode",opcode_exc }};
+
+module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", showTime},
+{"div0", div0Exc}, {"opcode", opcodeExc}};
 
 
 void help(){
@@ -48,12 +50,17 @@ void help(){
 }
 
 void opcodeExc(){
-    return;
+    paintAll_vd(BLACK);
+    opcode_exc();
 }
 void div0Exc(){
+    paintAll_vd(BLACK);
     div0();
-    return;
+}
 
+void showTime(){
+    paintAll_vd(BLACK);
+    printTime();
 }
 
 void show_regs(){
@@ -61,6 +68,8 @@ void show_regs(){
 
 }
 void snake(){
+    paintAll_vd(BLACK);
+
     char buff[MAXBUFF];
 
     print("WELCOME TO THE SNAKE-GAME\n", MAXBUFF);
@@ -72,6 +81,7 @@ void snake(){
         getString(buff, MAXBUFF);
 
         if(buff[0] =='q'&& buff[1] == '\0'){
+            paintAll_vd(BLACK);
             return;
         }
         else if(buff[0] =='1'&& buff[1] == '\0'){
@@ -115,6 +125,8 @@ void command_wait(){
 }
 
 void font_size(){
+    
+    paintAll_vd(BLACK);
 
     while(1){
         char buff[MAXBUFF];
@@ -124,6 +136,7 @@ void font_size(){
         getString(buff, MAXBUFF);
         
         if(buff[0] =='q' && buff[1] == '\0'){
+            paintAll_vd(BLACK);
             return;
         }
         else if(buff[0] == 'i' && buff[1] == '\0'){
