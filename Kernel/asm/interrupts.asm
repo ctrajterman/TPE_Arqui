@@ -19,7 +19,6 @@ GLOBAL _irq05Handler
 
 GLOBAL _exception0Handler
 GLOBAL _exception06Handler
-GLOBAL _intPureba
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
@@ -198,8 +197,6 @@ _irq04Handler:
 ;USB
 _irq05Handler:
 	irqHandlerMaster 5
-
-_intPureba:
 
 
 ;Zero Division Exception
