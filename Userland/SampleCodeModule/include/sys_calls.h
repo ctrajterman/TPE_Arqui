@@ -10,4 +10,6 @@ uint64_t syscall_write(uint64_t fd, const char *buf, uint64_t count);
 uint64_t syscall_time();
 uint64_t syscall_sleep();
 
+void syscall_beep();
+
 #endif

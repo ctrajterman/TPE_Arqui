@@ -15,6 +15,7 @@ extern uint64_t syscall_erraseChar();
 extern uint64_t syscall_increaseFS();
 extern uint64_t syscall_decreaseFS();
 extern uint64_t syscall_erraseLine();
+extern void syscall_beep();
 
 
 char getCharUser();
@@ -182,6 +183,10 @@ void erraseLine(){
     syscall_erraseLine();
 
 }
+void makeBeep(){
+    syscall_beep(1);
+}
+
 
 // void printDec(uint64_t value)
 // {

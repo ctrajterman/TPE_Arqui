@@ -137,7 +137,9 @@ void find_apple(Apple *apple , Snake *snake ){
     // Verificar si la cabeza de la serpiente está dentro del área de la manzana
     if (snake->x[0] < apple->x + APPLE_SIZE && snake->x[0] + THICKNESS > apple->x &&
         snake->y[0] < apple->y + APPLE_SIZE && snake->y[0] + THICKNESS > apple->y) {
+        
 
+        makeBeep();
         draw_apple(BACKGROUND_COLOR, apple->x, apple->y);   //borro la apple
         
         snake->length++;
