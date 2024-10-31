@@ -7,7 +7,7 @@ unsigned char scancode = 0;
 static char charToRet = 0;
 
 void keyboard_handler() {
-    // Obtener el scancode
+    // Obtener el scancode 
     scancode = keyPressed();
 
     // Mapa de scancodes a caracteres

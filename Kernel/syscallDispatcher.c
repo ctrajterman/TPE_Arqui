@@ -23,7 +23,7 @@ static void syscall_erraseChar_handler(uint32_t hexColor);
 static void syscall_increaseFS_handler();
 static void syscall_decreaseFS_handler();
 static void syscall_erraseLine_handler();
-static void syscall_beep_handler( );
+static void syscall_beep_handler( int secs, int frec );
 
 // Array de punteros a funciones que reciben los mismos argumentos
 void (*syscalls_arr[])(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8) = {syscall_read_handler, syscall_write_handler, syscall_time_handler,
@@ -100,6 +100,6 @@ static void syscall_erraseLine_handler(){
     erraseLine();
     paintAll_vd(0x000000);
 }
-static void syscall_beep_handler(){
-    beep(1);
+static void syscall_beep_handler(int secs, int freq){
+    beep(secs, freq);
 }

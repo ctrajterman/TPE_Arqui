@@ -33,4 +33,4 @@ void erraseChar(uint32_t hexColor);
 void increaseFontSize();
 void decreaseFontSize();
 void erraseLine();
-void makeBeep();
+void makeBeep(int secs, int freq);

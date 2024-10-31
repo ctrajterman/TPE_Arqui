@@ -183,8 +183,8 @@ void erraseLine(){
     syscall_erraseLine();
 
 }
-void makeBeep(){
-    syscall_beep(1);
+void makeBeep(int secs, int freq){
+    syscall_beep(secs, freq);
 }
 
 

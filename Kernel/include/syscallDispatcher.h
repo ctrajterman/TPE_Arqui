@@ -14,6 +14,6 @@ static uint64_t syscall_getWidth_vd_handler();
 static uint64_t syscall_getHeight_vd_handler();
 static void syscall_sleep_handler(uint64_t secs);
 static uint8_t syscall_seconds_handler();
-static void syscall_beep_handler();
+static void syscall_beep_handler(int secs, int freq);
 
 #endif  

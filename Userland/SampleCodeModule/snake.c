@@ -139,7 +139,7 @@ void find_apple(Apple *apple , Snake *snake ){
         snake->y[0] < apple->y + APPLE_SIZE && snake->y[0] + THICKNESS > apple->y) {
         
 
-        makeBeep();
+        makeBeep(1, 1500);
         draw_apple(BACKGROUND_COLOR, apple->x, apple->y);   //borro la apple
         
         snake->length++;
@@ -329,6 +329,8 @@ void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,
 
 
 void exit_snake(){
+    makeBeep(2, 200);
+
     
     char input;
     print("\n",2);

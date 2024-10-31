@@ -1,7 +1,7 @@
 
 
 
-//Codigo de  https://wiki.osdev.org/PC_Speaker
+//Codigo recuperado de  https://wiki.osdev.org/PC_Speaker
 
 #include <speaker.h>
 #include "time.h"
@@ -35,8 +35,8 @@
  }
  
  //Make a beep
- void beep(int secs) {
- 	 play_sound(1000);
+ void beep(int secs, int freq) {
+ 	 play_sound(freq);
  	 sleep(secs);
  	 nosound();
           //set_PIT_2(old_frequency);
