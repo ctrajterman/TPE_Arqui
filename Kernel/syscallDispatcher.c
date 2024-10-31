@@ -98,7 +98,6 @@ static void syscall_decreaseFS_handler(){
 
 static void syscall_erraseLine_handler(){
     erraseLine();
-    paintAll_vd(0x000000);
 }
 static void syscall_beep_handler(int secs, int freq){
     beep(secs, freq);
