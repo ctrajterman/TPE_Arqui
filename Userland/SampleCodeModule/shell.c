@@ -6,6 +6,7 @@
 
 #define menuDIM 7
 #define MAXBUFF 100
+#define BLACK 0x000000
 
 
 void decrease();//PREGUNTARLE A TOTI ALFINAL COMO QUEDAN ESTAS SYSCALLS

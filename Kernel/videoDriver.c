@@ -201,7 +201,7 @@ void erraseLine(){
             for (int j = 0; j < getWidth_vd(); j++){
                 for (int t = 0; t < pixelSize; t++){
                     for (int h = 0; h < pixelSize; h++){
-                    putPixel(BLACK, global_x+(jpixelSize)+t, global_y+(ipixelSize)+h);
+                    putPixel(BLACK, global_x+(j*pixelSize)+t, global_y+(i*pixelSize)+h);
                     }
                 }
             }

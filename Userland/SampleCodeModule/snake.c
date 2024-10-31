@@ -174,6 +174,9 @@ void find_apple(Apple *apple , Snake *snake ){
         char buffer[2];
 
         itoa(snake->score, buffer);
+        if(snake->length > 15){
+            erraseChar(BLACK_COLOR);
+        }
         erraseChar(BLACK_COLOR);
         print(buffer, 2);
 
@@ -181,7 +184,7 @@ void find_apple(Apple *apple , Snake *snake ){
     }
 }
 
-int find_apple2(Apple apple , Snakesnake ){
+int find_apple2(Apple *apple , Snake *snake ){
 
     // Verificar si la cabeza de la serpiente está dentro del área de la manzana
     if (snake->x[0] < apple->x + APPLE_SIZE && snake->x[0] + THICKNESS > apple->x &&
@@ -364,7 +367,7 @@ void gameLoop1() {
 
     print(score, 9);
     
-    while (!snake1.isDead && snake1.length < 15) {
+    while (!snake1.isDead && snake1.length < 30) {
 
         nano_sleep(2);
 
@@ -454,16 +457,16 @@ void gameLoop2() {
             erraseLine();
 
             print(score1, 9);
-            itoa(points1, buffer1);
+            itoa(points1, buff1);
             erraseChar(BLACK_COLOR);
-            print(buffer1, 2);
+            print(buff1, 2);
 
             print("\n", 2);
 
             print(score2, 9);
-            itoa(points2, buffer2);
+            itoa(points2, buff2);
             erraseChar(BLACK_COLOR);
-            print(buffer2, 2);
+            print(buff2, 2);
 
             print("\n", 2);
         }
@@ -474,16 +477,16 @@ void gameLoop2() {
             erraseLine();
 
             print(score1, 9);
-            itoa(points1, buffer1);
+            itoa(points1, buff1);
             erraseChar(BLACK_COLOR);
-            print(buffer1, 2);
+            print(buff1, 2);
 
             print("\n", 2);
 
             print(score2, 9);
-            itoa(points2, buffer2);
+            itoa(points2, buff2);
             erraseChar(BLACK_COLOR);
-            print(buffer2, 2);
+            print(buff2, 2);
 
             print("\n", 2);
         }
