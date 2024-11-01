@@ -217,5 +217,7 @@ void erraseLine(){
             }
         }
     }
-    global_y -= getCharHeight();
+	if(global_y > 0){
+    	global_y -= getCharHeight();
+	}
 }

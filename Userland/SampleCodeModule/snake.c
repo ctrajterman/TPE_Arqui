@@ -331,7 +331,7 @@ void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,
 }
 
 
-void exit_snake(){
+void exit_snake(int players){
     makeBeep(2, 200);
 
     paintAll_vd(BLACK_COLOR);
@@ -343,8 +343,20 @@ void exit_snake(){
     print("Press q to quit", 15);
     print("\n",2);
     print("Press p to play again", 21);
-    while(input!='q'){
+    while(input!='q' || input != 'p'){
         input = getCharUser();
+        if (input=='p'){
+            if (players == 1){
+                gameLoop1();
+            }
+            else{
+                gameLoop2();
+            }
+            return;
+        }
+        else if (input=='q'){
+            return;
+        }
     }
 }
 
@@ -355,8 +367,6 @@ void exit_snake(){
 void gameLoop1() {
 
     struct Snake snake1;
-
-
     struct Apple apple;
 
     apple.x=200;
@@ -374,7 +384,7 @@ void gameLoop1() {
            
     char *score= "SCORE : 0";
 
-    setPixelSize(1);
+    setPixelSize(2);
     print(score, 9);
     
     while (!snake1.isDead && snake1.length < 50) {
@@ -394,7 +404,7 @@ void gameLoop1() {
         keyboard_managment_snake (input, &snake1, 'w','a','s','d');
 
     }
-    exit_snake();
+    exit_snake(1);
 }
 
 
@@ -433,7 +443,7 @@ void gameLoop2() {
     char buff1[2];
     char buff2[2];
 
-    setPixelSize(1);
+    setPixelSize(2);
     print(score1, 9);
     itoa(points1, buff1);
     erraseChar(BLACK_COLOR);
@@ -445,10 +455,8 @@ void gameLoop2() {
     itoa(points2, buff2);
     erraseChar(BLACK_COLOR);
     print(buff2, 2);
-
-    print("\n", 2);
     
-    while (!snake1.isDead && snake1.length < 15 && !snake2.isDead && snake2.length < 15) {
+    while (!snake1.isDead && snake1.length < 15 ) {
 
         nano_sleep(2);
 
@@ -479,7 +487,7 @@ void gameLoop2() {
             erraseChar(BLACK_COLOR);
             print(buff2, 2);
 
-            print("\n", 2);
+            //print("\n", 2);
         }
         if(find_apple2(&apple, &snake2) == 1){
             points2++;
@@ -499,7 +507,7 @@ void gameLoop2() {
             erraseChar(BLACK_COLOR);
             print(buff2, 2);
 
-            print("\n", 2);
+            //print("\n", 2);
         }
 
         // Manejo de entrada
@@ -508,7 +516,7 @@ void gameLoop2() {
         keyboard_managment_snake (input, &snake2, 'i','j','k','l');
 
     }
-    exit_snake();
+    exit_snake(2);
 }
 
 

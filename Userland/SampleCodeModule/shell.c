@@ -72,13 +72,15 @@ void snake(){
 
     char buff[MAXBUFF];
 
-    increaseFontSize();
+    int aux = getCurrentPixelSize();
+    setPixelSize(3);
     print("WELCOME TO THE SNAKE-GAME\n", MAXBUFF);
-    decreaseFontSize();
+    setPixelSize(2);
+    print("Key Control:\nPlayer1: 'w', 'd', 'a', 's'\nPlayer2: 'i', 'l', 'j', 'k'\n", MAXBUFF);
     int correctAmount=0;
     while(!correctAmount){
 
-        print("Write letter \"q\" to exit\nIntroduce Players (1 or 2): ", MAXBUFF);
+        print("\nWrite letter \"q\" to exit\n\nIntroduce Players to start game (1 or 2): ", MAXBUFF);
 
         getString(buff, MAXBUFF);
 
@@ -103,6 +105,7 @@ void snake(){
             err_print("Invalid amount!! \n",18); 
         }
     }
+    setPixelSize(aux);
     paintAll_vd(0x000000);
 }
 
