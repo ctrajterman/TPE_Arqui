@@ -16,6 +16,8 @@ $(OBJDIR):
 # Regla para crear el binario final a partir de archivos C y ASM
 $(MODULE): $(OBJECTS_C) $(OBJECTS_ASM) $(OBJDIR)/_loader.o
 	$(GCC) $(GCCFLAGS) -I./include -T sampleCodeModule.ld $(OBJDIR)/_loader.o $(OBJECTS_C) $(OBJECTS_ASM) -o ../$(MODULE)
+	$(LD) -o ../0000-sampleCodeModule.elf --oformat=elf64-x86-64 -T sampleCodeModule.ld $(OBJDIR)/_loader.o $(OBJECTS_C) $(OBJECTS_ASM)
+
 
 # Regla para compilar archivos .c a .o
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
@@ -29,3 +31,6 @@ clean:
 	rm -rf $(OBJDIR)
 
 .PHONY: all clean print
+
+
+En shell:

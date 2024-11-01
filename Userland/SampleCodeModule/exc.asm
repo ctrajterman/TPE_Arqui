@@ -2,6 +2,7 @@ GLOBAL div0
 global opcode_exc
 
 section .text
+
 div0:
 push rbp
 mov rbp, rsp

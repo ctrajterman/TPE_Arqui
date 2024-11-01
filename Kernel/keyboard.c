@@ -50,3 +50,7 @@ char getCharPressed(){
 void cleanCharToRet(){
     charToRet=0;
 }
+
+int reg_shot(){
+    return getCharPressed()=='-';
+}

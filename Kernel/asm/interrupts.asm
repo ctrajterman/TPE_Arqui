@@ -19,11 +19,11 @@ GLOBAL _irq05Handler
 
 GLOBAL _exception0Handler
 GLOBAL _exception06Handler
-GLOBAL _intPureba
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
+EXTERN reg_shot
 
 
 EXTERN getStackBase
@@ -110,11 +110,11 @@ mov[data_regs], rax
 	mov [data_regs+8*3], rdx
 	mov [data_regs+8*4], rdi
 	mov [data_regs+8*5], rsi
+	
 	mov [data_regs+8*6], rbp
-
 	mov rax, [rsp+18*8]
+	mov [data_regs+8*7], rax
 
-	mov [data_regs+8*7], rax 
 	mov [data_regs+8*8], r8
 	mov [data_regs+8*9], r9
 	mov [data_regs+8*10], r10
@@ -181,6 +181,30 @@ _irq00Handler:
 
 ;Keyboard
 _irq01Handler:
+	pushState
+
+	mov rdi, 1
+	call irqDispatcher
+
+	call reg_shot
+	cmp rax, 1
+	jne _noRegs_shot
+
+	popState
+	pushState
+
+	regs_data
+	
+
+_noRegs_shot:
+	mov al, 20h
+	out 20h, al
+
+	popState
+	iretq
+
+
+
 	irqHandlerMaster 1
 
 ;Cascade pic never called
@@ -199,7 +223,7 @@ _irq04Handler:
 _irq05Handler:
 	irqHandlerMaster 5
 
-_intPureba:
+
 
 
 ;Zero Division Exception
