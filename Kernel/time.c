@@ -32,8 +32,9 @@ uint64_t getCurrentTimeBinary() {
 }
 
 void sleep(uint64_t secs){
-	uint64_t start= ticks;
+	uint64_t start = ticks;
 	while(ticks_elapsed()-start<secs){
+		_sti();
 		_hlt();
 	}
 	return;

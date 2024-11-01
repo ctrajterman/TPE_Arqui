@@ -334,16 +334,18 @@ void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,
 void exit_snake(){
     makeBeep(2, 200);
 
-    
+    paintAll_vd(BLACK_COLOR);
+    setPixelSize(4);
+    print("GAME OVER", 9);
     char input;
     print("\n",2);
-    increaseFontSize();
-    print("press q to quit", 15);
+    setPixelSize(2);
+    print("Press q to quit", 15);
+    print("\n",2);
+    print("Press p to play again", 21);
     while(input!='q'){
         input = getCharUser();
     }
-    decreaseFontSize();
-    paintAll_vd(BACKGROUND_COLOR);
 }
 
 // Función principal del juego
@@ -372,9 +374,10 @@ void gameLoop1() {
            
     char *score= "SCORE : 0";
 
+    setPixelSize(1);
     print(score, 9);
     
-    while (!snake1.isDead && snake1.length < 30) {
+    while (!snake1.isDead && snake1.length < 50) {
 
         nano_sleep(2);
 
@@ -430,6 +433,7 @@ void gameLoop2() {
     char buff1[2];
     char buff2[2];
 
+    setPixelSize(1);
     print(score1, 9);
     itoa(points1, buff1);
     erraseChar(BLACK_COLOR);

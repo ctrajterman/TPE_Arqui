@@ -72,7 +72,9 @@ void snake(){
 
     char buff[MAXBUFF];
 
+    increaseFontSize();
     print("WELCOME TO THE SNAKE-GAME\n", MAXBUFF);
+    decreaseFontSize();
     int correctAmount=0;
     while(!correctAmount){
 
@@ -86,11 +88,15 @@ void snake(){
         }
         else if(buff[0] =='1'&& buff[1] == '\0'){
             correctAmount=1;
+            uint8_t aux = getCurrentPixelSize();
             gameLoop1();
+            setPixelSize(aux);
         }
         else if (buff[0] =='2' && buff[1] == '\0'){
             correctAmount=1;
+            uint8_t aux = getCurrentPixelSize();
             gameLoop2();
+            setPixelSize(aux);
         }
         else{
             paintAll_vd(0x000000);

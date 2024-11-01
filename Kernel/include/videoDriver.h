@@ -14,5 +14,7 @@ void newLine_vd();
 void paintAll_vd(uint32_t hexColor);
 void increasePixelSize();
 void decreasePixelSize();
+void setPixelSize(uint8_t size);
+uint8_t getCurrentPixelSize();
 void erraseLine();
 #endif
