@@ -32,5 +32,7 @@ void paintAll_vd(uint32_t hexColor);
 void erraseChar(uint32_t hexColor);
 void increaseFontSize();
 void decreaseFontSize();
+void setPixelSize();
+uint8_t getCurrentPixelSize();
 void erraseLine();
-void makeBeep();
+void makeBeep(int secs, int freq);

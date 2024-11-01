@@ -66,6 +66,16 @@ void decreasePixelSize() {
     }
 }
 
+void setPixelSize(uint8_t size){
+	if(size >=1 && size <= 5){
+		pixelSize = size;
+	}
+}
+
+uint8_t getCurrentPixelSize(){
+	return pixelSize;
+}
+
 uint16_t getCharWidth() {
     return charWidht * pixelSize;
 }
@@ -207,5 +217,7 @@ void erraseLine(){
             }
         }
     }
-    global_y -= getCharHeight();
+	if(global_y > 0){
+    	global_y -= getCharHeight();
+	}
 }

@@ -14,6 +14,8 @@ extern uint64_t syscall_paintAll_vd();
 extern uint64_t syscall_erraseChar();
 extern uint64_t syscall_increaseFS();
 extern uint64_t syscall_decreaseFS();
+extern uint64_t syscall_setPixelSize();
+extern uint64_t syscall_getCurrentPixelSize();
 extern uint64_t syscall_erraseLine();
 extern void syscall_beep();
 
@@ -179,12 +181,20 @@ void decreaseFontSize(){
     syscall_decreaseFS();
 }
 
+void setPixelSize(){
+    syscall_setPixelSize();
+}
+
+uint8_t getCurrentPixelSize(){
+    return syscall_getCurrentPixelSize();
+}
+
 void erraseLine(){
     syscall_erraseLine();
 
 }
-void makeBeep(){
-    syscall_beep(1);
+void makeBeep(int secs, int freq){
+    syscall_beep(secs, freq);
 }
 
 

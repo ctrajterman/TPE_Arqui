@@ -37,9 +37,9 @@ void exceptionDispatcher(int exception, uint64_t * regs) {
 		char buff=0;
 		picMasterMask(0xFD); //solo habilitadas interrupcionesw teclado
 		_sti();
-		drawWord(white, "Press key p to continue");
+		drawWord(white, "Press key q to continue");
 
-		while(buff!='p'){
+		while(buff!='q'){
 			buff=getCharPressed();
 
 		}

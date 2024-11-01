@@ -7,9 +7,12 @@
 
 
 // Definiciones de constantes
+#define WIDHT 768
+#define HEIGHT 1024
+#define DIM_BOARD 760               // Tamano del board
+#define DIM_HEADER 80
 #define BACKGROUND_COLOR 0x87CEEB   // Color de fondo
 #define THICKNESS 40                // Grosor de la serpiente
-#define MAX_HEIGHT 50               // El techo
 #define MAX_SNAKE_LENGTH 100        // Longitud máxima de la serpiente
 #define PRIZE_COLOR 0xA43A53        // Bordo
 #define BLACK_COLOR 0x000000        // Negro
@@ -50,8 +53,8 @@ uint32_t randNum() {
 }
 
 void drawLines(){
-    for (int i = 80; i <= 760; i++){
-        for (int j = 80; j <= 760; j+=40)
+    for (int i = DIM_HEADER; i <= DIM_BOARD; i++){
+        for (int j = DIM_HEADER; j <= DIM_BOARD; j+=40)
         {
             drawPixel(BLACK_COLOR, i, j);
             drawPixel(BLACK_COLOR, j, i);
@@ -60,8 +63,8 @@ void drawLines(){
 }
 
 void drawBackground(){
-    for (int i = 80; i <= 760; i++){
-        for (int j = 80; j <= 760; j++)
+    for (int i = DIM_HEADER; i <= DIM_BOARD; i++){
+        for (int j = DIM_HEADER; j <= DIM_BOARD; j++)
         {
             drawPixel(BACKGROUND_COLOR, i, j);
         }
@@ -83,18 +86,18 @@ void drawBackground(){
 
 //Genera un número aleatorio entre 1 y 1000
 uint32_t randPositionx() {
-    int aux1 = (randNum() % 760) + 1;
-    if (aux1<80)
+    int aux1 = (randNum() % DIM_BOARD) + 1;
+    if (aux1<DIM_HEADER)
     {
-        return ((aux1+80)/40)*40;
+        return ((aux1+DIM_HEADER)/40)*40;
     }
     return (aux1/40)*40;
 }
 uint32_t randPositiony() {
-    int aux2 = (randNum() % 760) + 1;
-    if (aux2<80)
+    int aux2 = (randNum() % DIM_BOARD) + 1;
+    if (aux2<DIM_HEADER)
     {
-        return ((aux2+80)/40)*40;
+        return ((aux2+DIM_HEADER)/40)*40;
     }
     return (aux2/40)*40;
 }
@@ -139,7 +142,7 @@ void find_apple(Apple *apple , Snake *snake ){
         snake->y[0] < apple->y + APPLE_SIZE && snake->y[0] + THICKNESS > apple->y) {
         
 
-        makeBeep();
+        makeBeep(1, 1500);
         draw_apple(BACKGROUND_COLOR, apple->x, apple->y);   //borro la apple
         
         snake->length++;
@@ -277,14 +280,14 @@ void moveSnake(struct Snake *snake) {
     //}
 
     // Restringir los límites de la serpiente
-    if (snake->x[0] < 80) snake->x[0] = 80;
-    if (snake->x[0] > 760 - THICKNESS) snake->x[0] = 760 - THICKNESS;
-    if (snake->y[0] < 80) snake->y[0] = 80;
-    if (snake->y[0] > 760 - THICKNESS) snake->y[0] = 760 - THICKNESS;
+    if (snake->x[0] < DIM_HEADER) snake->x[0] = DIM_HEADER;
+    if (snake->x[0] > DIM_BOARD - THICKNESS) snake->x[0] = DIM_BOARD - THICKNESS;
+    if (snake->y[0] < DIM_HEADER) snake->y[0] = DIM_HEADER;
+    if (snake->y[0] > DIM_BOARD - THICKNESS) snake->y[0] = DIM_BOARD - THICKNESS;
 
     // Marcar como muerta si se sale de los límites
-    if (snake->x[0] < 80 || snake->x[0] >= 760 || 
-        snake->y[0] < 80 || snake->y[0] >= 760) {
+    if (snake->x[0] < DIM_HEADER || snake->x[0] >= DIM_BOARD || 
+        snake->y[0] < DIM_HEADER || snake->y[0] >= DIM_BOARD) {
         snake->isDead = true;
     }
 
@@ -328,17 +331,33 @@ void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,
 }
 
 
-void exit_snake(){
-    
+void exit_snake(int players){
+    makeBeep(2, 200);
+
+    paintAll_vd(BLACK_COLOR);
+    setPixelSize(4);
+    print("GAME OVER", 9);
     char input;
     print("\n",2);
-    increaseFontSize();
-    print("press q to quit", 15);
-    while(input!='q'){
+    setPixelSize(2);
+    print("Press q to quit", 15);
+    print("\n",2);
+    print("Press p to play again", 21);
+    while(input!='q' || input != 'p'){
         input = getCharUser();
+        if (input=='p'){
+            if (players == 1){
+                gameLoop1();
+            }
+            else{
+                gameLoop2();
+            }
+            return;
+        }
+        else if (input=='q'){
+            return;
+        }
     }
-    decreaseFontSize();
-    paintAll_vd(BACKGROUND_COLOR);
 }
 
 // Función principal del juego
@@ -348,8 +367,6 @@ void exit_snake(){
 void gameLoop1() {
 
     struct Snake snake1;
-
-
     struct Apple apple;
 
     apple.x=200;
@@ -367,9 +384,10 @@ void gameLoop1() {
            
     char *score= "SCORE : 0";
 
+    setPixelSize(2);
     print(score, 9);
     
-    while (!snake1.isDead && snake1.length < 30) {
+    while (!snake1.isDead && snake1.length < 50) {
 
         nano_sleep(2);
 
@@ -386,7 +404,7 @@ void gameLoop1() {
         keyboard_managment_snake (input, &snake1, 'w','a','s','d');
 
     }
-    exit_snake();
+    exit_snake(1);
 }
 
 
@@ -425,6 +443,7 @@ void gameLoop2() {
     char buff1[2];
     char buff2[2];
 
+    setPixelSize(2);
     print(score1, 9);
     itoa(points1, buff1);
     erraseChar(BLACK_COLOR);
@@ -436,10 +455,8 @@ void gameLoop2() {
     itoa(points2, buff2);
     erraseChar(BLACK_COLOR);
     print(buff2, 2);
-
-    print("\n", 2);
     
-    while (!snake1.isDead && snake1.length < 15 && !snake2.isDead && snake2.length < 15) {
+    while (!snake1.isDead && snake1.length < 15 ) {
 
         nano_sleep(2);
 
@@ -470,7 +487,7 @@ void gameLoop2() {
             erraseChar(BLACK_COLOR);
             print(buff2, 2);
 
-            print("\n", 2);
+            //print("\n", 2);
         }
         if(find_apple2(&apple, &snake2) == 1){
             points2++;
@@ -490,7 +507,7 @@ void gameLoop2() {
             erraseChar(BLACK_COLOR);
             print(buff2, 2);
 
-            print("\n", 2);
+            //print("\n", 2);
         }
 
         // Manejo de entrada
@@ -499,7 +516,7 @@ void gameLoop2() {
         keyboard_managment_snake (input, &snake2, 'i','j','k','l');
 
     }
-    exit_snake();
+    exit_snake(2);
 }
 
 

@@ -28,11 +28,13 @@ void font_size();
 void printTime(); 
 void div0Exc();
 void opcodeExc();
+void showTime();
 extern void div0();
 extern void opcode_exc();
 
-module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", printTime},
-{"div0", div0Exc}, {"opcode",opcode_exc }};
+
+module menu[] ={{"help", help}, {"snake", snake}, {"regvalues",show_regs},{"fontsize", font_size},{"time", showTime},
+{"div0", div0Exc}, {"opcode", opcodeExc}};
 
 
 void help(){
@@ -48,12 +50,17 @@ void help(){
 }
 
 void opcodeExc(){
-    return;
+    paintAll_vd(BLACK);
+    opcode_exc();
 }
 void div0Exc(){
+    paintAll_vd(BLACK);
     div0();
-    return;
+}
 
+void showTime(){
+    paintAll_vd(BLACK);
+    printTime();
 }
 
 void show_regs(){
@@ -61,32 +68,44 @@ void show_regs(){
 
 }
 void snake(){
+    paintAll_vd(BLACK);
+
     char buff[MAXBUFF];
 
+    int aux = getCurrentPixelSize();
+    setPixelSize(3);
     print("WELCOME TO THE SNAKE-GAME\n", MAXBUFF);
+    setPixelSize(2);
+    print("Key Control:\nPlayer1: 'w', 'd', 'a', 's'\nPlayer2: 'i', 'l', 'j', 'k'\n", MAXBUFF);
     int correctAmount=0;
     while(!correctAmount){
 
-        print("Write letter \"q\" to exit\nIntroduce Players (1 or 2): ", MAXBUFF);
+        print("\nWrite letter \"q\" to exit\n\nIntroduce Players to start game (1 or 2): ", MAXBUFF);
 
         getString(buff, MAXBUFF);
 
         if(buff[0] =='q'&& buff[1] == '\0'){
+            paintAll_vd(BLACK);
             return;
         }
         else if(buff[0] =='1'&& buff[1] == '\0'){
             correctAmount=1;
+            uint8_t aux = getCurrentPixelSize();
             gameLoop1();
+            setPixelSize(aux);
         }
         else if (buff[0] =='2' && buff[1] == '\0'){
             correctAmount=1;
+            uint8_t aux = getCurrentPixelSize();
             gameLoop2();
+            setPixelSize(aux);
         }
         else{
             paintAll_vd(0x000000);
             err_print("Invalid amount!! \n",18); 
         }
     }
+    setPixelSize(aux);
     paintAll_vd(0x000000);
 }
 
@@ -115,6 +134,8 @@ void command_wait(){
 }
 
 void font_size(){
+    
+    paintAll_vd(BLACK);
 
     while(1){
         char buff[MAXBUFF];
@@ -124,6 +145,7 @@ void font_size(){
         getString(buff, MAXBUFF);
         
         if(buff[0] =='q' && buff[1] == '\0'){
+            paintAll_vd(BLACK);
             return;
         }
         else if(buff[0] == 'i' && buff[1] == '\0'){

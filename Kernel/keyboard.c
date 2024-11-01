@@ -4,10 +4,11 @@
 extern int keyPressed();
 
 unsigned char scancode = 0;
-static char charToRet = 0;
+static char *charToRet[10] = {0};
+int current=0;
 
 void keyboard_handler() {
-    // Obtener el scancode
+    // Obtener el scancode 
     scancode = keyPressed();
 
     // Mapa de scancodes a caracteres
@@ -25,32 +26,43 @@ void keyboard_handler() {
         return;
     }
 
-    charToRet = scanCodes[scancode];
+    for(int i = 0; i < 10; i++){
+        if (charToRet[i] == 0)
+        {
+            charToRet[i]=scanCodes[scancode];
+            break;
+        }
+    }
+    //charToRet[0] = scanCodes[scancode];
 }
 
-void printCharPressed(){
-    if (charToRet != 0) {
-        // Imprimir la tecla
-        char toPrint[2] = {charToRet, 0};   // Crear una cadena con la tecla
-        ncPrint(toPrint);                   // Imprimir la tecla
-    }
-    cleanCharToRet();
-}
 
 char getCharPressed(){
-    if (charToRet!=0)
+
+    if (charToRet[0]!=0)
     {
-        char toRet=charToRet;
+        char toRet = charToRet[0];
         cleanCharToRet();
         return toRet;
     }
-    return;
+    
+
+
+    // if (charToRet!=0)
+    // {
+    //     char toRet=charToRet;
+    //     cleanCharToRet();
+    //     return toRet;
+    // }
+    // return;
 }
 
 void cleanCharToRet(){
-    charToRet=0;
-}
-
-int reg_shot(){
-    return getCharPressed()=='-';
+    charToRet[0] = 0;
+    if(charToRet[1] != 0){
+        for (int i = 0; i < 9; i++)
+        {
+            charToRet[i] = charToRet[i+1];
+        }
+    }
 }
