@@ -4,5 +4,6 @@
 void keyboard_handler();
 void printCharPressed();
 char getCharPressed();
+int reg_shot();
 
 #endif

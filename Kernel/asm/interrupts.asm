@@ -91,8 +91,8 @@ SECTION .text
 	call exceptionDispatcher
 	popState
 
-	;call getStackBase  ;deja en el rax el stackbase
-	;mov [rsp+24], rax 
+	call getStackBase  ;deja en el rax el stackbase
+	mov [rsp+24], rax 
     mov rax, userland
     mov [rsp], rax ;estoy pisando con el userland
 
@@ -181,28 +181,6 @@ _irq00Handler:
 
 ;Keyboard
 _irq01Handler:
-	pushState
-
-	mov rdi, 1
-	call irqDispatcher
-
-	call reg_shot
-	cmp rax, 1
-	jne _noRegs_shot
-
-	popState
-	pushState
-
-	regs_data
-	
-
-_noRegs_shot:
-	mov al, 20h
-	out 20h, al
-
-	popState
-	iretq
-
 
 
 	irqHandlerMaster 1

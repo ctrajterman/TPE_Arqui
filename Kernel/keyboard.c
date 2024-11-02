@@ -56,6 +56,9 @@ char getCharPressed(){
     // }
     // return;
 }
+int reg_shot(){
+    return getCharPressed()=='=';
+}
 
 void cleanCharToRet(){
     charToRet[0] = 0;
