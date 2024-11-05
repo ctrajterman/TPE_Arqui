@@ -11,15 +11,15 @@
 #define DIM_BOARD 760               // Tamano del board
 #define DIM_HEADER 80
 #define THICKNESS 40                // Grosor de la serpiente
-#define MAX_SNAKE_LENGTH 100        // Longitud máxima de la serpiente
+#define MAX_SNAKE_LENGTH 90         // Longitud máxima de la serpiente
 #define APPLE_SIZE 40               // Tamano manzana
 
 // Colores
 #define PRIZE_COLOR 0xA43A53        // Bordo
 #define BLACK_COLOR 0x000000        // Negro
 #define BACKGROUND_COLOR 0x111111   // Color de fondo
-#define SNAKE1_COLOR 0xddaeff//0x5434B3       // Violeta
-#define SNAKE2_COLOR 0x93dd6f//0xBE8015       // Naranja
+#define SNAKE1_COLOR 0x93DD6F       //0x5434B3       // Verde
+#define SNAKE2_COLOR 0xDDAEFF       //0xBE8015       // Rosa
 
 
 // Estructura de la serpiente
@@ -126,7 +126,7 @@ void drawSnake(struct Snake *snake) {
 }
 
 //Chequea que la manzana no se vaya a dibujar abajo de la serpiente 
-bool overLap(Apple *apple , Snake *snake  ){
+bool overLap(Apple *apple , Snake *snake){
     int overlaps = 0;
             for (int i = 0; i < snake->length; i++) {
                 if (snake->x[i] < apple->x + APPLE_SIZE && snake->x[i] + THICKNESS > apple->x &&
@@ -134,10 +134,10 @@ bool overLap(Apple *apple , Snake *snake  ){
                     return true;
                 }
             }
-        return false ;
+        return false;
 }
 
-void new_find(Apple *apple , Snake *snake ){
+void findApple(Apple *apple , Snake *snake){
        if (snake->x[0] < apple->x + APPLE_SIZE && snake->x[0] + THICKNESS > apple->x &&
         snake->y[0] < apple->y + APPLE_SIZE && snake->y[0] + THICKNESS > apple->y) {
         
@@ -156,7 +156,7 @@ void new_find(Apple *apple , Snake *snake ){
 }
 
 //Setea la manzana en la pantalla (gameloop 1)
-void settingApple(Apple *apple,  Snake *snake ){
+void setApple(Apple *apple,  Snake *snake ){
     do {
             apple->x = randPositionx();
             apple->y = randPositiony();
@@ -166,7 +166,7 @@ void settingApple(Apple *apple,  Snake *snake ){
 }
 
 //Setea la manzana en la pantalla (gameloop 2)
-void settingApple2(Apple *apple,  Snake *snake1, Snake *snake2 ){
+void setApple2(Apple *apple,  Snake *snake1, Snake *snake2 ){
     do {
             apple->x = randPositionx();
             apple->y = randPositiony();
@@ -262,44 +262,77 @@ void loosingSound(){
 //Finalizacion del juego 
 void exit_snake(int players){
 
+    char matriz[15][15] =   {{0,0,0,0,1,1,1,1,1,0,0,0,0,0,0},
+                            {0,0,0,1,2,2,2,2,2,1,0,0,0,0,0},
+                            {0,0,0,1,2,2,2,2,2,2,1,0,0,0,0},
+
+                            {0,0,1,2,1,2,2,2,1,2,1,0,0,0,0},
+                            {0,0,1,2,1,2,2,2,1,2,2,1,0,0,0},
+                            {0,0,1,2,2,2,2,2,2,2,2,1,0,0,0},
+                            
+                            {0,0,0,1,2,2,3,3,2,2,1,0,0,0,0},
+                            {0,0,0,0,1,1,1,1,1,1,1,0,0,0,0},
+
+                            {0,0,1,1,2,2,1,2,2,2,1,1,0,0,0},
+                            {0,1,2,2,2,1,2,2,2,2,1,2,1,0,0},
+                            {1,2,2,1,2,2,2,2,2,1,2,2,2,1,0},
+                            {1,2,2,2,1,1,1,1,1,2,2,2,1,2,1},
+                            {1,2,2,2,2,2,2,2,2,2,2,2,1,2,1},
+                            {0,1,2,2,2,2,2,2,2,2,2,1,1,2,1},
+                            {0,0,1,1,1,1,1,1,1,1,1,0,0,1,0}
+                            };
+
     loosingSound(); 
 
     paintAll_vd(BLACK_COLOR);
+
+    for(int i=0; i<15; i++){
+    for (int j=0; j<15; j++) {
+        if (matriz[i][j] == 0) {
+            drawSquare(0xffffff, 200 + (j * 20), 200 + (i * 20),20); // Ajusta la posición de j e i
+        }
+        else if (matriz[i][j] == 1) {
+            drawSquare(0x000000, 200 + (j * 20), 200 + (i * 20),20); // Ajusta la posición de j e i
+        }
+        else if (matriz[i][j] == 2) {
+            drawSquare(SNAKE1_COLOR, 200 + (j * 20), 200 + (i * 20),20); // Ajusta la posición de j e i
+        }
+        else if (matriz[i][j] == 3) {
+            drawSquare(SNAKE2_COLOR, 200 + (j * 20), 200 + (i * 20),20); // Ajusta la posición de j e i
+        }
+    }
+}
     setPixelSize(4);
     print("GAME OVER", 9);
     char input=0;
     print("\n",2);
     setPixelSize(2);
     print("Press q to quit", 15);
-    print("\n",2);
-    print("Press p to play again", 21);
-    while(input!='q' || input != 'p'){
+    while(input!='q'){
         input = getCharUser();
-        if (input=='p'){
-            if (players == 1){
-                gameLoop1();
-            }
-            else{
-                gameLoop2();
-            }
-            return;
-        }
-        else if (input=='q'){
+        if (input=='q'){
             return;
         }
     }
+    return;
 }
 
 // Función principal del juego
 void gameLoop1() {
+
+
     setSeed();
 
     struct Snake snake1;
     struct Apple apple;
-    // Initial position apple 
-    settingApple(&apple, &snake1);
+
+    //Inicializar manzana y snake
+
+    setApple(&apple, &snake1);
 
     initializeSnake(&snake1, SNAKE1_COLOR);
+
+    //Seteo del tablero
 
     paintAll_vd(BLACK_COLOR);
 
@@ -309,7 +342,10 @@ void gameLoop1() {
 
     draw_apple(PRIZE_COLOR, apple.x, apple.y);
            
+    //Score
+
     char *score= "SCORE : 0";
+    char buffer[3];
 
     setPixelSize(2);
     print(score, 9);
@@ -324,11 +360,11 @@ void gameLoop1() {
         // Mover la serpiente
         moveSnake(&snake1);
         
-        new_find(&apple, &snake1);
+        // Ver si encuentra la manzana
+        findApple(&apple, &snake1);
 
         if(snake1.hasEatenApple){
-            settingApple(&apple, &snake1);
-            char buffer[2];
+            setApple(&apple, &snake1);
 
             itoa(snake1.score, buffer);
             if(snake1.length > 15){
@@ -347,13 +383,14 @@ void gameLoop1() {
 }
 
 void gameLoop2() {
+
     setSeed();
+
     struct Snake snake1;
     struct Snake snake2;
-
     struct Apple apple;
 
-    settingApple2(&apple, &snake1, &snake2);
+    setApple2(&apple, &snake1, &snake2);
     
     initializeSnake(&snake1,SNAKE1_COLOR);
     initializeSnake(&snake2,SNAKE2_COLOR);
@@ -368,8 +405,8 @@ void gameLoop2() {
            
     char *score1= "SCORE SNAKE1 : ";
     char *score2= "SCORE SNAKE2 : ";
-    char buff1[2];
-    char buff2[2];
+    char buff1[3];
+    char buff2[3];
 
     setPixelSize(2);
     print(score1, 9);
@@ -397,12 +434,12 @@ void gameLoop2() {
         moveSnake(&snake2);
         
         // Ver si encuentran la manzana
-        new_find(&apple, &snake1);
-        new_find(&apple, &snake2);
+        findApple(&apple, &snake1);
+        findApple(&apple, &snake2);
 
 
         if(snake1.hasEatenApple){
-            settingApple2(&apple, &snake1, &snake2);
+            setApple2(&apple, &snake1, &snake2);
 
             erraseLine();
             erraseLine();
@@ -422,7 +459,7 @@ void gameLoop2() {
         }
 
         else if(snake2.hasEatenApple){
-            settingApple2(&apple, &snake1, &snake2);
+            setApple2(&apple, &snake1, &snake2);
 
             erraseLine();
             erraseLine();
