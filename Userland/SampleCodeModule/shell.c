@@ -180,7 +180,7 @@ void shell(){
         command_wait();
     }
 
-    return 0;
+    return ;
 }
 
 void show_regs(){

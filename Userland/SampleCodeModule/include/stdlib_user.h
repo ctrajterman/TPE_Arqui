@@ -8,7 +8,6 @@ extern uint64_t syscall_drawPixel();
 extern uint64_t syscall_drawSquare();
 extern uint64_t syscall_getWidth_vd();
 extern uint64_t syscall_getHeight_vd();
-static void syscall_beep();
 
 void print(const char* buf, uint64_t count);
 uint64_t itoa(uint64_t number, char* s);

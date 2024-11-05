@@ -25,7 +25,6 @@ char getCharUser();
 void erraseChar(uint32_t hexColor);
 
 
-static char buffer[64] = { '0' };
 
 void print(const char* buf, uint64_t count) {
 	syscall_write(1, buf, count);

@@ -113,8 +113,6 @@ void initializeSnake(struct Snake *snake, uint64_t hexcolor) {
     snake->directionY = 0; // No hay movimiento inicial en Y
     snake->isDead = false;
     snake->color = hexcolor; // Color de la serpiente
-    snake->tailX;
-    snake->tailY;
     snake->score = 0;
     snake->hasEatenApple=0;
 }
@@ -128,7 +126,6 @@ void drawSnake(struct Snake *snake) {
 
 //Chequea que la manzana no se vaya a dibujar abajo de la serpiente 
 bool overLap(Apple *apple , Snake *snake){
-    int overlaps = 0;
             for (int i = 0; i < snake->length; i++) {
                 if (snake->x[i] < apple->x + APPLE_SIZE && snake->x[i] + THICKNESS > apple->x &&
                     snake->y[i] < apple->y + APPLE_SIZE && snake->y[i] + THICKNESS > apple->y) {
@@ -136,6 +133,11 @@ bool overLap(Apple *apple , Snake *snake){
                 }
             }
         return false;
+}
+
+//Dibuja los pixeles del premio
+void draw_apple(uint64_t color , uint64_t start_x, uint64_t start_y) {
+    drawSquare(color, start_x , start_y , APPLE_SIZE);
 }
 
 void findApple(Apple *apple , Snake *snake){
@@ -176,10 +178,7 @@ void setApple2(Apple *apple,  Snake *snake1, Snake *snake2 ){
 
 }
 
-//Dibuja los pixeles del premio
-void draw_apple(uint64_t color , uint64_t start_x, uint64_t start_y) {
-    drawSquare(color, start_x , start_y , APPLE_SIZE);
-}
+
 
 // Mueve la serpiente
 void moveSnake(struct Snake *snake) {
