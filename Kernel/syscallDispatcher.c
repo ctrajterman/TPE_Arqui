@@ -122,7 +122,9 @@ static uint64_t syscall_regs_values(uint64_t *regs){
     if(!reg_shot_available){
         return 0;
     }
-    memcpy(regs, data_regs, 18*sizeof(uint64_t));
+   for(int i=0; i<18; i++){
+    regs[i]=data_regs[i];
+   }
 
     return 1;
 }
