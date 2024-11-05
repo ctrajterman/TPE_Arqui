@@ -36,3 +36,5 @@ void setPixelSize();
 uint8_t getCurrentPixelSize();
 void erraseLine();
 void makeBeep(int secs, int freq);
+uint64_t get_seconds();
+

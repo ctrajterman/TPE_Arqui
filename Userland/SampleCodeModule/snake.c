@@ -5,21 +5,22 @@
 #include <stdio.h>
 #include "stdlib_user.h"
 
-
 // Definiciones de constantes
 #define WIDHT 768
 #define HEIGHT 1024
 #define DIM_BOARD 760               // Tamano del board
 #define DIM_HEADER 80
-#define BACKGROUND_COLOR 0x87CEEB   // Color de fondo
 #define THICKNESS 40                // Grosor de la serpiente
 #define MAX_SNAKE_LENGTH 100        // Longitud máxima de la serpiente
-#define PRIZE_COLOR 0xA43A53        // Bordo
-#define BLACK_COLOR 0x000000        // Negro
 #define APPLE_SIZE 40               // Tamano manzana
 
-//WIDTH ES 768
-//HEIGHT ES 1024
+// Colores
+#define PRIZE_COLOR 0xA43A53        // Bordo
+#define BLACK_COLOR 0x000000        // Negro
+#define BACKGROUND_COLOR 0x111111   // Color de fondo
+#define SNAKE1_COLOR 0xddaeff//0x5434B3       // Violeta
+#define SNAKE2_COLOR 0x93dd6f//0xBE8015       // Naranja
+
 
 // Estructura de la serpiente
 struct Snake {
@@ -36,22 +37,26 @@ struct Snake {
     int hasEatenApple;
 }typedef Snake ;
 
-
 struct Apple{
     int x;
     int y;
 }typedef Apple;
 
+//Seed global 
+uint32_t seed;
 
-uint32_t x = 123456789; // Semilla inicial
-
-
-
-uint32_t randNum() {
-    x = x * 1664525 + 1013904223;
-    return x;
+//Seteamos la semilla en los segundos;
+void setSeed(){
+    seed = get_seconds();
 }
 
+//Generador de numeros pseoudo-aleatorios
+uint32_t randNum() {
+    seed = seed * 1664525 + 1013904223;
+    return seed;
+}
+
+//Dibujo de grillas 
 void drawLines(){
     for (int i = DIM_HEADER; i <= DIM_BOARD; i++){
         for (int j = DIM_HEADER; j <= DIM_BOARD; j+=40)
@@ -71,20 +76,6 @@ void drawBackground(){
     }
 }
 
-// Genera un número aleatorio entre 1 y 1000
-// uint32_t randPositionx() {
-//     return (randNum() % getWidth_vd()) + 1;
-// }
-// uint32_t randPositiony() {
-//     int aux = (randNum() % getHeight_vd()) + 1;
-//     if (aux<=MAX_HEIGHT)
-//     {
-//         return (aux+MAX_HEIGHT);
-//     }
-//     return aux;
-// }
-
-//Genera un número aleatorio entre 1 y 1000
 uint32_t randPositionx() {
     int aux1 = (randNum() % DIM_BOARD) + 1;
     if (aux1<DIM_HEADER)
@@ -134,16 +125,24 @@ void drawSnake(struct Snake *snake) {
     }
 }
 
+//Chequea que la manzana no se vaya a dibujar abajo de la serpiente 
+bool overLap(Apple *apple , Snake *snake  ){
+    int overlaps = 0;
+            for (int i = 0; i < snake->length; i++) {
+                if (snake->x[i] < apple->x + APPLE_SIZE && snake->x[i] + THICKNESS > apple->x &&
+                    snake->y[i] < apple->y + APPLE_SIZE && snake->y[i] + THICKNESS > apple->y) {
+                    return true;
+                }
+            }
+        return false ;
+}
 
-void find_apple(Apple *apple , Snake *snake ){
-    
-    // Verificar si la cabeza de la serpiente está dentro del área de la manzana
-    if (snake->x[0] < apple->x + APPLE_SIZE && snake->x[0] + THICKNESS > apple->x &&
+void new_find(Apple *apple , Snake *snake ){
+       if (snake->x[0] < apple->x + APPLE_SIZE && snake->x[0] + THICKNESS > apple->x &&
         snake->y[0] < apple->y + APPLE_SIZE && snake->y[0] + THICKNESS > apple->y) {
         
-
         makeBeep(1, 1500);
-        draw_apple(BACKGROUND_COLOR, apple->x, apple->y);   //borro la apple
+        draw_apple(BACKGROUND_COLOR, apple->x, apple->y);   //borro la manzana
         
         snake->length++;
         
@@ -153,95 +152,31 @@ void find_apple(Apple *apple , Snake *snake ){
         snake->y[snake->length - 1] = snake->y[snake->length - 2];
 
         snake->hasEatenApple=1;
-
-        apple->x = randPositionx();
-        apple->y = randPositiony();
-
-        while (1) {
-            int overlaps = 0;
-            for (int i = 0; i < snake->length; i++) {
-                if (snake->x[i] < apple->x + APPLE_SIZE && snake->x[i] + THICKNESS > apple->x &&
-                    snake->y[i] < apple->y + APPLE_SIZE && snake->y[i] + THICKNESS > apple->y) 
-                {
-                    overlaps = 1; // La nueva manzana se superpone con la serpiente
-                    break;
-                }
-            }
-            if (!overlaps){
-                break;
-            } 
-            // Si no hay superposición, sal del bucle
-            // Si hay superposición, genera una nueva posición
-            apple->x = randPositionx();
-            apple->y = randPositiony();
-        }
-
-        char buffer[2];
-
-        itoa(snake->score, buffer);
-        if(snake->length > 15){
-            erraseChar(BLACK_COLOR);
-        }
-        erraseChar(BLACK_COLOR);
-        print(buffer, 2);
-
-        draw_apple(PRIZE_COLOR, apple->x, apple->y);        //dibujo la apple
-    }
+        } 
 }
 
-int find_apple2(Apple *apple , Snake *snake ){
-
-    // Verificar si la cabeza de la serpiente está dentro del área de la manzana
-    if (snake->x[0] < apple->x + APPLE_SIZE && snake->x[0] + THICKNESS > apple->x &&
-        snake->y[0] < apple->y + APPLE_SIZE && snake->y[0] + THICKNESS > apple->y) {
-
-        draw_apple(BACKGROUND_COLOR, apple->x, apple->y);   //borro la apple
-
-        snake->length++;
-
-        snake->score++;
-
-        snake->x[snake->length - 1] = snake->x[snake->length - 2];
-        snake->y[snake->length - 1] = snake->y[snake->length - 2];
-
-        snake->hasEatenApple=1;
-
-        apple->x = randPositionx();
-        apple->y = randPositiony();
-
-        while (1) {
-            int overlaps = 0;
-            for (int i = 0; i < snake->length; i++) {
-                if (snake->x[i] < apple->x + APPLE_SIZE && snake->x[i] + THICKNESS > apple->x &&
-                    snake->y[i] < apple->y + APPLE_SIZE && snake->y[i] + THICKNESS > apple->y) 
-                {
-                    overlaps = 1; // La nueva manzana se superpone con la serpiente
-                    break;
-                }
-            }
-            if (!overlaps){
-                break;
-            } 
-            // Si no hay superposición, sal del bucle
-            // Si hay superposición, genera una nueva posición
+//Setea la manzana en la pantalla (gameloop 1)
+void settingApple(Apple *apple,  Snake *snake ){
+    do {
             apple->x = randPositionx();
             apple->y = randPositiony();
-        }
+    } while (overLap(apple, snake));
+        draw_apple(PRIZE_COLOR, apple->x, apple->y);        
 
-        // char buffer[2];
-
-        // itoa(snake->score, buffer);
-        // erraseChar(BLACK_COLOR);
-        // print(buffer, 2);
-
-        draw_apple(PRIZE_COLOR, apple->x, apple->y);        //dibujo la apple
-    }
-    return snake->hasEatenApple;
 }
 
+//Setea la manzana en la pantalla (gameloop 2)
+void settingApple2(Apple *apple,  Snake *snake1, Snake *snake2 ){
+    do {
+            apple->x = randPositionx();
+            apple->y = randPositiony();
+    } while (overLap(apple, snake1) || overLap(apple, snake2));
+        draw_apple(PRIZE_COLOR, apple->x, apple->y);       
 
+}
+
+//Dibuja los pixeles del premio
 void draw_apple(uint64_t color , uint64_t start_x, uint64_t start_y) {
-    
     drawSquare(color, start_x , start_y , APPLE_SIZE);
 }
 
@@ -255,7 +190,7 @@ void moveSnake(struct Snake *snake) {
         drawSquare(BACKGROUND_COLOR, snake->tailX, snake->tailY, THICKNESS);
         drawLines();
     }
-    
+
     snake->hasEatenApple=0;
 
     for (int i = snake->length-1; i > 0; i--) {
@@ -267,17 +202,6 @@ void moveSnake(struct Snake *snake) {
     snake->x[0] += snake->directionX * THICKNESS;
     snake->y[0] += snake->directionY * THICKNESS;
 
-    // Restringir los límites de la serpiente
-    //if (snake->x[0] < 0) snake->x[0] = 0;
-    //if (snake->x[0] > getWidth_vd() - THICKNESS) snake->x[0] = getWidth_vd() - THICKNESS;
-    //if (snake->y[0] < MAX_HEIGHT) snake->y[0] = MAX_HEIGHT;
-    //if (snake->y[0] > getHeight_vd() - THICKNESS) snake->y[0] = getHeight_vd() - THICKNESS;
-
-    // Marcar como muerta si se sale de los límites
-    //if (snake->x[0] < 0 || snake->x[0] >= getWidth_vd() || 
-        //snake->y[0] < MAX_HEIGHT || snake->y[0] >= getHeight_vd()) {
-        //snake->isDead = true;
-    //}
 
     // Restringir los límites de la serpiente
     if (snake->x[0] < DIM_HEADER) snake->x[0] = DIM_HEADER;
@@ -300,9 +224,7 @@ void moveSnake(struct Snake *snake) {
     }
 }
 
-
-
-
+//Analiza las teclas apretadas 
 void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,char K4) {
     if (input==K1) {
         if (snake->directionY != 1) { // No permitir el giro en dirección opuesta
@@ -330,14 +252,22 @@ void keyboard_managment_snake (char input, Snake *snake,char K1,char K2,char K3,
     }
 }
 
+void loosingSound(){
+    makeBeep(1, 600);
+    makeBeep(1, 450);
+    makeBeep(1, 350); 
+    makeBeep(1, 250);
+}
 
+//Finalizacion del juego 
 void exit_snake(int players){
-    makeBeep(2, 200);
+
+    loosingSound(); 
 
     paintAll_vd(BLACK_COLOR);
     setPixelSize(4);
     print("GAME OVER", 9);
-    char input;
+    char input=0;
     print("\n",2);
     setPixelSize(2);
     print("Press q to quit", 15);
@@ -361,18 +291,15 @@ void exit_snake(int players){
 }
 
 // Función principal del juego
-
-
-
 void gameLoop1() {
+    setSeed();
 
     struct Snake snake1;
     struct Apple apple;
+    // Initial position apple 
+    settingApple(&apple, &snake1);
 
-    apple.x=200;
-    apple.y=200;
-    
-    initializeSnake(&snake1,0x5434B3);
+    initializeSnake(&snake1, SNAKE1_COLOR);
 
     paintAll_vd(BLACK_COLOR);
 
@@ -387,7 +314,7 @@ void gameLoop1() {
     setPixelSize(2);
     print(score, 9);
     
-    while (!snake1.isDead && snake1.length < 50) {
+    while (!snake1.isDead && snake1.length < MAX_SNAKE_LENGTH) {
 
         nano_sleep(2);
 
@@ -397,7 +324,19 @@ void gameLoop1() {
         // Mover la serpiente
         moveSnake(&snake1);
         
-        find_apple(&apple, &snake1);
+        new_find(&apple, &snake1);
+
+        if(snake1.hasEatenApple){
+            settingApple(&apple, &snake1);
+            char buffer[2];
+
+            itoa(snake1.score, buffer);
+            if(snake1.length > 15){
+                erraseChar(BLACK_COLOR);
+            }
+            erraseChar(BLACK_COLOR);
+            print(buffer, 2);
+        }
 
         // Manejo de entrada
         char input = getCharUser();
@@ -407,28 +346,17 @@ void gameLoop1() {
     exit_snake(1);
 }
 
-
-
-
-
-
-
-
-
-
 void gameLoop2() {
+    setSeed();
     struct Snake snake1;
     struct Snake snake2;
 
     struct Apple apple;
 
-    int points1=0;
-    int points2=0;
-    apple.x=200;
-    apple.y=200;
+    settingApple2(&apple, &snake1, &snake2);
     
-    initializeSnake(&snake1,0x5434B3);
-    initializeSnake(&snake2,0x89AAB3);
+    initializeSnake(&snake1,SNAKE1_COLOR);
+    initializeSnake(&snake2,SNAKE2_COLOR);
 
     paintAll_vd(BLACK_COLOR);
 
@@ -445,18 +373,18 @@ void gameLoop2() {
 
     setPixelSize(2);
     print(score1, 9);
-    itoa(points1, buff1);
+    itoa(snake1.score, buff1);
     erraseChar(BLACK_COLOR);
     print(buff1, 2);
 
     print("\n", 2);
 
     print(score2, 9);
-    itoa(points2, buff2);
+    itoa(snake2.score, buff2);
     erraseChar(BLACK_COLOR);
     print(buff2, 2);
     
-    while (!snake1.isDead && snake1.length < 15 ) {
+    while (!snake1.isDead && !snake2.isDead && snake1.length < MAX_SNAKE_LENGTH  && snake2.length < MAX_SNAKE_LENGTH) {
 
         nano_sleep(2);
 
@@ -469,45 +397,48 @@ void gameLoop2() {
         moveSnake(&snake2);
         
         // Ver si encuentran la manzana
-        if(find_apple2(&apple, &snake1) == 1){
-            points1++;
+        new_find(&apple, &snake1);
+        new_find(&apple, &snake2);
+
+
+        if(snake1.hasEatenApple){
+            settingApple2(&apple, &snake1, &snake2);
 
             erraseLine();
             erraseLine();
 
             print(score1, 9);
-            itoa(points1, buff1);
+            itoa(snake1.score, buff1);
             erraseChar(BLACK_COLOR);
             print(buff1, 2);
 
             print("\n", 2);
 
             print(score2, 9);
-            itoa(points2, buff2);
+            itoa(snake2.score, buff2);
             erraseChar(BLACK_COLOR);
             print(buff2, 2);
 
-            //print("\n", 2);
         }
-        if(find_apple2(&apple, &snake2) == 1){
-            points2++;
+
+        else if(snake2.hasEatenApple){
+            settingApple2(&apple, &snake1, &snake2);
 
             erraseLine();
             erraseLine();
 
             print(score1, 9);
-            itoa(points1, buff1);
+            itoa(snake1.score, buff1);
             erraseChar(BLACK_COLOR);
             print(buff1, 2);
 
             print("\n", 2);
 
             print(score2, 9);
-            itoa(points2, buff2);
+            itoa(snake2.score, buff2);
             erraseChar(BLACK_COLOR);
             print(buff2, 2);
 
-            //print("\n", 2);
         }
 
         // Manejo de entrada

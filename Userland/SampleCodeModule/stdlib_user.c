@@ -131,6 +131,11 @@ void getTime(char* buffer) {
     itoa((time >> 16) & 0xFF, buffer);
 }
 
+uint64_t get_seconds(){
+    uint64_t time = syscall_time();
+    return (time >> 16) & 0xFF;
+}
+
 void printTime() {
     char buffer[10]; // El buffer debe ser lo suficientemente grande
     getTime(buffer);
