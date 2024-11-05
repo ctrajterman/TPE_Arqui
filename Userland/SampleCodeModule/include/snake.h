@@ -54,15 +54,15 @@ uint32_t randPositiony();
 void initializeSnake(struct Snake *snake, uint64_t hexcolor);
 void drawSnake(struct Snake *snake);
 bool overLap(struct Apple *apple, struct Snake *snake);
-void new_find(struct Apple *apple, struct Snake *snake);
-void settingApple(struct Apple *apple, struct Snake *snake);
-void settingApple2(struct Apple *apple, struct Snake *snake1, struct Snake *snake2);
+void findApple(struct Apple *apple, struct Snake *snake);
+void setApple(struct Apple *apple, struct Snake *snake);
+void setApple2(struct Apple *apple, struct Snake *snake1, struct Snake *snake2);
 void draw_apple(uint64_t color, uint64_t start_x, uint64_t start_y);
 void moveSnake(struct Snake *snake);
 void keyboard_managment_snake(char input, struct Snake *snake, char K1, char K2, char K3, char K4);
 void loosingSound();
-char exit_snake();
-char gameLoop1();
+void exit_snake();
+void gameLoop1();
 void gameLoop2();
 
 

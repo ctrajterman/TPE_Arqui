@@ -55,12 +55,12 @@ void getString(char* buff, int count){
             }
             buff[i]=0;
         }
-        if(c!=0 && c!='\b'){
-             
+        if(c!=0 && c!='=' && c!='\b'){   
         char auxPrint[2];
         auxPrint[0]=c;
         auxPrint[1]='\0';
         print(auxPrint, 1);
+        
         if(c!=0 && c!='\n'){
             buff[i++]=c;
         }

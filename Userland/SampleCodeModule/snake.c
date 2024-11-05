@@ -259,7 +259,7 @@ void loosingSound(){
 }
 
 //Finalizacion del juego 
-void exit_snake(int players){
+void exit_snake(){
 
     char matriz[15][15] =   {{0,0,0,0,1,1,1,1,1,0,0,0,0,0,0},
                             {0,0,0,1,2,2,2,2,2,1,0,0,0,0,0},
