@@ -17,6 +17,7 @@
 // Colores
 #define PRIZE_COLOR 0xA43A53        // Bordo
 #define BLACK_COLOR 0x000000        // Negro
+#define WHITE_COLOR 0xFFFFFF        // Blanco
 #define BACKGROUND_COLOR 0x111111   // Color de fondo
 #define SNAKE1_COLOR 0x93DD6F       //0x5434B3       // Verde
 #define SNAKE2_COLOR 0xDDAEFF       //0xBE8015       // Rosa
@@ -289,24 +290,24 @@ void exit_snake(int players){
     for(int i=0; i<15; i++){
     for (int j=0; j<15; j++) {
         if (matriz[i][j] == 0) {
-            drawSquare(0xffffff, 200 + (j * 20), 200 + (i * 20),20); // Ajusta la posición de j e i
+            drawSquare(WHITE_COLOR, (getWidth_vd()/4) + (j * 35), (getHeight_vd()/4) + (i * 35),35);
         }
         else if (matriz[i][j] == 1) {
-            drawSquare(0x000000, 200 + (j * 20), 200 + (i * 20),20); // Ajusta la posición de j e i
+            drawSquare(BLACK_COLOR, (getWidth_vd()/4) + (j * 35), (getHeight_vd()/4) + (i * 35),35);
         }
         else if (matriz[i][j] == 2) {
-            drawSquare(SNAKE1_COLOR, 200 + (j * 20), 200 + (i * 20),20); // Ajusta la posición de j e i
+            drawSquare(SNAKE1_COLOR, (getWidth_vd()/4) + (j * 35), (getHeight_vd()/4) + (i * 35),35);
         }
         else if (matriz[i][j] == 3) {
-            drawSquare(SNAKE2_COLOR, 200 + (j * 20), 200 + (i * 20),20); // Ajusta la posición de j e i
+            drawSquare(SNAKE2_COLOR, (getWidth_vd()/4) + (j * 35), (getHeight_vd()/4) + (i * 35),35);
         }
     }
 }
-    setPixelSize(4);
+    setPixelSize(5);
     print("GAME OVER", 9);
     char input=0;
     print("\n",2);
-    setPixelSize(2);
+    setPixelSize(3);
     print("Press q to quit", 15);
     while(input!='q'){
         input = getCharUser();

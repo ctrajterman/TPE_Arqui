@@ -31,7 +31,6 @@ extern module menu[];
 extern uint64_t *regs;
 extern char *regstxt[18];
 
-static uint32_t uintToBase(uint64_t value, char *buffer, uint32_t base);
 void command_wait();
 void shell();
 
