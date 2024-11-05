@@ -4,6 +4,7 @@
 #include <videoDriver.h>
 #include "speaker.h"
 #include <syscallDispatcher.h>
+#include "lib.h"
 
 #define STDIN  0
 #define STDOUT 1
@@ -43,6 +44,7 @@ void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, u
         syscalls_arr[rax](rdi, rsi, rdx, r10, r8);
     }
     return;
+
 }
 
 static uint64_t syscall_write_handler(int fd, char *buffer, uint64_t length) {
@@ -120,7 +122,8 @@ static uint64_t syscall_regs_values(uint64_t *regs){
     if(!reg_shot_available){
         return 0;
     }
-    regs=data_regs;
+    memcpy(regs, data_regs, 18*sizeof(uint64_t));
+
     return 1;
 }
 

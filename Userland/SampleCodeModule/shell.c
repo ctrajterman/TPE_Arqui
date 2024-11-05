@@ -1,17 +1,9 @@
-
-
 #include <stdlib_user.h>
 #include "snake.h"
-
 
 #define menuDIM 7
 #define MAXBUFF 100
 #define BLACK 0x000000
-
-
-void decrease();//PREGUNTARLE A TOTI ALFINAL COMO QUEDAN ESTAS SYSCALLS
-void increase();
-
 
 
 typedef struct module {
@@ -99,7 +91,7 @@ void snake(){
         else if(buff[0] =='1'&& buff[1] == '\0'){
             correctAmount=1;
             uint8_t aux = getCurrentPixelSize();
-            gameLoop1();
+            gameLoop1(); //while (gameLoop=='r') y en gameloop pongo que get char hasta q sea r o q(si es q sale ) 
             setPixelSize(aux);
         }
         else if (buff[0] =='2' && buff[1] == '\0'){

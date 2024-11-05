@@ -216,6 +216,7 @@ _irq01Handler:
 	call irqDispatcher
 
 	call get_regs
+
 	cmp rax, 1
 	jne no_reg_shot
 	popState
@@ -227,7 +228,6 @@ _irq01Handler:
 
 no_reg_shot:
 	
-
 	; signal pic EOI (End of Interrupt)						//le indica al PIC que la interrupción fue manejada y puede continuar.
 	mov al, 20h
 	out 20h, al
