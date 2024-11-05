@@ -36,6 +36,10 @@ void keyboard_handler() {
     //charToRet[0] = scanCodes[scancode];
 }
 
+int get_regs(){
+    return (charToRet[0]=='=');
+}
+
 
 char getCharPressed(){
 
@@ -56,9 +60,7 @@ char getCharPressed(){
     // }
     // return;
 }
-int reg_shot(){
-    return getCharPressed()=='=';
-}
+
 
 void cleanCharToRet(){
     charToRet[0] = 0;

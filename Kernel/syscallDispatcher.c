@@ -26,11 +26,16 @@ static void syscall_setPixelSize_handler(uint8_t size);
 static uint8_t syscall_getCurrentPixelSize_handler();
 static void syscall_erraseLine_handler();
 static void syscall_beep_handler( int secs, int frec );
+static uint64_t syscall_regs_values(uint64_t *regs);
+
+extern uint64_t reg_shot_available;
+extern uint64_t data_regs[18];
 
 // Array de punteros a funciones que reciben los mismos argumentos
 void (*syscalls_arr[])(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8) = {syscall_read_handler, syscall_write_handler, syscall_time_handler,
  syscall_drawPixel_handler, syscall_drawSquare_handler, syscall_getWidth_vd_handler, syscall_getHeight_vd_handler, syscall_sleep_handler, syscall_paintAll_vd_handler,
- syscall_erraseChar_handler, syscall_increaseFS_handler, syscall_decreaseFS_handler, syscall_setPixelSize_handler, syscall_getCurrentPixelSize_handler, syscall_erraseLine_handler, syscall_beep_handler};
+ syscall_erraseChar_handler, syscall_increaseFS_handler, syscall_decreaseFS_handler, syscall_setPixelSize_handler, syscall_getCurrentPixelSize_handler, syscall_erraseLine_handler, syscall_beep_handler, 
+ syscall_regs_values};
 
 void syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t r10, uint64_t r8, uint64_t rax) {
     
@@ -110,3 +115,12 @@ static void syscall_erraseLine_handler(){
 static void syscall_beep_handler(int secs, int freq){
     beep(secs, freq);
 }
+
+static uint64_t syscall_regs_values(uint64_t *regs){
+    if(!reg_shot_available){
+        return 0;
+    }
+    regs=data_regs;
+    return 1;
+}
+

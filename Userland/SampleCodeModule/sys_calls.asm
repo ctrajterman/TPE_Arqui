@@ -15,6 +15,7 @@ GLOBAL syscall_setPixelSize
 GLOBAL syscall_getCurrentPixelSize
 GLOBAL syscall_erraseLine
 GLOBAL syscall_beep
+GLOBAL syscall_regs
 
 section .text
 
@@ -96,6 +97,11 @@ syscall_erraseLine:
     
 syscall_beep:
     mov rax, 0x0F
+    int 80h
+    ret
+
+syscall_regs:
+    mov rax, 0x10
     int 80h
     ret
 

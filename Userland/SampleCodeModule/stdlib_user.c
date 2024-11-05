@@ -18,6 +18,7 @@ extern uint64_t syscall_setPixelSize();
 extern uint64_t syscall_getCurrentPixelSize();
 extern uint64_t syscall_erraseLine();
 extern void syscall_beep();
+extern uint64_t syscall_regs();
 
 
 char getCharUser();
@@ -196,7 +197,9 @@ void erraseLine(){
 void makeBeep(int secs, int freq){
     syscall_beep(secs, freq);
 }
-
+uint64_t register_snapshot(uint64_t * regs){
+    return syscall_regs(regs);
+}
 
 // void printDec(uint64_t value)
 // {
