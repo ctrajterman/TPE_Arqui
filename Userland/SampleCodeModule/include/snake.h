@@ -61,8 +61,8 @@ void draw_apple(uint64_t color, uint64_t start_x, uint64_t start_y);
 void moveSnake(struct Snake *snake);
 void keyboard_managment_snake(char input, struct Snake *snake, char K1, char K2, char K3, char K4);
 void loosingSound();
-void exit_snake();
-void gameLoop1();
+char exit_snake();
+char gameLoop1();
 void gameLoop2();
 
 
