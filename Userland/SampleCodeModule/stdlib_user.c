@@ -24,7 +24,6 @@ extern uint64_t syscall_regs();
 char getCharUser();
 void erraseChar(uint32_t hexColor);
 
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 
 void print(const char* buf, uint64_t count) {
@@ -201,57 +200,39 @@ void erraseLine(){
 void makeBeep(int secs, int freq){
     syscall_beep(secs, freq);
 }
+
 uint64_t register_snapshot(uint64_t * regs){
     return syscall_regs(regs);
 }
 
-// void printDec(uint64_t value)
-// {
-// 	printBase(value, 10);
-// }
+uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base){
+	char *p = buffer;
+	char *p1, *p2;
+	uint32_t digits = 0;
 
-// void printHex(uint64_t value){
-//     printBase(value, (uint32_t) 16);
-// }
+	//Calculate characters for each digit
+	do
+	{
+		uint32_t remainder = value % base;
+		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
+		digits++;
+	}
+	while (value /= base);
 
-// void printBase(uint64_t value, uint32_t base){
-//     uintToBase(value, buffer, base);
-//     int count=0;
-//     for (int i = 0 ; buffer[i] != '\0' ; i++ ){
-//         count+=i;
-//     }
-//     print(buffer, count);
-// }
+	// Terminate string in buffer.
+	*p = 0;
 
-// static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
-// {
-// 	char *p = buffer;
-// 	char *p1, *p2;
-// 	uint32_t digits = 0;
+	//Reverse string in buffer.
+	p1 = buffer;
+	p2 = p - 1;
+	while (p1 < p2)
+	{
+		char tmp = *p1;
+		*p1 = *p2;
+		*p2 = tmp;
+		p1++;
+		p2--;
+	}
 
-// 	//Calculate characters for each digit
-// 	do
-// 	{
-// 		uint32_t remainder = value % base;
-// 		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
-// 		digits++;
-// 	}
-// 	while (value /= base);
-
-// 	// Terminate string in buffer.
-// 	*p = 0;
-
-// 	//Reverse string in buffer.
-// 	p1 = buffer;
-// 	p2 = p - 1;
-// 	while (p1 < p2)
-// 	{
-// 		char tmp = *p1;
-// 		*p1 = *p2;
-// 		*p2 = tmp;
-// 		p1++;
-// 		p2--;
-// 	}
-
-// 	return digits;
-// }
+	return digits;
+}

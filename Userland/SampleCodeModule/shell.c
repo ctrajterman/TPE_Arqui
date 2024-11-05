@@ -11,7 +11,6 @@ typedef struct module {
     void (*function)();
 }module;
 
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 void help();
 void snake();
@@ -32,6 +31,7 @@ uint64_t *regs;
 static char * regstxt[18]={"RAX:", "RBX:", "RCX:", "RDX:", "RDI:", "RSI:", "RBP:", "RSP:", "R8:", "R9:", "R10:", "R11:", "R12:", "R13:", "R14:", "R15:", "RIP:", "RFLAGS:" };
 
 void help(){
+    paintAll_vd(BLACK);
     print("To print the different functions of the shell >> enter: help\n", MAXBUFF);
     print("To play Snake Game >> enter: snake\n", MAXBUFF);
     print("To show snapshot of the Register values >> enter: regvalues\n", MAXBUFF);
@@ -39,7 +39,6 @@ void help(){
     print("To show current time >> enter: time \n", MAXBUFF);
     print("To try Divide by Zero Exception>> enter: div0 \n", MAXBUFF);
     print("To try Invalid Opcode Exception >> enter: opcode \n", MAXBUFF);
-
     return;
 }
 
@@ -53,6 +52,7 @@ void opcodeExc(){
     }
 }
 void div0Exc(){
+    paintAll_vd(BLACK);
     if(getCurrentPixelSize() > 2){
         print("Fontsize too big\nDecrease fontSize to see al Registers", MAXBUFF);
     }
@@ -72,7 +72,7 @@ void snake(){
 
     char buff[MAXBUFF];
 
-    int aux = getCurrentPixelSize();
+    int aux1 = getCurrentPixelSize();
     setPixelSize(3);
     print("WELCOME TO THE SNAKE-GAME\n", MAXBUFF);
     setPixelSize(2);
@@ -85,28 +85,30 @@ void snake(){
         getString(buff, MAXBUFF);
 
         if(buff[0] =='q'&& buff[1] == '\0'){
+            setPixelSize(aux1);
             paintAll_vd(BLACK);
             return;
         }
         else if(buff[0] =='1'&& buff[1] == '\0'){
             correctAmount=1;
-            uint8_t aux = getCurrentPixelSize();
+            uint8_t aux2 = getCurrentPixelSize();
             gameLoop1(); //while (gameLoop=='r') y en gameloop pongo que get char hasta q sea r o q(si es q sale ) 
-            setPixelSize(aux);
+            setPixelSize(aux2);
         }
         else if (buff[0] =='2' && buff[1] == '\0'){
             correctAmount=1;
-            uint8_t aux = getCurrentPixelSize();
+            uint8_t aux2 = getCurrentPixelSize();
             gameLoop2();
-            setPixelSize(aux);
+            setPixelSize(aux2);
         }
         else{
             paintAll_vd(0x000000);
             err_print("Invalid amount!! \n",18); 
         }
     }
-    setPixelSize(aux);
-    paintAll_vd(0x000000);
+    setPixelSize(aux1);
+    paintAll_vd(BLACK);
+    return;
 }
 
 
@@ -182,54 +184,27 @@ void shell(){
 }
 
 void show_regs(){
-    int b= register_snapshot(regs);
-    char buffer[17];
-    if(b==1){
-        for(int i=0; i<18; i++){
-		print(regstxt[i], 4);
-		uintToBase(regs[i], buffer, 16);
-		buffer[16]=0;
-		print(buffer, 16);
-		print("\n", 2);
-	}
-    }else{
-        print("No hay registro para imprimir \n", 25);
-        return;
+    paintAll_vd(BLACK);
+    if(getCurrentPixelSize() > 2){
+        print("FontSize too big\nDecrease fontSize to see al Registers", MAXBUFF);
     }
+    else{
+        paintAll_vd(BLACK);
+        int b= register_snapshot(regs);
+        char buffer[17];
+        if(b==1){
+            for(int i=0; i<18; i++){
+            print(regstxt[i], 4);
+            uintToBase(regs[i], buffer, 16);
+            buffer[16]=0;
+            print(buffer, 16);
+            print("\n", 2);
+            }
+        }else{
+            paintAll_vd(BLACK);
+            print("No hay registro para imprimir \n", 25);
+        }
+    }
+    return;
 }
-
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
-{
-	char *p = buffer;
-	char *p1, *p2;
-	uint32_t digits = 0;
-
-	//Calculate characters for each digit
-	do
-	{
-		uint32_t remainder = value % base;
-		*p++ = (remainder < 10) ? remainder + '0' : remainder + 'A' - 10;
-		digits++;
-	}
-	while (value /= base);
-
-	// Terminate string in buffer.
-	*p = 0;
-
-	//Reverse string in buffer.
-	p1 = buffer;
-	p2 = p - 1;
-	while (p1 < p2)
-	{
-		char tmp = *p1;
-		*p1 = *p2;
-		*p2 = tmp;
-		p1++;
-		p2--;
-	}
-
-	return digits;
-}
-
-
 

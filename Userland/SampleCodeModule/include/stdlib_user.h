@@ -11,6 +11,7 @@ extern uint64_t syscall_getHeight_vd();
 
 void print(const char* buf, uint64_t count);
 uint64_t itoa(uint64_t number, char* s);
+uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 void getTime(char* buffer);
 void printTime();
 uint64_t get_seconds();
