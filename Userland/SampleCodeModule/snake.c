@@ -195,6 +195,7 @@ int find_apple2(Apple *apple , Snake *snake ){
     if (snake->x[0] < apple->x + APPLE_SIZE && snake->x[0] + THICKNESS > apple->x &&
         snake->y[0] < apple->y + APPLE_SIZE && snake->y[0] + THICKNESS > apple->y) {
 
+        makeBeep(1, 1500);
         draw_apple(BACKGROUND_COLOR, apple->x, apple->y);   //borro la apple
 
         snake->length++;
@@ -456,7 +457,7 @@ void gameLoop2() {
     erraseChar(BLACK_COLOR);
     print(buff2, 2);
     
-    while (!snake1.isDead && snake1.length < 15 ) {
+    while (!snake1.isDead && snake1.length < 15 && !snake2.isDead && snake2.length < 15) {
 
         nano_sleep(2);
 

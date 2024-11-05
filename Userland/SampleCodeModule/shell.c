@@ -51,11 +51,20 @@ void help(){
 
 void opcodeExc(){
     paintAll_vd(BLACK);
-    opcode_exc();
+    if(getCurrentPixelSize() > 2){
+        print("FontSize too big\nDecrease fontSize to see al Registers", MAXBUFF);
+    }
+    else{
+        opcode_exc();
+    }
 }
 void div0Exc(){
-    paintAll_vd(BLACK);
-    div0();
+    if(getCurrentPixelSize() > 2){
+        print("Fontsize too big\nDecrease fontSize to see al Registers", MAXBUFF);
+    }
+    else{
+        div0();
+    }
 }
 
 void showTime(){
@@ -159,6 +168,7 @@ void font_size(){
             //return;
         }
         else{
+            paintAll_vd(BLACK);
             err_print("Invalid amount!! \n",18); 
         }
     }
