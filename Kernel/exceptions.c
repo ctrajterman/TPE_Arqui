@@ -10,7 +10,7 @@
 
 static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
-static char * regstxt[17]={"RAX:", "RBX:", "RCX:", "RDX:", "RDI:", "RSI:", "RBP:", "RSP:", "R8:", "R9:", "R10:", "R11:", "R12:", "R13:", "R14:", "R15:", "RIP:", "RFLAGS:" };
+static char * regstxt[18]={"RAX:", "RBX:", "RCX:", "RDX:", "RDI:", "RSI:", "RBP:", "RSP:", "R8:", "R9:", "R10:", "R11:", "R12:", "R13:", "R14:", "R15:", "RIP:", "RFLAGS:" };
 static uint32_t white=0xFFFFFF;//chequear si esto esta ok
 static uint32_t red=0xFF0000;
 
@@ -24,7 +24,7 @@ void exceptionDispatcher(int exception, uint64_t * regs) {
 		newLine_vd();
 	}
 	char buffer[17];
-	for(int i=0; i<17; i++){
+	for(int i=0; i<18; i++){
 		drawWord(white, regstxt[i]);
 		uintToBase(regs[i], buffer, 16);
 		buffer[16]=0;

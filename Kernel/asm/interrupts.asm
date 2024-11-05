@@ -19,11 +19,13 @@ GLOBAL _irq05Handler
 
 GLOBAL _exception0Handler
 GLOBAL _exception06Handler
+GLOBAL reg_shot_available
+GLOBAL data_regs
 
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
 EXTERN syscallDispatcher
-EXTERN reg_shot
+EXTERN get_regs
 
 
 EXTERN getStackBase
@@ -85,9 +87,9 @@ SECTION .text
 %macro exceptionHandler 1
 	cli
 	pushState
-	regs_data
+	regs_exception
 	mov rdi, %1 ; pasaje de parametro -> n excepcion
-	mov rsi, data_regs ; para imprimir regs
+	mov rsi, exc_regs ; para imprimir regs
 	call exceptionDispatcher
 	popState
 
@@ -127,6 +129,33 @@ mov[data_regs], rax
 	mov [data_regs+8*16], rax ;RID
 	mov rax, [rsp+17*8]
 	mov [data_regs+8*17], rax ;FLAGS
+
+%endmacro
+
+%macro regs_exception 0
+mov[exc_regs], rax
+	mov [exc_regs+8], rbx
+	mov [exc_regs+8*2], rcx
+	mov [exc_regs+8*3], rdx
+	mov [exc_regs+8*4], rdi
+	mov [exc_regs+8*5], rsi
+	
+	mov [exc_regs+8*6], rbp
+	mov rax, [rsp+18*8]
+	mov [exc_regs+8*7], rax
+
+	mov [exc_regs+8*8], r8
+	mov [exc_regs+8*9], r9
+	mov [exc_regs+8*10], r10
+	mov [exc_regs+8*11], r11
+	mov [exc_regs+8*12], r12
+	mov [exc_regs+8*13], r13
+	mov [exc_regs+8*14], r14
+	mov [exc_regs+8*15], r15
+	mov rax, [rsp+15*8]
+	mov [exc_regs+8*16], rax ;RID
+	mov rax, [rsp+17*8]
+	mov [exc_regs+8*17], rax ;FLAGS
 
 %endmacro
 
@@ -182,8 +211,32 @@ _irq00Handler:
 ;Keyboard
 _irq01Handler:
 
+	pushState
+	mov rdi, 1 
+	call irqDispatcher
 
-	irqHandlerMaster 1
+	call get_regs
+	cmp rax, 1
+	jne no_reg_shot
+	popState
+	pushState
+	regs_data
+	mov rbx, 1
+	mov [reg_shot_available],rbx ;bullean en true
+
+
+no_reg_shot:
+	
+
+	; signal pic EOI (End of Interrupt)						//le indica al PIC que la interrupción fue manejada y puede continuar.
+	mov al, 20h
+	out 20h, al
+
+	popState
+	iretq
+
+
+
 
 ;Cascade pic never called
 _irq02Handler:
@@ -226,6 +279,8 @@ SECTION .bss
 
 SECTION .data
 data_regs dq 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+exc_regs dq 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+reg_shot_available dq 0
 
 SECTION .rodata
 userland equ 0x400000

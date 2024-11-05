@@ -36,3 +36,4 @@ void setPixelSize();
 uint8_t getCurrentPixelSize();
 void erraseLine();
 void makeBeep(int secs, int freq);
+uint64_t register_snapshot(uint64_t * regs);
