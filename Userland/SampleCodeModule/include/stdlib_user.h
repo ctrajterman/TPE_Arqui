@@ -38,3 +38,4 @@ void erraseLine();
 void makeBeep(int secs, int freq);
 uint64_t get_seconds();
 
+uint64_t register_snapshot(uint64_t * regs);
