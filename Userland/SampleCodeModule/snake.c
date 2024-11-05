@@ -418,10 +418,8 @@ void gameLoop2() {
             itoa(snake2.score, buff2);
             erraseChar(BLACK_COLOR);
             print(buff2, 2);
-
-        }
-
-        else if(snake2.hasEatenApple){
+            
+        } else if(snake2.hasEatenApple){
             settingApple2(&apple, &snake1, &snake2);
 
             erraseLine();
