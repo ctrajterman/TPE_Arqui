@@ -108,27 +108,8 @@ int main()
 	ncPrint("  Sample data module contents: ");
 	ncPrint((char*)sampleDataModuleAddress);
 	ncNewline();
-	int seconds=5;
-
-	// while(1){
-	// 	if(seconds_elapsed()==seconds){
-	// 	seconds+=5;
-	// 	ncPrint("pasaron 5 segs");
-	// 	ncNewline();
-	// }
-	
-	// }
 
 
-	/*int key = keyRead();
-	ncPrint("Tecla: ");
-	ncPrint(scanCodes[key]);
-	//Lo imprimo mal si no me da fiaca corregir
-	ncNewline();*/
-
-	//putCharacter(0x00FF0000,'a', 15, 15);
-	//drawWords(0x00FF0000,"ala",15, 15);
-	
 
 	ncPrint("[Finished]");
 	return 0;

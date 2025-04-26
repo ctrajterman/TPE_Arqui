@@ -4,7 +4,7 @@
 extern int keyPressed();
 
 unsigned char scancode = 0;
-static char *charToRet[10] = {0};
+static char charToRet[10] = {0};
 int current=0;
 
 void keyboard_handler() {
@@ -41,27 +41,6 @@ int get_regs(){
 }
 
 
-char getCharPressed(){
-
-    if (charToRet[0]!=0)
-    {
-        char toRet = charToRet[0];
-        cleanCharToRet();
-        return toRet;
-    }
-    
-
-
-    // if (charToRet!=0)
-    // {
-    //     char toRet=charToRet;
-    //     cleanCharToRet();
-    //     return toRet;
-    // }
-    // return;
-}
-
-
 void cleanCharToRet(){
     charToRet[0] = 0;
     if(charToRet[1] != 0){
@@ -70,4 +49,16 @@ void cleanCharToRet(){
             charToRet[i] = charToRet[i+1];
         }
     }
+}
+
+char getCharPressed(){
+    if (charToRet[0]!=0)
+    {
+        char toRet = charToRet[0];
+        cleanCharToRet();
+        return toRet;
+    }
+    return 0; //AGREGADO POR EL WARNING (CHEQUEAR !!!!!)
+
+
 }

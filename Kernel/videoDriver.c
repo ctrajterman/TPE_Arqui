@@ -86,7 +86,7 @@ uint16_t getCharHeight() {
 
 
 void putPixel(uint32_t hexColor, uint64_t x, uint64_t y) {
-    uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
+    uint8_t * framebuffer = (uint8_t *) (uint64_t)VBE_mode_info->framebuffer;
     uint64_t offset = (x * ((VBE_mode_info->bpp)/8)) + (y * VBE_mode_info->pitch);
     framebuffer[offset]     =  (hexColor) & 0xFF;
     framebuffer[offset+1]   =  (hexColor >> 8) & 0xFF; 
@@ -188,7 +188,7 @@ uint16_t getHeight_vd(){
 }
 
 void paintAll_vd(uint32_t hexColor){
-    uint8_t * framebuffer = (uint8_t *) VBE_mode_info->framebuffer;
+    uint8_t * framebuffer = (uint8_t *)(uint64_t) VBE_mode_info->framebuffer;
     uint32_t color = hexColor;
     uint64_t totalPixels = VBE_mode_info->width * VBE_mode_info->height;
     uint8_t red = (color >> 16) & 0xFF;
